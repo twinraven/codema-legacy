@@ -24,11 +24,35 @@ angular.module('Codema.controllers', [])
 
 
   }])
-  .controller('AddController', [
+  .controller('CompanyController', [
     '$scope',
-    /*'$firebase',*/
+    '$routeParams',
     'companiesService',
 
-    function($scope, /*$firebase,*/ companiesService) {
+    function($scope, $routeParams, companiesService) {
+        $scope.company = companiesService.getCompany($routeParams.companyId);
 
+        $scope.editing = $routeParams.editing;
+
+        $scope.addContract = function() {
+            $scope.company.contracts.push({});
+        }
+
+  }])
+  .controller('AddController', [
+    '$scope',
+    'companiesService',
+
+    function($scope, companiesService) {
+
+        $scope.company = {};
+        $scope.company.contracts = [{}];
+
+        $scope.saveCompany = function() {
+            companiesService.addCompany($scope.company);
+        };
+
+        $scope.addContract = function() {
+            $scope.company.contracts.push({});
+        }
   }]);
