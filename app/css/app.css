@@ -57,7 +57,8 @@ fieldset {
   width: 50%;
 }
 
-.field-edit {
+.field-edit,
+.editor-only {
   display: none;
 }
 
@@ -73,7 +74,8 @@ fieldset {
   display: none;
 }
 
-.is-editing .field-edit {
+.is-editing .field-edit,
+.is-editing .editor-only {
   display: block;
 }
 

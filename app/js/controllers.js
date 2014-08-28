@@ -36,7 +36,11 @@ angular.module('Codema.controllers', [])
 
         $scope.addContract = function() {
             $scope.company.contracts.push({});
-        }
+        };
+
+        $scope.removeContract = function($index) {
+            $scope.company.contracts.splice($index,1);
+        };
 
   }])
   .controller('AddController', [
@@ -46,7 +50,7 @@ angular.module('Codema.controllers', [])
     function($scope, companiesService) {
 
         $scope.company = {};
-        $scope.company.contracts = [{}];
+        $scope.company.contracts = [];
 
         $scope.saveCompany = function() {
             companiesService.addCompany($scope.company);
@@ -54,5 +58,9 @@ angular.module('Codema.controllers', [])
 
         $scope.addContract = function() {
             $scope.company.contracts.push({});
-        }
+        };
+
+        $scope.removeContract = function($index) {
+            $scope.company.contracts.splice($index,1);
+        };
   }]);
