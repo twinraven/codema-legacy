@@ -38,9 +38,17 @@ angular.module('Codema.controllers', [])
             $scope.company.contracts.push({});
         };
 
-        $scope.removeContract = function($index) {
-            $scope.company.contracts.splice($index,1);
+        $scope.removeContract = function(contractId) {
+            if (confirm('Are you sure?')) {
+                companiesService.removeContract($scope.company.id, contractId);
+            }
         };
+
+        $scope.deleteCompany = function() {
+            if (confirm('Are you sure?')) {
+                companiesService.removeCompany($scope.company);
+            }
+        }
 
   }])
   .controller('AddController', [

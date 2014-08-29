@@ -6,7 +6,7 @@
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular.module('Codema.services', []).
-  service('companiesService', function() {
+  service('companiesService', ['$location', function($location) {
     var companiesList = [
         {
             name: 'AKQA',
@@ -73,10 +73,23 @@ angular.module('Codema.services', []).
         });
     }
 
+    var removeCompany = function(company) {
+        if (company) {
+            companiesList = _.without(companiesList, company);
+            // redirect to homepage
+            $location.path('/home');
+        }
+    };
+
+    var removeContract = function(companyId, contractId) {
+        getCompany(companyId).contracts.splice(id,1);
+    };
+
     return {
       addCompany: addCompany,
       getCompanies: getCompanies,
-      getCompany: getCompany
+      getCompany: getCompany,
+      removeCompany: removeCompany
     };
 
-  });
+  }]);
