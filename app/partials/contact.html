@@ -1,0 +1,10 @@
+<input type="text" ng-model="filterText" placeholder="Search by contact...">
+
+<ul>
+    <li ng-repeat="contact in contacts | filter:filterText">
+        <h3>{{contact}} ({{companiesByContact[contact].length}})</h3>
+        <ul>
+            <li ng-repeat="company in companiesByContact[contact]"><a href="#/company/{{company.id}}">{{company.name}}</a></li>
+        </ul>
+    </li>
+</ul>

@@ -21,13 +21,13 @@ angular.module('Codema.services', []).
                     startDate: '2012-12-12',
                     lengthMonths: 6,
                     renewals: 3,
-                    rate: 300
+                    rate: 100
                 },
                 {
                     startDate: '2013-06-10',
                     lengthMonths: 1,
                     renewals: 0,
-                    rate: 320
+                    rate: 100
                 }
             ]
         },
@@ -44,13 +44,59 @@ angular.module('Codema.services', []).
                     startDate: '2012-12-12',
                     lengthMonths: 3,
                     renewals: 2,
-                    rate: 320
+                    rate: 100
                 },
                 {
                     startDate: '2013-06-10',
                     lengthMonths: 1,
                     renewals: 0,
-                    rate: 350
+                    rate: 100
+                }
+            ]
+        },
+        {
+            name: 'Facebook',
+            id: 2,
+            address: '3 St. John\'s Lane, London, EC1M 4BL',
+            latlong: '-50,0.6',
+            notes: 'Some notes here',
+            contactName: 'Dev Vadgama',
+            contactEmail: 'dev@purple-consultancy.com',
+            contracts: [
+                {
+                    startDate: '2012-12-12',
+                    lengthMonths: 3,
+                    renewals: 2,
+                    rate: 100
+                },
+                {
+                    startDate: '2013-06-10',
+                    lengthMonths: 1,
+                    renewals: 0,
+                    rate: 100
+                }
+            ]
+        },
+        {
+            name: 'Google',
+            id: 2,
+            address: '4 St. John\'s Lane, London, EC1M 4BL',
+            latlong: '-50,0.6',
+            notes: 'Some notes here',
+            contactName: 'Dev Vadgama',
+            contactEmail: 'dev@purple-consultancy.com',
+            contracts: [
+                {
+                    startDate: '2012-12-12',
+                    lengthMonths: 3,
+                    renewals: 2,
+                    rate: 100
+                },
+                {
+                    startDate: '2013-06-10',
+                    lengthMonths: 1,
+                    renewals: 0,
+                    rate: 100
                 }
             ]
         }
@@ -82,14 +128,15 @@ angular.module('Codema.services', []).
     };
 
     var removeContract = function(companyId, contractId) {
-        getCompany(companyId).contracts.splice(id,1);
+        getCompany(companyId).contracts.splice(contractId,1);
     };
 
     return {
       addCompany: addCompany,
       getCompanies: getCompanies,
       getCompany: getCompany,
-      removeCompany: removeCompany
+      removeCompany: removeCompany,
+      removeContract: removeContract
     };
 
   }]);

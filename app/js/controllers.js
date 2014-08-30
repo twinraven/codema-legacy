@@ -69,6 +69,24 @@ angular.module('Codema.controllers', [])
         };
 
         $scope.removeContract = function($index) {
-            $scope.company.contracts.splice($index,1);
+            companiesService.removeContract($scope.company.id, $index);
         };
-  }]);
+  }])
+  .controller('ContactController', [
+    '$scope',
+    'companiesService',
+
+    function($scope, companiesService) {
+        $scope.companies = companiesService.getCompanies();
+
+        $scope.contacts = _.uniq(_.pluck($scope.companies, 'contactName'));
+
+        $scope.companiesByContact = _.groupBy($scope.companies, function(obj) {
+            return obj.contactName;
+        });
+    }]);
+
+
+
+
+
