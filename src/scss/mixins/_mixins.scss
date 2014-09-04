@@ -1,0 +1,11 @@
+/*
+ *  CUSTOM MIXINS
+ *  Includes custom Mixins to be used throughout the project.
+ */
+
+ // Allows a value to be input and the Pixel and REM value to be output
+ // e.g. 1.3 = 13px = 1.3rem
+ @mixin font-size($sizeValue: 1.6) {
+  font-size: ($sizeValue * 10) + px;
+  font-size: $sizeValue + rem;
+}

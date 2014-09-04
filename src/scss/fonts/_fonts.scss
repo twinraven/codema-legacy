@@ -1,0 +1,31 @@
+@import "../settings";
+
+@font-face {
+  font-family: "Trade Gothic";
+  font-weight:normal;
+  src: url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn.ttf");
+  src: local("☺"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn.woff") format("woff"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn.otf") format("opentype"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn.svg#filename") format("svg");
+}
+
+@font-face {
+  font-family: "Trade Gothic Cyr";
+  font-weight:normal;
+  src: url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn+Cyrillic.ttf");
+  src: local("☺"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn+Cyrillic.woff") format("woff"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn+Cyrillic.otf") format("opentype"),
+    url("../../fonts/trade_gothic/TradeGothicforNike365-BdCn+Cyrillic.svg#filename") format("svg");
+}
+
+ @font-face {
+  font-family: "TradeGothicLight";
+  font-weight: normal;
+  src: url("../../fonts/trade_gothic/tradegothicfornike365-light.ttf");
+  src: local("☺"),
+    url("../../fonts/trade_gothic/tradegothicfornike365-light.woff") format("woff"),
+    url("../../fonts/trade_gothic/tradegothicfornike365-light.otf") format("opentype"),
+    url("../../fonts/trade_gothic/tradegothicfornike365-light.svg#filename") format("svg");
+}

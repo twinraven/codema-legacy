@@ -1,0 +1,85 @@
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  margin: 0 0 10px;
+  padding: 5px;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.field-output,
+.field-edit,
+.field-new {
+  border: 1px solid #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  padding: 5px 10px;
+}
+
+.company-row--textarea .field-output,
+.company-row--textarea .field-edit,
+.company-new--textarea .field-new {
+  min-height: 50px;
+}
+
+.field-edit,
+.field-new {
+  border: 1px solid #aaa;
+  width: 50%;
+}
+
+.field-edit,
+.editor-only {
+  display: none;
+}
+
+.company-new .field-new {
+  display: block;
+}
+
+.company-new .field-output {
+  display: none;
+}
+
+.is-editing .field-output {
+  display: none;
+}
+
+.is-editing .field-edit,
+.is-editing .editor-only {
+  display: block;
+}
+
+.field-label {
+  color: #ccc;
+  font-size: 0.85em;
+  margin: 0 10px;
+}
