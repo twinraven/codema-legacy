@@ -1,85 +1,183 @@
+.container {
+  margin: 0 auto;
+  max-width: 550px;
+  overflow: hidden;
+  padding: 45px 10px;
+}
 
-.menu {
+.container a {
+  border-bottom: thin dotted #aaa;
+  color: #333;
+  font-family: "Arvo Bold", sans-serif;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.item-list {
   list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-fieldset {
-  border: 1px solid #ccc;
-  margin: 0 0 10px;
-  padding: 5px;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
+  margin: 0;
   padding: 0;
 }
 
-.field-output,
-.field-edit,
-.field-new {
-  border: 1px solid #fff;
+.item {
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  padding: 0;
+  overflow: hidden;
+  margin: 0 0 26px;
+
+  &.has-sublist .item-name {
+    cursor: s-resize;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.12);
+  }
+
+  .item-name {
+    color: #fff;
+    background: #b7b7b7;
+    display: block;
+    font-family: "Arvo", sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
+    padding: 10px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.25s;
+  }
+
+  a.item-name {
+    transition: all 0.2s;
+
+    &:hover,
+    &:focus {
+      background-color: #9f9f9f;
+    }
+  }
+
+  .item-contact,
+  .item-contracts {
+    font-size: 12px;
+    float: left;
+    color: #b2b2b2;
+    padding: 4px 15px;
+  }
+
+  .item-contracts {
+    float: right;
+  }
+
+  &.is-open {
+    .item-name {
+      transition: all 0.2s 0.3s;
+      box-shadow: none;
+    }
+
+    .item-sublist {
+      li {
+        transition: all 0.2s 0.3s;
+        box-shadow: none;
+      }
+
+      a {
+        transition: margin-top 0.2s 0.3s, background 0.2s;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.item-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+  }
+
+  a {
+    border-bottom: thin solid #ddd;
+    display: block;
+    font-family: "Arvo", sans-serif;
+    font-weight: normal;
+    padding: 10px 15px;
+    transition: all 0.2s;
+    margin-top: -30px;
+
+    &:hover,
+    &:focus {
+      background-color: #f9f6c5;
+    }
+  }
+}
+
+.contract-details {
+  background: #f9f6c5;
+  border: thin dotted #bbb;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  margin: 30px 0;
+  padding: 20px;
+
+  legend {
+    font-family: "Arvo Bold";
+    margin: 0 0 20px;
+  }
+}
+
+a.add-contract {
+  background: #ece8a6;
+  border: thin dotted #bbb;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+a.delete-item {
+  border: none;
+  color: #888;
+  font-family: "Arvo";
   font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 20px;
-  padding: 5px 10px;
+  line-height: 1.9;
+  text-decoration: none;
 }
 
-.company-row--textarea .field-output,
-.company-row--textarea .field-edit,
-.company-new--textarea .field-new {
-  min-height: 50px;
+a.delete-company {
+  color: #aa0000;
 }
 
-.field-edit,
-.field-new {
-  border: 1px solid #aaa;
-  width: 50%;
+a.company-edit {
+  border: none;
+
+  &.company-edit--edit {
+    //
+  }
+
+  &.company-edit--done {
+    color: green;
+  }
+
+  &.company-edit--cancel {
+    color: #aaa;
+  }
 }
 
-.field-edit,
-.editor-only {
-  display: none;
-}
+.edit-bar {
+  overflow: hidden;
 
-.company-new .field-new {
-  display: block;
-}
+  .is-editing & {
+    background: #eee;
+  }
 
-.company-new .field-output {
-  display: none;
-}
+  &.edit-bar--top {
+    border-bottom: thin dotted #bbb;
+    margin-bottom: 30px;
+  }
 
-.is-editing .field-output {
-  display: none;
-}
-
-.is-editing .field-edit,
-.is-editing .editor-only {
-  display: block;
-}
-
-.field-label {
-  color: #ccc;
-  font-size: 0.85em;
-  margin: 0 10px;
+  &.edit-bar--bottom {
+    border-top: thin dotted #bbb;
+    margin-top: 30px;
+  }
 }

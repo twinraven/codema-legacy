@@ -1,0 +1,23 @@
+body {
+  background: #eee;
+  color: #333;
+  font-family: "Arvo", sans-serif;
+}
+
+input, select, textarea {
+  font-family: "Arvo", sans-serif;
+}
+
+a {
+  transition: color 0.13s;
+}
+
+.hr {
+    border-top: thin dotted #aaa;
+    clear: both;
+    margin: 15px 0;
+
+    hr {
+        display: none;
+    }
+}

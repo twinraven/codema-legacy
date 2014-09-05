@@ -1,0 +1,96 @@
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.field-output,
+.field-edit,
+.field-new {
+  border: thin solid transparent;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px 15px;
+}
+
+.field-output {
+  padding-left: 0;
+}
+
+.company-row {
+  border-bottom: thin dotted #bbb;
+  clear: both;
+  padding: 0 0 7px;
+  margin: 0 0 7px;
+
+  &.company-row--last {
+    border-bottom: none;
+  }
+
+  .is-editing & {
+    border-bottom: thin solid transparent;
+  }
+}
+
+.company-row--textarea .field-output,
+.company-row--textarea .field-edit,
+.company-row--textarea .field-new {
+  min-height: 120px;
+}
+
+.field-edit,
+.field-new {
+  background: #fff;
+  border: thin solid #ccc;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.field-edit,
+.editor-only {
+  display: none;
+}
+
+.company-new {
+  .field-new {
+    display: block;
+  }
+
+  .field-output {
+    display: none;
+  }
+}
+
+.is-editing {
+  .field-output {
+    display: none;
+  }
+
+  .field-edit,
+  .editor-only {
+    display: block;
+  }
+}
+
+.field-label {
+  color: rgba(0,0,0,0.3);
+  clear: both;
+  font-weight: normal;
+  font-size: 11px;
+  margin: 15px 0 7px;
+}
+
+
+
+input.search {
+  box-sizing: border-box;
+  border: thin solid #ccc;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  font-size: 20px;
+  margin: 0 0 60px;
+  padding: 12px 16px;
+  width: 100%;
+}
