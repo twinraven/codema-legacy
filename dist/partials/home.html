@@ -1,5 +1,0 @@
-<input type="text" ng-model="filterText" placeholder="Search...">
-
-<ul>
-    <li ng-repeat="company in companies | filter:filterText"><a href="#/company/{{company.id}}">{{company.name}}</a> - {{company.contactName}}, {{company.contracts.length}} contracts</li>
-</ul>
