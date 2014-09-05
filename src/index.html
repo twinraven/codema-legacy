@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="Codema" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="Codema" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="Codema" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="Codema" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="Codema" ng-controller="appController" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,13 +12,25 @@
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/home">home</a></li>
-    <li><a href="#/add">add</a></li>
-    <li><a href="#/contacts">contacts</a></li>
-  </ul>
+  <header>
+    <div class="logo">
+      <h1><span>Codema</span></h1>
+    </div>
 
-  <div ng-view></div>
+    <nav>
+      <div class="nav-inner">
+        <ul class="menu">
+          <li><a href="#/home">home</a></li>
+          <li><a href="#/add">add</a></li>
+          <li><a href="#/contacts">contacts</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div ng-view></div>
+  </div>
 
   <!--<script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>-->
   <script src="js/libs/underscore-min.js"></script>

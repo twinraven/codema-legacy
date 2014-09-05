@@ -1,5 +1,7 @@
 <fieldset class="contract">
-    <legend>Contract</legend>
+    <a href="javascript:;" ng-click="removeContract($index)" class="editor-only delete-item f-right">Delete <span class="icon-cancel"></span></a>
+
+    <legend class="f-left">Contract #{{$index + 1}}</legend>
     <div class="company-row">
         <p class="field-label">Start date</p>
         <p class="field-output">{{contract.startDate}}</p>
@@ -24,5 +26,4 @@
         <input type="number" ng-model="contract.rate" step="5" class="field-edit field-new" id="co-rate-{{$index}}" name="co-rate-{{$index}}">
     </div>
 
-    <a href="javascript:;" ng-click="removeContract($index)" class="editor-only">Remove</a>
 </fieldset>

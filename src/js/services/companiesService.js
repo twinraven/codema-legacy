@@ -30,7 +30,7 @@ App.service('companiesService', ['$location', function($location) {
         newCompany.id = companiesList[companiesList.length-1].id + 1;
         companiesList.push(newCompany);
 
-        saveCompanyData();
+        methods.saveCompanyData();
     };
 
     methods.getCompanies = function(){
@@ -52,11 +52,11 @@ App.service('companiesService', ['$location', function($location) {
             $location.path('/home');
         }
 
-        saveCompanyData();
+        methods.saveCompanyData();
     };
 
     methods.removeContract = function(companyId, contractId) {
-        getCompany(companyId).contracts.splice(contractId,1);
+        methods.getCompany(companyId).contracts.splice(contractId,1);
     };
 
     methods.loadCompanyData();
