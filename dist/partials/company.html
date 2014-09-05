@@ -1,0 +1,48 @@
+<div class="company-details" ng-class="{'is-editing': editing}">
+    <div class="edit-bar edit-bar--top">
+        <p class="f-right"><a href="javascript:;" ng-click="deleteCompany()" ng-show="editing" class="delete-item delete-company">Delete Company <span class="icon-cancel"></span></a></p>
+        <p class="f-left" ng-show="editing"><a class="company-edit company-edit--done" href="#/company/{{company.id}}"><span class="icon-check"></span> Finish</a></p>
+        <p class="f-left" ng-hide="editing"><a class="company-edit company-edit--edit" href="#/company/{{company.id}}?editing=true"><span class="icon-edit"></span> Edit</a></p>
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Name</p>
+        <p class="field-output">{{company.name}}</p>
+        <input type="text" ng-model="company.name" class="field-edit" id="co-name" name="co-name">
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Address</p>
+        <p class="field-output">{{company.address}}</p>
+        <input type="text" ng-model="company.address" class="field-edit" id="co-address" name="co-address">
+    </div>
+
+    <div class="company-row company-row--textarea">
+        <p class="field-label">Notes</p>
+        <p class="field-output">{{company.notes}}</p>
+        <textarea ng-model="company.notes" class="field-edit" id="co-notes" name="co-notes"></textarea>
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Contact name</p>
+        <p class="field-output">{{company.contactName}}</p>
+        <input type="text" ng-model="company.contactName" class="field-edit" id="co-contactName" name="co-contactName">
+    </div>
+
+    <div class="company-row company-row--last">
+        <p class="field-label">Contact email address</p>
+        <p class="field-output"><a href="mailto:{{company.contactEmail}}">{{company.contactEmail}}</a></p>
+        <input type="email" ng-model="company.contactEmail" class="field-edit" id="co-contactEmail" name="co-contactEmail">
+    </div>
+
+    <div class="company-contracts">
+        <div ng-repeat="contract in company.contracts" class="contract-details" ng-include="'partials/contract.html'" ng-init="unique=$index"></div>
+        <a href="javascript:;" ng-click="addContract()" ng-show="editing" class="add-contract"><span class="icon-add"></span> Add contract</a>
+    </div>
+
+    <div class="edit-bar edit-bar--bottom">
+        <p class="f-right"><a href="javascript:;" ng-click="deleteCompany()" ng-show="editing" class="delete-item delete-company">Delete Company <span class="icon-cancel"></span></a></p>
+        <p class="f-left" ng-hide="editing"><a class="company-edit company-edit--edit" href="#/company/{{company.id}}?editing=true"><span class="icon-edit"></span> Edit</a></p>
+        <p class="f-left" ng-show="editing"><a class="company-edit company-edit--done" href="#/company/{{company.id}}"><span class="icon-check"></span> Finish</a></p>
+    </div>
+</div>

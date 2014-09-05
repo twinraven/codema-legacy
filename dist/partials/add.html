@@ -1,0 +1,36 @@
+<div class="company-details company-new is-editing">
+    <div class="edit-bar edit-bar--top">
+        <p class="f-right"><a href="#/home" class="company-edit company-edit--cancel">Cancel <span class="icon-cancel"></span></a></p>
+        <p class="f-left"><a href="#" ng-click="saveCompany()" class="company-edit company-edit--done"><span class="icon-check"></span> Save</a><p>
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Name</p>
+        <input type="text" ng-model="company.name" class="field-new" id="co-name" name="co-name">
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Address</p>
+        <input type="text" ng-model="company.address" class="field-new" id="co-address" name="co-address">
+    </div>
+
+    <div class="company-row company-row--textarea">
+        <p class="field-label">Notes</p>
+        <textarea ng-model="company.notes" class="field-new" id="co-notes" name="co-notes"></textarea>
+    </div>
+
+    <div class="company-row">
+        <p class="field-label">Contact name</p>
+        <input type="text" ng-model="company.contactName" class="field-new" id="co-contactName" name="co-contactName">
+    </div>
+
+    <div class="company-row company-row--last">
+        <p class="field-label">Contact email address</p>
+        <input type="email" ng-model="company.contactEmail" class="field-new" id="co-contactEmail" name="co-contactEmail">
+    </div>
+
+    <div class="company-contracts">
+        <div ng-repeat="contract in company.contracts" class="contract-details" ng-include="'partials/contract.html'" ng-init="unique=$index"></div>
+        <a href="javascript:;" ng-click="addContract()" class="add-contract"><span class="icon-add"></span> Add contract</a>
+    </div>
+</div>
