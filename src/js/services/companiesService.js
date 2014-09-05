@@ -4,6 +4,20 @@
 // In this case it is a simple value service.
 App.service('companiesService', ['$location', function($location) {
     var companiesList = [],
+        demoCompaniesList = [
+            {
+                'name':'Company 1',
+                'id':2,
+                'address':'1 St. John\'s Lane, London, EC1M 4BL',
+                'notes':'Some notes here\n\nsome more notes',
+                'contactName':'Dave Smith',
+                'contactEmail':'dave@davesmith.com',
+                'contracts':[
+                    {'startDate':'2012-12-12','lengthMonths':3,'renewals':2,'rate':10,'$$hashKey':'01J'},
+                    {'startDate':'2013-06-10','lengthMonths':1,'renewals':0,'rate':10,'$$hashKey':'01K'}
+                ]
+            }
+        ],
         methods = {};
 
     methods.loadCompanyData = function() {
@@ -12,9 +26,10 @@ App.service('companiesService', ['$location', function($location) {
         if (Modernizr.localstorage && list) {
             companiesList = JSON.parse(window.localStorage.getItem('companiesList'));
         }
-        /*} else {
-            // get from web-based source
-        }*/
+
+        if (companiesList === []) {
+            companiesList = demoCompaniesList;
+        }
     };
 
     methods.saveCompanyData = function() {
