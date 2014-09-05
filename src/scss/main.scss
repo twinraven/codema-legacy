@@ -5,7 +5,9 @@
 // RESETS
 @import "libs/normalize";
 
-// FONTS
-@import "fonts/fonts";
-
+@import "partials/tags";
+@import "partials/helpers";
+@import "partials/fonts";
+@import "partials/header";
+@import "partials/forms";
 @import "partials/companies";
