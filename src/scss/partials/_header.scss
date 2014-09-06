@@ -20,7 +20,7 @@ nav {
   list-style: none;
   margin: 0;
   max-width: 550px;
-  padding: 0;
+  padding: 0 20px;
 
   li {
     .no-flexbox & {
@@ -40,17 +40,21 @@ nav {
       color: #888;
     }
   }
+
+  @include respond-min($cols-3) {
+    padding: 0;
+  }
 }
 
 .logo {
   background: url(../images/logo.png) no-repeat center center;
-  background-size: 260px 55px;
+  background-size: 50% auto;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
   display: block;
   height: 55px;
   margin: 0 auto;
   overflow: hidden;
-  padding: 40px 0;
+  padding: 7% 0;
   position: relative;
   width: 100%;
 
@@ -65,5 +69,10 @@ nav {
     overflow: hidden;
     top: -100px;
     width: 0;
+  }
+
+  @include respond-min($cols-3) {
+    background-size: 260px 55px;
+    padding: 40px 0;
   }
 }

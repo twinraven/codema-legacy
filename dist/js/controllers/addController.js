@@ -13,7 +13,9 @@ App.controller('AddController', ['$scope', 'companiesService',
         };
 
         $scope.removeContract = function($index) {
-            companiesService.removeContract($scope.company.id, $index);
+            if (confirm('Are you sure?')) {
+                $scope.company.contracts.splice($index, 1);
+            }
         };
     }
 ]);

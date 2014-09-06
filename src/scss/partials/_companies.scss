@@ -2,7 +2,11 @@
   margin: 0 auto;
   max-width: 550px;
   overflow: hidden;
-  padding: 45px 10px;
+  padding: 30px 10px;
+
+  @include respond-min($cols-3) {
+    padding: 45px 10px;
+  }
 }
 
 .container a {
@@ -28,7 +32,10 @@
 
   &.has-sublist .item-name {
     cursor: s-resize;
-    box-shadow: 0 3px 20px rgba(0,0,0,0.12);
+
+    @include respond-min($cols-3) {
+      box-shadow: 0 3px 20px rgba(0,0,0,0.12);
+    }
   }
 
   .item-name {
@@ -36,13 +43,17 @@
     background: #b7b7b7;
     display: block;
     font-family: "Arvo", sans-serif;
-    font-size: 18px;
+    @include font-size(16);
     font-weight: normal;
     margin: 0;
     padding: 10px 15px;
     text-decoration: none;
     text-transform: uppercase;
     transition: box-shadow 0.25s;
+
+    @include respond-min($cols-3) {
+      @include font-size(18);
+    }
   }
 
   a.item-name {
@@ -56,7 +67,7 @@
 
   .item-contact,
   .item-contracts {
-    font-size: 12px;
+    @include font-size(12);
     float: left;
     color: #b2b2b2;
     padding: 4px 15px;
@@ -92,7 +103,6 @@
   padding: 0;
 
   li {
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
   }
@@ -104,11 +114,20 @@
     font-weight: normal;
     padding: 10px 15px;
     transition: all 0.2s;
-    margin-top: -30px;
 
     &:hover,
     &:focus {
       background-color: #f9f6c5;
+    }
+
+  }
+  @include respond-min($cols-3) {
+    li {
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-touch & a {
+      margin-top: -30px;
     }
   }
 }
@@ -118,11 +137,15 @@
   border: thin dotted #bbb;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   margin: 30px 0;
-  padding: 20px;
+  padding: 15px 10px;
 
   legend {
     font-family: "Arvo Bold";
     margin: 0 0 20px;
+  }
+
+  @include respond-min($cols-3) {
+    padding: 20px;
   }
 }
 
@@ -139,7 +162,7 @@ a.delete-item {
   border: none;
   color: #888;
   font-family: "Arvo";
-  font-size: 14px;
+  @include font-size(14);
   line-height: 1.9;
   text-decoration: none;
 }

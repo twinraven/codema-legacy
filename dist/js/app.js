@@ -1,5 +1,5 @@
 /**
- *   - v0.1.0 - 2014-09-05
+ *   - v0.1.0 - 2014-09-06
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
@@ -18,11 +18,20 @@ App.service('companiesService', ['$location', function($location) {
                 'address':'1 St. John\'s Lane, London, EC1M 4BL',
                 'notes':'Some notes here\n\nsome more notes',
                 'contactName':'Dave Smith',
-                'contactEmail':'dave@davesmith.com',
+                'contactEmail':'dave@example.com',
                 'contracts':[
                     {'startDate':'2012-12-12','lengthMonths':3,'renewals':2,'rate':10,'$$hashKey':'01J'},
                     {'startDate':'2013-06-10','lengthMonths':1,'renewals':0,'rate':10,'$$hashKey':'01K'}
                 ]
+            },
+            {
+                'name':'Company 2',
+                'id':2,
+                'address':'1 St. John\'s Lane, London, EC1M 4BL',
+                'notes':'Some notes here\n\nsome more notes',
+                'contactName':'Rob Ford',
+                'contactEmail':'rob@example.com',
+                'contracts':[]
             }
         ],
         methods = {};
@@ -34,7 +43,7 @@ App.service('companiesService', ['$location', function($location) {
             companiesList = JSON.parse(window.localStorage.getItem('companiesList'));
         }
 
-        if (companiesList === []) {
+        if (companiesList.length === 0) {
             companiesList = demoCompaniesList;
         }
     };
@@ -102,7 +111,9 @@ App.controller('AddController', ['$scope', 'companiesService',
         };
 
         $scope.removeContract = function($index) {
-            companiesService.removeContract($scope.company.id, $index);
+            if (confirm('Are you sure?')) {
+                $scope.company.contracts.splice($index, 1);
+            }
         };
     }
 ]);
@@ -118,7 +129,6 @@ App.controller('ContactController', ['$scope', 'companiesService',
         });
     }
 ]);
-
 /// App Controller
 App.controller('appController',
     ['$rootScope', '$scope', function ($rootScope, $scope) {

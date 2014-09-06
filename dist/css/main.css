@@ -1,5 +1,5 @@
 /**
- *   - v0.1.0 - 2014-09-05
+ *   - v0.1.0 - 2014-09-06
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
@@ -7,6 +7,9 @@
 /*
  *  CUSTOM MIXINS
  *  Includes custom Mixins to be used throughout the project.
+ */
+/*
+    Mixins: commonly-used functions.
  */
 /* normalize.css v1.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -601,6 +604,20 @@ a {
   float: right;
 }
 
+@media screen and (max-width: 29.9375em) {
+  /* line 9, ../../src/scss/partials/_helpers.scss */
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 30em) {
+  /* line 15, ../../src/scss/partials/_helpers.scss */
+  .mobile-only {
+    display: none;
+  }
+}
+
 @font-face {
   font-family: 'Arvo';
   src: url("../fonts/arvo-regular-webfont.eot");
@@ -756,7 +773,7 @@ nav {
   list-style: none;
   margin: 0;
   max-width: 550px;
-  padding: 0;
+  padding: 0 20px;
 }
 /* line 26, ../../src/scss/partials/_header.scss */
 .no-flexbox .menu li {
@@ -774,27 +791,33 @@ nav {
 .menu a:hover, .menu a:focus {
   color: #888;
 }
+@media screen and (min-width: 30em) {
+  /* line 17, ../../src/scss/partials/_header.scss */
+  .menu {
+    padding: 0;
+  }
+}
 
-/* line 45, ../../src/scss/partials/_header.scss */
+/* line 49, ../../src/scss/partials/_header.scss */
 .logo {
   background: url(../images/logo.png) no-repeat center center;
-  -webkit-background-size: 260px 55px;
-  background-size: 260px 55px;
+  -webkit-background-size: 50% auto;
+  background-size: 50% auto;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   display: block;
   height: 55px;
   margin: 0 auto;
   overflow: hidden;
-  padding: 40px 0;
+  padding: 7% 0;
   position: relative;
   width: 100%;
 }
-/* line 57, ../../src/scss/partials/_header.scss */
+/* line 61, ../../src/scss/partials/_header.scss */
 .logo h1 {
   margin: 0;
 }
-/* line 61, ../../src/scss/partials/_header.scss */
+/* line 65, ../../src/scss/partials/_header.scss */
 .logo span {
   height: 0;
   position: absolute;
@@ -802,6 +825,14 @@ nav {
   overflow: hidden;
   top: -100px;
   width: 0;
+}
+@media screen and (min-width: 30em) {
+  /* line 49, ../../src/scss/partials/_header.scss */
+  .logo {
+    -webkit-background-size: 260px 55px;
+    background-size: 260px 55px;
+    padding: 40px 0;
+  }
 }
 
 /* line 2, ../../src/scss/partials/_forms.scss */
@@ -820,6 +851,7 @@ fieldset {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
   padding: 10px 15px;
@@ -834,8 +866,8 @@ fieldset {
 .company-row {
   border-bottom: thin dotted #bbb;
   clear: both;
-  padding: 0 0 7px;
-  margin: 0 0 7px;
+  padding: 0 0 3px;
+  margin: 0 0 3px;
 }
 /* line 29, ../../src/scss/partials/_forms.scss */
 .company-row.company-row--last {
@@ -845,15 +877,22 @@ fieldset {
 .is-editing .company-row {
   border-bottom: thin solid transparent;
 }
+@media screen and (min-width: 30em) {
+  /* line 23, ../../src/scss/partials/_forms.scss */
+  .company-row {
+    padding: 0 0 7px;
+    margin: 0 0 7px;
+  }
+}
 
-/* line 38, ../../src/scss/partials/_forms.scss */
+/* line 43, ../../src/scss/partials/_forms.scss */
 .company-row--textarea .field-output,
 .company-row--textarea .field-edit,
 .company-row--textarea .field-new {
   min-height: 120px;
 }
 
-/* line 44, ../../src/scss/partials/_forms.scss */
+/* line 49, ../../src/scss/partials/_forms.scss */
 .field-edit,
 .field-new {
   background: #fff;
@@ -863,41 +902,42 @@ fieldset {
   width: 100%;
 }
 
-/* line 52, ../../src/scss/partials/_forms.scss */
+/* line 57, ../../src/scss/partials/_forms.scss */
 .field-edit,
 .editor-only {
   display: none;
 }
 
-/* line 58, ../../src/scss/partials/_forms.scss */
+/* line 63, ../../src/scss/partials/_forms.scss */
 .company-new .field-new {
   display: block;
 }
-/* line 62, ../../src/scss/partials/_forms.scss */
+/* line 67, ../../src/scss/partials/_forms.scss */
 .company-new .field-output {
   display: none;
 }
 
-/* line 68, ../../src/scss/partials/_forms.scss */
+/* line 73, ../../src/scss/partials/_forms.scss */
 .is-editing .field-output {
   display: none;
 }
-/* line 72, ../../src/scss/partials/_forms.scss */
+/* line 77, ../../src/scss/partials/_forms.scss */
 .is-editing .field-edit,
 .is-editing .editor-only {
   display: block;
 }
 
-/* line 78, ../../src/scss/partials/_forms.scss */
+/* line 83, ../../src/scss/partials/_forms.scss */
 .field-label {
   color: rgba(0, 0, 0, 0.3);
   clear: both;
   font-weight: normal;
   font-size: 11px;
+  font-size: 0.6875rem;
   margin: 15px 0 7px;
 }
 
-/* line 88, ../../src/scss/partials/_forms.scss */
+/* line 93, ../../src/scss/partials/_forms.scss */
 input.search {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -905,10 +945,19 @@ input.search {
   border: thin solid #ccc;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  font-size: 20px;
-  margin: 0 0 60px;
+  font-size: 17px;
+  font-size: 1.0625rem;
+  margin: 0 0 30px;
   padding: 12px 16px;
   width: 100%;
+}
+@media screen and (min-width: 30em) {
+  /* line 93, ../../src/scss/partials/_forms.scss */
+  input.search {
+    font-size: 20px;
+    font-size: 1.25rem;
+    margin: 0 0 60px;
+  }
 }
 
 /* line 1, ../../src/scss/partials/_companies.scss */
@@ -916,10 +965,16 @@ input.search {
   margin: 0 auto;
   max-width: 550px;
   overflow: hidden;
-  padding: 45px 10px;
+  padding: 30px 10px;
+}
+@media screen and (min-width: 30em) {
+  /* line 1, ../../src/scss/partials/_companies.scss */
+  .container {
+    padding: 45px 10px;
+  }
 }
 
-/* line 8, ../../src/scss/partials/_companies.scss */
+/* line 12, ../../src/scss/partials/_companies.scss */
 .container a {
   border-bottom: thin dotted #aaa;
   color: #333;
@@ -928,14 +983,14 @@ input.search {
   text-decoration: none;
 }
 
-/* line 16, ../../src/scss/partials/_companies.scss */
+/* line 20, ../../src/scss/partials/_companies.scss */
 .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 22, ../../src/scss/partials/_companies.scss */
+/* line 26, ../../src/scss/partials/_companies.scss */
 .item {
   background: #fff;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
@@ -944,19 +999,25 @@ input.search {
   overflow: hidden;
   margin: 0 0 26px;
 }
-/* line 29, ../../src/scss/partials/_companies.scss */
+/* line 33, ../../src/scss/partials/_companies.scss */
 .item.has-sublist .item-name {
   cursor: s-resize;
-  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.12);
-  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.12);
 }
-/* line 34, ../../src/scss/partials/_companies.scss */
+@media screen and (min-width: 30em) {
+  /* line 33, ../../src/scss/partials/_companies.scss */
+  .item.has-sublist .item-name {
+    -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+/* line 41, ../../src/scss/partials/_companies.scss */
 .item .item-name {
   color: #fff;
   background: #b7b7b7;
   display: block;
   font-family: "Arvo", sans-serif;
-  font-size: 18px;
+  font-size: 16px;
+  font-size: 1rem;
   font-weight: normal;
   margin: 0;
   padding: 10px 15px;
@@ -965,62 +1026,68 @@ input.search {
   -webkit-transition: -webkit-box-shadow 0.25s;
   transition: box-shadow 0.25s;
 }
-/* line 48, ../../src/scss/partials/_companies.scss */
+@media screen and (min-width: 30em) {
+  /* line 41, ../../src/scss/partials/_companies.scss */
+  .item .item-name {
+    font-size: 18px;
+    font-size: 1.125rem;
+  }
+}
+/* line 59, ../../src/scss/partials/_companies.scss */
 .item a.item-name {
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
-/* line 51, ../../src/scss/partials/_companies.scss */
+/* line 62, ../../src/scss/partials/_companies.scss */
 .item a.item-name:hover, .item a.item-name:focus {
   background-color: #9f9f9f;
 }
-/* line 57, ../../src/scss/partials/_companies.scss */
+/* line 68, ../../src/scss/partials/_companies.scss */
 .item .item-contact,
 .item .item-contracts {
   font-size: 12px;
+  font-size: 0.75rem;
   float: left;
   color: #b2b2b2;
   padding: 4px 15px;
 }
-/* line 65, ../../src/scss/partials/_companies.scss */
+/* line 76, ../../src/scss/partials/_companies.scss */
 .item .item-contracts {
   float: right;
 }
-/* line 70, ../../src/scss/partials/_companies.scss */
+/* line 81, ../../src/scss/partials/_companies.scss */
 .item.is-open .item-name {
   -webkit-transition: all 0.2s 0.3s;
   transition: all 0.2s 0.3s;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 76, ../../src/scss/partials/_companies.scss */
+/* line 87, ../../src/scss/partials/_companies.scss */
 .item.is-open .item-sublist li {
   -webkit-transition: all 0.2s 0.3s;
   transition: all 0.2s 0.3s;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 81, ../../src/scss/partials/_companies.scss */
+/* line 92, ../../src/scss/partials/_companies.scss */
 .item.is-open .item-sublist a {
   -webkit-transition: margin-top 0.2s 0.3s, background 0.2s;
   transition: margin-top 0.2s 0.3s, background 0.2s;
   margin-top: 0;
 }
 
-/* line 89, ../../src/scss/partials/_companies.scss */
+/* line 100, ../../src/scss/partials/_companies.scss */
 .item-sublist {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 94, ../../src/scss/partials/_companies.scss */
+/* line 105, ../../src/scss/partials/_companies.scss */
 .item-sublist li {
-  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
 }
-/* line 100, ../../src/scss/partials/_companies.scss */
+/* line 110, ../../src/scss/partials/_companies.scss */
 .item-sublist a {
   border-bottom: thin solid #ddd;
   display: block;
@@ -1029,29 +1096,45 @@ input.search {
   padding: 10px 15px;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-  margin-top: -30px;
 }
-/* line 109, ../../src/scss/partials/_companies.scss */
+/* line 118, ../../src/scss/partials/_companies.scss */
 .item-sublist a:hover, .item-sublist a:focus {
   background-color: #f9f6c5;
 }
+@media screen and (min-width: 30em) {
+  /* line 125, ../../src/scss/partials/_companies.scss */
+  .item-sublist li {
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  /* line 129, ../../src/scss/partials/_companies.scss */
+  .no-touch .item-sublist a {
+    margin-top: -30px;
+  }
+}
 
-/* line 116, ../../src/scss/partials/_companies.scss */
+/* line 135, ../../src/scss/partials/_companies.scss */
 .contract-details {
   background: #f9f6c5;
   border: thin dotted #bbb;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   margin: 30px 0;
-  padding: 20px;
+  padding: 15px 10px;
 }
-/* line 123, ../../src/scss/partials/_companies.scss */
+/* line 142, ../../src/scss/partials/_companies.scss */
 .contract-details legend {
   font-family: "Arvo Bold";
   margin: 0 0 20px;
 }
+@media screen and (min-width: 30em) {
+  /* line 135, ../../src/scss/partials/_companies.scss */
+  .contract-details {
+    padding: 20px;
+  }
+}
 
-/* line 129, ../../src/scss/partials/_companies.scss */
+/* line 152, ../../src/scss/partials/_companies.scss */
 a.add-contract {
   background: #ece8a6;
   border: thin dotted #bbb;
@@ -1062,48 +1145,49 @@ a.add-contract {
   padding: 20px;
 }
 
-/* line 138, ../../src/scss/partials/_companies.scss */
+/* line 161, ../../src/scss/partials/_companies.scss */
 a.delete-item {
   border: none;
   color: #888;
   font-family: "Arvo";
   font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.9;
   text-decoration: none;
 }
 
-/* line 147, ../../src/scss/partials/_companies.scss */
+/* line 170, ../../src/scss/partials/_companies.scss */
 a.delete-company {
   color: #aa0000;
 }
 
-/* line 151, ../../src/scss/partials/_companies.scss */
+/* line 174, ../../src/scss/partials/_companies.scss */
 a.company-edit {
   border: none;
 }
-/* line 158, ../../src/scss/partials/_companies.scss */
+/* line 181, ../../src/scss/partials/_companies.scss */
 a.company-edit.company-edit--done {
   color: green;
 }
-/* line 162, ../../src/scss/partials/_companies.scss */
+/* line 185, ../../src/scss/partials/_companies.scss */
 a.company-edit.company-edit--cancel {
   color: #aaa;
 }
 
-/* line 167, ../../src/scss/partials/_companies.scss */
+/* line 190, ../../src/scss/partials/_companies.scss */
 .edit-bar {
   overflow: hidden;
 }
-/* line 170, ../../src/scss/partials/_companies.scss */
+/* line 193, ../../src/scss/partials/_companies.scss */
 .is-editing .edit-bar {
   background: #eee;
 }
-/* line 174, ../../src/scss/partials/_companies.scss */
+/* line 197, ../../src/scss/partials/_companies.scss */
 .edit-bar.edit-bar--top {
   border-bottom: thin dotted #bbb;
   margin-bottom: 30px;
 }
-/* line 179, ../../src/scss/partials/_companies.scss */
+/* line 202, ../../src/scss/partials/_companies.scss */
 .edit-bar.edit-bar--bottom {
   border-top: thin dotted #bbb;
   margin-top: 30px;
