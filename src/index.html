@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
+  <title>Codema : Company Details Manager</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="css/main.css"/>
-  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+  <script src="js/libs/bower/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
   <header>
@@ -20,9 +20,9 @@
     <nav>
       <div class="nav-inner">
         <ul class="menu">
-          <li><a href="#/home">home</a></li>
-          <li><a href="#/add">add</a></li>
-          <li><a href="#/contacts">contacts</a></li>
+          <li><a href="#/home"><span class="icon-home"></span> <span class="desktop-only">home</span></a></li>
+          <li><a href="#/contacts"><span class="icon-contacts"></span> <span class="desktop-only">contacts</span></a></li>
+          <li><a href="#/add"><span class="icon-add"></span> <span class="desktop-only">add</span></a></li>
         </ul>
       </div>
     </nav>
@@ -32,11 +32,9 @@
     <div ng-view></div>
   </div>
 
-  <!--<script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>-->
   <script src="js/libs/underscore-min.js"></script>
-  <script src="bower_components/angular/angular.min.js"></script>
-  <script src="bower_components/angular-route/angular-route.min.js"></script>
-  <!--<script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js"></script>-->
+  <script src="js/libs/bower/angular/angular.min.js"></script>
+  <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
 
   <script src="js/app.js"></script>
 </body>
