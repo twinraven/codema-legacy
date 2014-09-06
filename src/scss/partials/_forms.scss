@@ -10,7 +10,7 @@ fieldset {
 .field-new {
   border: thin solid transparent;
   box-sizing: border-box;
-  font-size: 14px;
+  @include font-size(14);
   line-height: 1.5;
   margin: 0;
   padding: 10px 15px;
@@ -23,8 +23,8 @@ fieldset {
 .company-row {
   border-bottom: thin dotted #bbb;
   clear: both;
-  padding: 0 0 7px;
-  margin: 0 0 7px;
+  padding: 0 0 3px;
+  margin: 0 0 3px;
 
   &.company-row--last {
     border-bottom: none;
@@ -32,6 +32,11 @@ fieldset {
 
   .is-editing & {
     border-bottom: thin solid transparent;
+  }
+
+  @include respond-min($cols-3) {
+    padding: 0 0 7px;
+    margin: 0 0 7px;
   }
 }
 
@@ -79,7 +84,7 @@ fieldset {
   color: rgba(0,0,0,0.3);
   clear: both;
   font-weight: normal;
-  font-size: 11px;
+  @include font-size(11);
   margin: 15px 0 7px;
 }
 
@@ -89,8 +94,13 @@ input.search {
   box-sizing: border-box;
   border: thin solid #ccc;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-  font-size: 20px;
-  margin: 0 0 60px;
+  @include font-size(17);
+  margin: 0 0 30px;
   padding: 12px 16px;
   width: 100%;
+
+  @include respond-min($cols-3) {
+    @include font-size(20);
+    margin: 0 0 60px;
+  }
 }
