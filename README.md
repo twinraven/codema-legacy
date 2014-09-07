@@ -1,6 +1,6 @@
 # Codema - Company Details Manager
 
-A quick & easy way for contractors to keep track of the companies, contact and contracts they acquire.
+A quick & easy way for contractors to keep track of the companies, contact and contracts.
 
 ## Features
 
