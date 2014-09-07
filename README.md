@@ -2,7 +2,7 @@
 
 A quick & easy way for contractors to keep track of companies, contact and contracts.
 
-(Demo)(http://twinraven.github.io/codema/dist/)
+#### [Demo](http://twinraven.github.io/codema/dist/)
 
 ## Features
 
