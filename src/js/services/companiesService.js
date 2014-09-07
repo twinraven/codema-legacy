@@ -2,7 +2,7 @@
 
 // Demonstrate how to register services
 // In this case it is a simple value service.
-App.service('companiesService', ['$location', function($location) {
+App.service('companiesService', ['$location', /*'dropstoreClient',*/ function($location/*, dropstoreClient*/) {
     var companiesList = [],
         demoCompaniesList = [
             {
@@ -27,7 +27,24 @@ App.service('companiesService', ['$location', function($location) {
                 'contracts':[]
             }
         ],
-        methods = {};
+        methods = {},
+        dbCompaniesTable,
+        dbCompanies = [];
+
+
+    /*dropstoreClient.create({key: 'peo2jcopy5i7qtq'})
+        .authenticate({interactive: true})
+        .then(function(datastoreManager){
+            console.log('completed authentication');
+            return datastoreManager.openOrCreateDatastore('codemaData');
+        })
+        .then(function(datastore){
+            dbCompaniesTable = datastore.getTable('companies');
+            dbCompanies = companiesTable.query();
+        });
+*/
+
+
 
     methods.loadCompanyData = function() {
         //if (!navigator.onLine) {
