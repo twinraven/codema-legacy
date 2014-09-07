@@ -33,5 +33,5 @@ All data is saved in local storage, on the user's machine. This is quite brittle
 
 -----
 
-Built using Angular JS, and built using the [angular-seed](https://github.com/angular/angular-seed) repo as a base.
+Built using [Angular](https://github.com/angular/angular.js), [SASS](https://github.com/sass/sass), [Underscore](https://github.com/jashkenas/underscore) & [Bower](https://github.com/bower/bower).
 
