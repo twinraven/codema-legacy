@@ -123,7 +123,7 @@ module.exports = function ( grunt ) {
 			js: {
 				cwd: 'src/',
 				dest: 'dist/',
-				src: 'js/**',
+				src: 'js/**/*',
 				expand: true
 			},
 			images: {
