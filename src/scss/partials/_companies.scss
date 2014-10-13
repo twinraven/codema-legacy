@@ -83,15 +83,17 @@
       box-shadow: none;
     }
 
-    .item-sublist {
-      li {
-        transition: all 0.2s 0.3s;
-        box-shadow: none;
-      }
+    &.has-sublist {
+      .item-sublist {
+        li {
+          transition: all 0.2s 0.3s;
+          box-shadow: none;
+        }
 
-      a {
-        transition: margin-top 0.2s 0.3s, background 0.2s;
-        margin-top: 0;
+        a {
+          transition: margin-top 0.2s 0.3s, background 0.2s;
+          margin-top: 0;
+        }
       }
     }
   }
@@ -126,10 +128,15 @@
       box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .no-touch & a {
+    .item.has-sublist & a {
       margin-top: -30px;
     }
   }
+}
+
+.item-hidden-message {
+  @include font-size(12);
+  color: #aaa;
 }
 
 .contract-details {
