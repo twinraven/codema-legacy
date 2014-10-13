@@ -1,5 +1,7 @@
-App.controller('HomeController', ['$scope', 'companiesService',
-    function($scope, /*$firebase,*/ companiesService) {
+App.controller('HomeController', [
+    '$scope',
+    'companiesService',
+    function($scope, companiesService) {
         /*var ref = new Firebase("https://dazzling-torch-6890.firebaseio.com/data");
 
         var sync = $firebase(ref);
@@ -12,7 +14,6 @@ App.controller('HomeController', ['$scope', 'companiesService',
         syncObject.$bindTo($scope, "data");*/
 
         $scope.companies = companiesService.getCompanies();
-
 
     }
 ]);

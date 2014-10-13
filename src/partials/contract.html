@@ -9,9 +9,9 @@
     </div>
 
     <div class="company-row">
-        <p class="field-label">Contract length (months)</p>
-        <p class="field-output">{{contract.lengthMonths}}</p>
-        <input type="number" ng-model="contract.lengthMonths" class="field-edit field-new" id="co-lengthMonths-{{$index}}" name="co-lengthMonths-{{$index}}">
+        <p class="field-label">Contract end date</p>
+        <p class="field-output">{{contract.endDate}}</p>
+        <input type="date" ng-model="contract.endDate" class="field-edit field-new" id="co-endDate-{{$index}}" name="co-endDate-{{$index}}">
     </div>
 
     <div class="company-row">
@@ -21,9 +21,9 @@
     </div>
 
     <div class="company-row">
-        <p class="field-label">Day rate (GBP)</p>
-        <p class="field-output">&pound;{{contract.rate}}</p>
-        <input type="number" ng-model="contract.rate" step="5" class="field-edit field-new" id="co-rate-{{$index}}" name="co-rate-{{$index}}">
+        <p class="field-label">Day rate (GBP) (Hover to view)</p>
+        <p class="field-output field--hidden">&pound;{{contract.rate}}</p>
+        <input type="number" ng-model="contract.rate" step="5" class="field-edit field-new field--hidden" id="co-rate-{{$index}}" name="co-rate-{{$index}}">
     </div>
 
 </fieldset>

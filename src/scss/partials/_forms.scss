@@ -20,6 +20,25 @@ fieldset {
   padding-left: 0;
 }
 
+input.field--hidden {
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    color: #ddd;
+  }
+}
+
+.field-output.field--hidden {
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
 .company-row {
   border-bottom: thin dotted #bbb;
   clear: both;

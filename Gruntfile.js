@@ -195,7 +195,7 @@ module.exports = function ( grunt ) {
 			},
 			configuration: {
 				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*.js', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
-				tasks: ['dev'],
+				tasks: ['dist'],
 				options: {
 					spawn: false
 				}
