@@ -109,6 +109,21 @@ module.exports = function ( grunt ) {
 			}
 		},
 
+		connect: {
+			dev: {
+				options: {
+					port: 9001,
+					base: 'src/'
+				}
+			},
+			dist: {
+				options: {
+					port: 9001,
+					base: 'dist/'
+				}
+			}
+		},
+
 		// COPY
 		copy: {
 			html: {
@@ -133,6 +148,12 @@ module.exports = function ( grunt ) {
 				cwd: 'src/',
 				dest: 'dist/',
 				src: 'images/**',
+				expand: true
+			},
+			favicons: {
+				cwd: 'src/',
+				dest: 'dist/',
+				src: '*.ico',
 				expand: true
 			},
 			partials: {
@@ -197,11 +218,8 @@ module.exports = function ( grunt ) {
 				livereload: true
 			},
 			configuration: {
-				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*.js', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
-				tasks: ['dist'],
-				options: {
-					spawn: false
-				}
+				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
+				tasks: ['dist']
 			}
 		}
 	});
@@ -214,6 +232,8 @@ module.exports = function ( grunt ) {
 
 	grunt.registerTask( 'dist', ['clean', 'build-dist'] );
 	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer:dist', 'copy', 'uglify'] );
+
+	grunt.registerTask( 'server', ['connect:dist', 'watch'] );
 
 	// default task - Production to prevent development code going live
 	grunt.registerTask( 'default', 'dev' );
