@@ -137,12 +137,6 @@ module.exports = function ( grunt ) {
 				dest: 'dist/',
 				src: 'partials/**',
 				expand: true
-			},
-			bower: {
-				cwd: 'src/',
-				dest: 'dist/',
-				src: 'bower_components/**',
-				expand: true
 			}
 		},
 
@@ -201,7 +195,7 @@ module.exports = function ( grunt ) {
 			},
 			configuration: {
 				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*.js', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
-				tasks: ['dev'],
+				tasks: ['dist'],
 				options: {
 					spawn: false
 				}
@@ -213,7 +207,7 @@ module.exports = function ( grunt ) {
 
 	// development build - run 'grunt dev'
 	grunt.registerTask( 'dev', ['clean', 'build-dev'] );
-	grunt.registerTask( 'build-dev', ['sass:dev', 'autoprefixer', 'copy', 'concat:js', 'jshint'] );
+	grunt.registerTask( 'build-dev', ['sass:dev', 'autoprefixer', 'concat:js', 'copy', 'jshint'] );
 
 	grunt.registerTask( 'dist', ['clean', 'build-dist'] );
 	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer', 'copy', 'uglify'] );

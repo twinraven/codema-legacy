@@ -1,4 +1,7 @@
-App.controller('CompanyController', ['$scope', '$routeParams', 'companiesService',
+App.controller('CompanyController', [
+    '$scope',
+    '$routeParams',
+    'companiesService',
     function($scope, $routeParams, companiesService) {
         $scope.company = companiesService.getCompany($routeParams.companyId);
 
