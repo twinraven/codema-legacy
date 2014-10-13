@@ -101,8 +101,11 @@ module.exports = function ( grunt ) {
 		},
 
 		autoprefixer: {
-			no_dest: {
-				src: 'dist/css/main.css' // globbing is also possible here
+			dev: {
+				src: 'src/css/main.css'
+			},
+			dist: {
+				src: 'dist/css/main.css'
 			}
 		},
 
@@ -148,7 +151,7 @@ module.exports = function ( grunt ) {
 
 			dev: {
 				files: {
-					'dist/css/main.css': 'src/scss/main.scss'
+					'src/css/main.css': 'src/scss/main.scss'
 				},
 				options: {
 					style: 'expanded',
@@ -207,10 +210,10 @@ module.exports = function ( grunt ) {
 
 	// development build - run 'grunt dev'
 	grunt.registerTask( 'dev', ['clean', 'build-dev'] );
-	grunt.registerTask( 'build-dev', ['sass:dev', 'autoprefixer', 'concat:js', 'copy', 'jshint'] );
+	grunt.registerTask( 'build-dev', ['sass:dev', 'autoprefixer:dev', 'concat:js', 'copy', 'jshint'] );
 
 	grunt.registerTask( 'dist', ['clean', 'build-dist'] );
-	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer', 'copy', 'uglify'] );
+	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer:dist', 'copy', 'uglify'] );
 
 	// default task - Production to prevent development code going live
 	grunt.registerTask( 'default', 'dev' );
