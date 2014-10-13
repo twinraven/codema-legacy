@@ -1,7 +1,11 @@
 /* Directives */
 
-App.directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-        elm.text(version);
-    };
-}]);
+App.directive('blur', [
+    function() {
+        return function (scope, elem, attrs) {
+            elem.bind('blur', function () {
+                scope.$apply(attrs.blur);
+            });
+        };
+    }
+]);

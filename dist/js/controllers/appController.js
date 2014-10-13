@@ -1,4 +1,8 @@
 /// App Controller
-App.controller('appController',
-    ['$rootScope', '$scope', function ($rootScope, $scope) {
-}]);
+App.controller('appController', [
+    '$rootScope',
+    '$scope',
+    function ($rootScope, $scope) {
+        //
+    }
+]);
