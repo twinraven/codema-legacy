@@ -10,7 +10,7 @@ App.service('companiesService', [
             demoCompaniesList = [
                 {
                     'name':'Company 1',
-                    'id':2,
+                    'id':1,
                     'address':'1 St. John\'s Lane, London, EC1M 4BL',
                     'notes':'Some notes here\n\nsome more notes',
                     'contactName':'Dave Smith',
