@@ -4,8 +4,8 @@
 // In this case it is a simple value service.
 App.service('companiesService', [
     '$location',
-    /*'dropstoreClient',*/
-    function($location) {
+    'dropstoreClient',
+    function($location, dropstoreClient) {
         var companiesList = [],
             demoCompaniesList = [
                 {
