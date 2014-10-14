@@ -166,17 +166,12 @@ module.exports = function ( grunt ) {
 
 		// SASS COMPILATION
 		sass: {
-			options: {
-				banner: '<%= banner.ecma %>'
-			},
-
 			dev: {
 				files: {
 					'src/css/main.css': 'src/scss/main.scss'
 				},
 				options: {
-					style: 'expanded',
-					lineNumbers: true
+					outputStyle: 'nested'
 				}
 			},
 			dist: {
@@ -184,7 +179,7 @@ module.exports = function ( grunt ) {
 					'dist/css/main.css': 'src/scss/main.scss'
 				},
 				options: {
-					style: 'compressed'
+					outputStyle: 'compressed'
 				}
 			}
 		},
