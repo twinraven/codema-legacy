@@ -24,7 +24,7 @@
             <p class="field-label">Contact name</p>
             <p class="field-output">{{company.contactName}}</p>
             <input type="text" ng-model="company.contactName" class="field-edit" id="co-contactName" name="co-contactName" ng-focus="showContacts = true" ng-blur="delayBlur()">
-            <ul class="company-contacts-list" ng-show="showContacts && company.contactName.length && filteredContacts.length">
+            <ul class="company-contacts-list" ng-show="showContacts && company.contactName.length && filteredContacts.length && mode === 'new'">
                 <li ng-repeat="contact in filteredContacts = (contacts | filter:company.contactName)"><a href="javascript:;" ng-href="" ng-click="selectContact(contact)">{{contact}}</a></li>
             </ul>
         </div>
