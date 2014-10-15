@@ -9,6 +9,7 @@ App.run([ "$rootScope", "$routeParams", "dbService", "companiesService", functio
     $rootScope.companies = companiesService.getCompanies();
     $rootScope.isLoading = false;
     $rootScope.isLoginStateInFlux = false;
+    $rootScope.offline = false;
     $rootScope.logout = dbService.dbLogout;
     $rootScope.login = dbService.dbLogin;
     $rootScope.dbActive = false;
@@ -21,28 +22,43 @@ App.run([ "$rootScope", "$routeParams", "dbService", "companiesService", functio
 } ]);
 
 App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
-    var companiesList = [], methods = {}, dbCompaniesList = null;
+    var companiesList = [], methods = {}, dbCompaniesRecord = null, lsCompaniesList = JSON.parse(window.localStorage.getItem("companiesList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified");
     methods.loadCompanyData = function loadCompanyData() {
-        dbCompaniesList = dbService.getDbCompaniesList();
-        if (navigator.onLine && dbCompaniesList) {
+        dbCompaniesRecord = dbService.getDbCompaniesRecord();
+        if (dbCompaniesRecord && !$rootScope.offline) {
             $timeout(function() {
-                companiesList = JSON.parse(dbCompaniesList.get("data"));
+                var dbCompaniesList = JSON.parse(dbCompaniesRecord.get("data")), dbLastModified = dbCompaniesRecord.get("lastModified");
+                if (offlineAmends && dbLastModified !== lsLastModified) {
+                    if (confirm("You've made some data changes offline: would you like to upload these now? This will overwrite your online data.\n\nClick 'OK' to use your local data;\nClick 'Cancel' to use the version stored online")) {
+                        companiesList = lsCompaniesList;
+                        methods.saveCompanyData();
+                    } else {
+                        companiesList = dbCompaniesList;
+                    }
+                    window.localStorage.setItem("offlineAmends", false);
+                } else {
+                    companiesList = dbCompaniesList;
+                }
             });
         } else {
-            var list = window.localStorage.getItem("companiesList");
-            if (Modernizr.localstorage && list) {
+            if (Modernizr.localstorage && lsCompaniesList) {
                 $timeout(function() {
-                    companiesList = JSON.parse(window.localStorage.getItem("companiesList"));
+                    companiesList = lsCompaniesList;
                 });
             }
         }
     };
     methods.saveCompanyData = function saveCompanyData() {
-        console.log("saving company data");
-        if (navigator.onLine && dbCompaniesList) {
-            dbCompaniesList.set("data", JSON.stringify(companiesList));
+        var now = new Date().toUTCString();
+        if (dbCompaniesRecord && !$rootScope.offline) {
+            dbCompaniesRecord.set("data", JSON.stringify(companiesList));
+            dbCompaniesRecord.set("lastModified", now);
         }
         window.localStorage.setItem("companiesList", JSON.stringify(companiesList));
+        window.localStorage.setItem("lastModified", now);
+        if ($rootScope.offline) {
+            window.localStorage.setItem("offlineAmends", true);
+        }
     };
     methods.addCompany = function addCompany(newCompany) {
         if (companiesList && companiesList.length) {
@@ -73,13 +89,19 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
         methods.getCompany(companyId).contracts.splice(contractId, 1);
     };
     $rootScope.$on("dbReady", methods.loadCompanyData);
+    if (!navigator.onLine) {
+        $timeout(function() {
+            $rootScope.offline = true;
+        });
+        methods.loadCompanyData();
+    }
     return methods;
 } ]);
 
 App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeout) {
     var methods = {}, dbCompaniesTable, dbCompanies = [], dbSettings = {
         key: "peo2jcopy5i7qtq"
-    }, dbClient = new Dropbox.Client(dbSettings), dbClientUrl = window.location.href, dbTable = null, dbCompaniesList = null, dbCompaniesAry = null, dbLoginStatus = false;
+    }, dbClient = new Dropbox.Client(dbSettings), dbClientUrl = window.location.href, dbTable = null, dbCompaniesRecord = null, dbCompaniesAry = null, dbLoginStatus = false;
     function updateAuthenticationStatus(err, dbClient) {
         if (dbClient && dbClient.isAuthenticated()) {
             console.log("auth");
@@ -107,19 +129,19 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
             }
             dbTable = dbDatastore.getTable("allData");
             dbCompaniesAry = dbTable.query();
-            setDbCompaniesList();
+            setDbCompaniesRecord();
             $rootScope.$broadcast("dbReady");
             $rootScope.isLoading = false;
         });
     }
-    function setDbCompaniesList() {
+    function setDbCompaniesRecord() {
         if (!dbCompaniesAry.length) {
-            dbCompaniesList = dbTable.insert({
+            dbCompaniesRecord = dbTable.insert({
                 data: JSON.stringify($rootScope.companiesList),
                 created: new Date()
             });
         } else {
-            dbCompaniesList = dbCompaniesAry[0];
+            dbCompaniesRecord = dbCompaniesAry[0];
         }
     }
     function init() {
@@ -147,8 +169,8 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
     methods.getDbLoginStatus = function getDbLoginStatus() {
         return dbLoginStatus;
     };
-    methods.getDbCompaniesList = function getDbCompaniesList() {
-        return dbCompaniesList;
+    methods.getDbCompaniesRecord = function getDbCompaniesRecord() {
+        return dbCompaniesRecord;
     };
     methods.dbLogout = function dropboxLogout() {
         console.log("now");
