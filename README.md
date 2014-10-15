@@ -23,17 +23,17 @@ View companies organised by your contact for them. Especially helpful for recrui
 
 #### Save data
 
-All data is saved in local storage, on the user's machine. This is quite brittle, and not ideal, but makes for a working application right now. The very next task on this project is to save this data in Dropbox (or potentially Google Drive, whichever is the easier to work with initially) -- see below.
+All data is saved in local storage, on the user's machine. If the user authenticates with Dropbox, then their data is synced with a [Dropbox Datastore](https://www.dropbox.com/developers/datastore) - meaning they can use the app anywhere & control the same data.
 
 -----
 
 ### To do list:
 
-* Save data in user's own Dropbox. (Potentially use Google Drive instead, or both at a later date)
+* Handle switching from oneline->offline, or vice versa -- should fall back/scale up gracefully with Local Storage
+* Auto-complete the contact field, making it easy to re-use contacts (without errors)
 * Add 'maps' page, plotting all companies on a map
 * POSSIBLY: auto-lookup address, using the [Google Maps lat-long lookup](https://dexvelopers.google.com/maps/documentation/geocoding/). The latlong would be requested when an address is added, or amended, and would be stored in the company JSON data. (Better to save a latlong than use a full address lookup, for every company? Probably quite slow)
 
 -----
 
-Built using [Angular](https://github.com/angular/angular.js), [SASS](https://github.com/sass/sass), [Underscore](https://github.com/jashkenas/underscore) & [Bower](https://github.com/bower/bower).
-
+Built using [Angular](https://github.com/angular/angular.js), [SASS](https://github.com/sass/sass), [Underscore](https://github.com/jashkenas/underscore), [Bower](https://github.com/bower/bower) & [Dropbox Datastore](https://www.dropbox.com/developers/datastore).
