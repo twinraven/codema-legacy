@@ -13,7 +13,7 @@ App.service('dbService', [
             dbClient = new Dropbox.Client(dbSettings),
             dbClientUrl = window.location.href,
             dbTable = null,
-            dbCompaniesList = null,
+            dbCompaniesRecord = null,
             dbCompaniesAry = null,
             dbLoginStatus = false;
 
@@ -49,25 +49,25 @@ App.service('dbService', [
                 dbTable = dbDatastore.getTable( 'allData' );
                 dbCompaniesAry = dbTable.query();
 
-                setDbCompaniesList();
+                setDbCompaniesRecord();
 
                 $rootScope.$broadcast('dbReady');
                 $rootScope.isLoading = false;
 
-                //dbCompaniesList.get('data');
-                //dbCompaniesList.set('data', JSON.stringify(companiesList));
-                //dbCompaniesList.deleteRecord();
+                //dbCompaniesRecord.get('data');
+                //dbCompaniesRecord.set('data', JSON.stringify(companiesList));
+                //dbCompaniesRecord.deleteRecord();
             });
         }
 
-        function setDbCompaniesList() {
+        function setDbCompaniesRecord() {
             if (!dbCompaniesAry.length) {
-                dbCompaniesList = dbTable.insert({
+                dbCompaniesRecord = dbTable.insert({
                     data: JSON.stringify($rootScope.companiesList),
                     created: new Date()
                 });
             } else {
-                dbCompaniesList = dbCompaniesAry[0];
+                dbCompaniesRecord = dbCompaniesAry[0];
             }
         }
 
@@ -103,8 +103,8 @@ App.service('dbService', [
             return dbLoginStatus;
         };
 
-        methods.getDbCompaniesList = function getDbCompaniesList() {
-            return dbCompaniesList;
+        methods.getDbCompaniesRecord = function getDbCompaniesRecord() {
+            return dbCompaniesRecord;
         };
 
         methods.dbLogout = function dropboxLogout() {
