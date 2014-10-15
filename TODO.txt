@@ -1,7 +1,6 @@
 TODO:
 
 - allow non-dropbox users to use the app (first visit: modal window: 'use dropbox', 'use local storage', 'ask me next time')
-- autocomplete for contact details fields on add/edit form
 
 
 
