@@ -1,5 +1,11 @@
-App.controller('AddController', ['$scope', 'companiesService',
-    function($scope, companiesService) {
+App.controller('AddController', [
+    '$rootScope',
+    '$scope',
+    'companiesService',
+    function($rootScope, $scope, companiesService) {
+        $rootScope.page = 'add';
+        $scope.mode = 'new';
+        $scope.isEditing = true;
 
         $scope.company = {};
         $scope.company.contracts = [];

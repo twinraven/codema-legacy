@@ -1,75 +1,47 @@
-/* Services */
+/* Companies Service */
 
-// Demonstrate how to register services
-// In this case it is a simple value service.
 App.service('companiesService', [
+    '$rootScope',
     '$location',
-    /*'dropstoreClient',*/
-    function($location) {
+    '$timeout',
+    'dbService',
+    function($rootScope, $location, $timeout, dbService) {
         var companiesList = [],
-            demoCompaniesList = [
-                {
-                    'name':'Company 1',
-                    'id':1,
-                    'address':'1 St. John\'s Lane, London, EC1M 4BL',
-                    'notes':'Some notes here\n\nsome more notes',
-                    'contactName':'Dave Smith',
-                    'contactEmail':'dave@example.com',
-                    'contracts':[
-                        {'startDate':'2012-12-12','endDate':'2013-02-01','renewals':2,'rate':10,'$$hashKey':'01J'},
-                        {'startDate':'2013-06-10','endDate':'2013-08-12','renewals':0,'rate':10,'$$hashKey':'01K'}
-                    ]
-                },
-                {
-                    'name':'Company 2',
-                    'id':2,
-                    'address':'1 St. John\'s Lane, London, EC1M 4BL',
-                    'notes':'Some notes here\n\nsome more notes',
-                    'contactName':'Rob Ford',
-                    'contactEmail':'rob@example.com',
-                    'contracts':[]
-                }
-            ],
             methods = {},
-            dbCompaniesTable,
-            dbCompanies = [];
+            dbCompaniesList = null;
 
+        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        /*dropstoreClient.create({key: 'peo2jcopy5i7qtq'})
-            .authenticate({interactive: true})
-            .then(function(datastoreManager){
-                console.log('completed authentication');
-                return datastoreManager.openOrCreateDatastore('codemaData');
-            })
-            .then(function(datastore){
-                dbCompaniesTable = datastore.getTable('companies');
-                dbCompanies = companiesTable.query();
-            });
-    */
+        methods.loadCompanyData = function loadCompanyData() {
+            dbCompaniesList = dbService.getDbCompaniesList()
 
+            if (navigator.onLine && dbCompaniesList) {
+                $timeout(function() {
+                    companiesList = JSON.parse(dbCompaniesList.get('data'));
+                });
 
-        methods.loadCompanyData = function() {
-            //if (!navigator.onLine) {
-            var list = window.localStorage.getItem('companiesList');
-            if (Modernizr.localstorage && list) {
-                companiesList = JSON.parse(window.localStorage.getItem('companiesList'));
-            }
+            } else {
+                var list = window.localStorage.getItem('companiesList');
 
-            if (companiesList.length === 0) {
-                companiesList = demoCompaniesList;
+                if (Modernizr.localstorage && list) {
+                    $timeout(function() {
+                        companiesList = JSON.parse(window.localStorage.getItem('companiesList'));
+                    });
+                }
             }
         };
 
-        methods.saveCompanyData = function() {
+        methods.saveCompanyData = function saveCompanyData() {
+            console.log('saving company data');
             // save to web-based resource first
-            if (navigator.onLine) {
-                //
+            if (navigator.onLine && dbCompaniesList) {
+                dbCompaniesList.set('data', JSON.stringify(companiesList));
             }
 
             window.localStorage.setItem('companiesList', JSON.stringify(companiesList));
         };
 
-        methods.addCompany = function(newCompany) {
+        methods.addCompany = function addCompany(newCompany) {
             if (companiesList && companiesList.length) {
                 newCompany.id = companiesList[companiesList.length-1].id + 1;
             } else {
@@ -80,11 +52,11 @@ App.service('companiesService', [
             methods.saveCompanyData();
         };
 
-        methods.getCompanies = function(){
+        methods.getCompanies = function getCompanies(){
             return companiesList;
         };
 
-        methods.getCompany = function(id){
+        methods.getCompany = function getCompany(id){
             id = parseInt(id, 10);
 
             return _.find(companiesList, function(co) {
@@ -92,7 +64,7 @@ App.service('companiesService', [
             });
         };
 
-        methods.removeCompany = function(company) {
+        methods.removeCompany = function removeCompany(company) {
             if (company) {
                 companiesList = _.without(companiesList, company);
                 // redirect to homepage
@@ -102,11 +74,15 @@ App.service('companiesService', [
             methods.saveCompanyData();
         };
 
-        methods.removeContract = function(companyId, contractId) {
+        methods.removeContract = function removeContract(companyId, contractId) {
             methods.getCompany(companyId).contracts.splice(contractId,1);
         };
 
-        methods.loadCompanyData();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        $rootScope.$on('dbReady', methods.loadCompanyData);
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         return methods;
     }

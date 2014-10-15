@@ -109,6 +109,21 @@ module.exports = function ( grunt ) {
 			}
 		},
 
+		connect: {
+			dev: {
+				options: {
+					port: 9001,
+					base: 'src/'
+				}
+			},
+			dist: {
+				options: {
+					port: 9001,
+					base: 'dist/'
+				}
+			}
+		},
+
 		// COPY
 		copy: {
 			html: {
@@ -135,6 +150,12 @@ module.exports = function ( grunt ) {
 				src: 'images/**',
 				expand: true
 			},
+			favicons: {
+				cwd: 'src/',
+				dest: 'dist/',
+				src: '*.ico',
+				expand: true
+			},
 			partials: {
 				cwd: 'src/',
 				dest: 'dist/',
@@ -145,17 +166,12 @@ module.exports = function ( grunt ) {
 
 		// SASS COMPILATION
 		sass: {
-			options: {
-				banner: '<%= banner.ecma %>'
-			},
-
 			dev: {
 				files: {
 					'src/css/main.css': 'src/scss/main.scss'
 				},
 				options: {
-					style: 'expanded',
-					lineNumbers: true
+					outputStyle: 'nested'
 				}
 			},
 			dist: {
@@ -163,7 +179,7 @@ module.exports = function ( grunt ) {
 					'dist/css/main.css': 'src/scss/main.scss'
 				},
 				options: {
-					style: 'compressed'
+					outputStyle: 'compressed'
 				}
 			}
 		},
@@ -182,7 +198,10 @@ module.exports = function ( grunt ) {
 		// SCRIPT MINIFICATION
 		uglify: {
 			options: {
-				banner: '<%= banner.ecma %>'
+				banner: '<%= banner.ecma %>',
+				beautify: true,
+				compress: false,
+				mangle: false
 			},
 			js: {
 				files: {
@@ -197,11 +216,8 @@ module.exports = function ( grunt ) {
 				livereload: true
 			},
 			configuration: {
-				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*.js', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
-				tasks: ['dist'],
-				options: {
-					spawn: false
-				}
+				files: ['Gruntfile.js', 'src/images/**', 'src/js/**/*', 'src/scss/**/*.{scss,sass}', 'src/**/*.html'],
+				tasks: ['dist']
 			}
 		}
 	});
@@ -214,6 +230,8 @@ module.exports = function ( grunt ) {
 
 	grunt.registerTask( 'dist', ['clean', 'build-dist'] );
 	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer:dist', 'copy', 'uglify'] );
+
+	grunt.registerTask( 'server', ['connect:dist', 'watch'] );
 
 	// default task - Production to prevent development code going live
 	grunt.registerTask( 'default', 'dev' );

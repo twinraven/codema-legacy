@@ -1,0 +1,43 @@
+.db {
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px 0 0 0;
+    bottom: 0;
+    color: #888;
+    @include font-size(14);
+    font-family: 'Arvo Bold', sans-serif;
+    padding: 10px 16px 10px 20px;
+    position: fixed;
+    right: 0;
+
+    a {
+        border-bottom: none;
+        color: #888;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.db__status {
+    margin-left: 2px;
+    position: relative;
+    vertical-align: middle;
+
+    &.db__status--active {
+        color: #00aa00;
+    }
+
+    &.is-loading {
+        background: url(../images/loading.gif) no-repeat center center !important;
+        background-size: 20px 20px;
+        display: inline-block;
+        height: 1.125rem;
+        padding: 0 !important;
+        width: 1.25rem;
+
+        &:before {
+            display: none;
+        }
+    }
+}

@@ -36,7 +36,10 @@ nav {
     text-decoration: none;
 
     &:hover,
-    &:focus {
+    &:focus,
+    .page-home &.item-home,
+    .page-contacts &.item-contacts,
+    .page-add &.item-add {
       color: #888;
     }
   }
@@ -47,19 +50,23 @@ nav {
 }
 
 .logo {
-  background: url(../images/logo.png) no-repeat center center;
-  background-size: 50% auto;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
   display: block;
-  height: 55px;
   margin: 0 auto;
   overflow: hidden;
-  padding: 7% 0;
+  padding: 0 25px;
   position: relative;
   width: 100%;
 
   h1 {
-    margin: 0;
+    background: url(../images/logo.png) no-repeat center center;
+    background-size: 100% auto;
+    display: block;
+    height: 200px;
+    margin: 0 auto;
+    max-width: 550px;
+    width: 80%;
   }
 
   span {

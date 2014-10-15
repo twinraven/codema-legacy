@@ -1,6 +1,295 @@
 /**
- *   - v0.1.0 - 2014-10-13
+ *   - v0.1.0 - 2014-10-15
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
-var App=angular.module("Codema",["ngRoute"]);App.service("companiesService",["$location",function(a){var b=[],c=[{name:"Company 1",id:1,address:"1 St. John's Lane, London, EC1M 4BL",notes:"Some notes here\n\nsome more notes",contactName:"Dave Smith",contactEmail:"dave@example.com",contracts:[{startDate:"2012-12-12",endDate:"2013-02-01",renewals:2,rate:10,$$hashKey:"01J"},{startDate:"2013-06-10",endDate:"2013-08-12",renewals:0,rate:10,$$hashKey:"01K"}]},{name:"Company 2",id:2,address:"1 St. John's Lane, London, EC1M 4BL",notes:"Some notes here\n\nsome more notes",contactName:"Rob Ford",contactEmail:"rob@example.com",contracts:[]}],d={};return d.loadCompanyData=function(){var a=window.localStorage.getItem("companiesList");Modernizr.localstorage&&a&&(b=JSON.parse(window.localStorage.getItem("companiesList"))),0===b.length&&(b=c)},d.saveCompanyData=function(){navigator.onLine,window.localStorage.setItem("companiesList",JSON.stringify(b))},d.addCompany=function(a){a.id=b&&b.length?b[b.length-1].id+1:1,b.push(a),d.saveCompanyData()},d.getCompanies=function(){return b},d.getCompany=function(a){return a=parseInt(a,10),_.find(b,function(b){return _.isEqual(b.id,a)})},d.removeCompany=function(c){c&&(b=_.without(b,c),a.path("/home")),d.saveCompanyData()},d.removeContract=function(a,b){d.getCompany(a).contracts.splice(b,1)},d.loadCompanyData(),d}]),App.controller("AddController",["$scope","companiesService",function(a,b){a.company={},a.company.contracts=[],a.saveCompany=function(){b.addCompany(a.company)},a.addContract=function(){a.company.contracts.push({})},a.removeContract=function(b){confirm("Are you sure?")&&a.company.contracts.splice(b,1)}}]),App.controller("appController",["$rootScope","$scope",function(){}]),App.controller("CompanyController",["$scope","$routeParams","companiesService",function(a,b,c){a.company=c.getCompany(b.companyId),a.editing=b.editing,a.addContract=function(){a.company.contracts.push({})},a.removeContract=function(b){confirm("Are you sure?")&&c.removeContract(a.company.id,b)},a.deleteCompany=function(){confirm("Are you sure?")&&c.removeCompany(a.company)},a.$watch("$scope.company",c.saveCompanyData,!0)}]),App.controller("ContactController",["$scope","companiesService",function(a,b){a.companies=b.getCompanies(),a.companiesWithContact=_.filter(a.companies,function(a){return a.contactName}),a.companiesNotDisplayed=a.companies.length-a.companiesWithContact.length,a.hasContactsWithoutContact=!!a.companiesNotDisplayed,1===a.companiesNotDisplayed?(a.companiesSuffix="y",a.companiesDescriptor="is"):(a.companiesSuffix="ies",a.companiesDescriptor="are"),a.contacts=_.uniq(_.pluck(a.companiesWithContact,"contactName")),a.companiesByContact=_.groupBy(a.companiesWithContact,function(a){return a.contactName})}]),App.controller("HomeController",["$scope","companiesService",function(a,b){a.companies=b.getCompanies()}]),App.directive("blur",[function(){return function(a,b,c){b.bind("blur",function(){a.$apply(c.blur)})}}]),App.config(["$routeProvider",function(a){a.when("/home",{templateUrl:"partials/home.html",controller:"HomeController"}),a.when("/add",{templateUrl:"partials/add.html",controller:"AddController"}),a.when("/company/:companyId",{templateUrl:"partials/company.html",controller:"CompanyController"}),a.when("/contacts",{templateUrl:"partials/contact.html",controller:"ContactController"}),a.otherwise({redirectTo:"/home"})}]);
+var App = angular.module("Codema", [ "ngRoute" ]);
+
+App.run([ "$rootScope", "$routeParams", "dbService", "companiesService", function($rootScope, $routeParams, dbService, companiesService) {
+    $rootScope.companies = companiesService.getCompanies();
+    $rootScope.isLoading = false;
+    $rootScope.isLoginStateInFlux = false;
+    $rootScope.logout = dbService.dbLogout;
+    $rootScope.login = dbService.dbLogin;
+    $rootScope.dbActive = false;
+    $rootScope.$watch(dbService.getDbLoginStatus, function(newVal, oldVal) {
+        $rootScope.dbActive = newVal;
+    });
+    $rootScope.$watch(companiesService.getCompanies, function(newVal) {
+        $rootScope.companies = newVal;
+    }, true);
+} ]);
+
+App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
+    var companiesList = [], methods = {}, dbCompaniesList = null;
+    methods.loadCompanyData = function loadCompanyData() {
+        dbCompaniesList = dbService.getDbCompaniesList();
+        if (navigator.onLine && dbCompaniesList) {
+            $timeout(function() {
+                companiesList = JSON.parse(dbCompaniesList.get("data"));
+            });
+        } else {
+            var list = window.localStorage.getItem("companiesList");
+            if (Modernizr.localstorage && list) {
+                $timeout(function() {
+                    companiesList = JSON.parse(window.localStorage.getItem("companiesList"));
+                });
+            }
+        }
+    };
+    methods.saveCompanyData = function saveCompanyData() {
+        console.log("saving company data");
+        if (navigator.onLine && dbCompaniesList) {
+            dbCompaniesList.set("data", JSON.stringify(companiesList));
+        }
+        window.localStorage.setItem("companiesList", JSON.stringify(companiesList));
+    };
+    methods.addCompany = function addCompany(newCompany) {
+        if (companiesList && companiesList.length) {
+            newCompany.id = companiesList[companiesList.length - 1].id + 1;
+        } else {
+            newCompany.id = 1;
+        }
+        companiesList.push(newCompany);
+        methods.saveCompanyData();
+    };
+    methods.getCompanies = function getCompanies() {
+        return companiesList;
+    };
+    methods.getCompany = function getCompany(id) {
+        id = parseInt(id, 10);
+        return _.find(companiesList, function(co) {
+            return _.isEqual(co.id, id);
+        });
+    };
+    methods.removeCompany = function removeCompany(company) {
+        if (company) {
+            companiesList = _.without(companiesList, company);
+            $location.path("/home");
+        }
+        methods.saveCompanyData();
+    };
+    methods.removeContract = function removeContract(companyId, contractId) {
+        methods.getCompany(companyId).contracts.splice(contractId, 1);
+    };
+    $rootScope.$on("dbReady", methods.loadCompanyData);
+    return methods;
+} ]);
+
+App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeout) {
+    var methods = {}, dbCompaniesTable, dbCompanies = [], dbSettings = {
+        key: "peo2jcopy5i7qtq"
+    }, dbClient = new Dropbox.Client(dbSettings), dbClientUrl = window.location.href, dbTable = null, dbCompaniesList = null, dbCompaniesAry = null, dbLoginStatus = false;
+    function updateAuthenticationStatus(err, dbClient) {
+        if (dbClient && dbClient.isAuthenticated()) {
+            console.log("auth");
+            $timeout(function() {
+                dbLoginStatus = true;
+                $rootScope.isLoginStateInFlux = false;
+            });
+            dbIsLoggedIn();
+        } else {
+            console.log("not auth");
+            $timeout(function() {
+                dbLoginStatus = false;
+                $rootScope.isLoading = false;
+                $rootScope.isLoginStateInFlux = false;
+            });
+            $rootScope.$broadcast("dbReady");
+        }
+    }
+    function dbIsLoggedIn() {
+        var datastoreManager = new Dropbox.Datastore.DatastoreManager(dbClient);
+        datastoreManager.openDefaultDatastore(function(error, dbDatastore) {
+            if (error) {
+                console.log("Datastore error: " + error);
+                return;
+            }
+            dbTable = dbDatastore.getTable("allData");
+            dbCompaniesAry = dbTable.query();
+            setDbCompaniesList();
+            $rootScope.$broadcast("dbReady");
+            $rootScope.isLoading = false;
+        });
+    }
+    function setDbCompaniesList() {
+        if (!dbCompaniesAry.length) {
+            dbCompaniesList = dbTable.insert({
+                data: JSON.stringify($rootScope.companiesList),
+                created: new Date()
+            });
+        } else {
+            dbCompaniesList = dbCompaniesAry[0];
+        }
+    }
+    function init() {
+        $timeout(function() {
+            $rootScope.isLoginStateInFlux = true;
+        });
+        if (dbClientUrl.indexOf("index.html") !== -1) {
+            dbClientUrl = dbClientUrl.split("index.html")[0];
+        }
+        if (dbClientUrl.indexOf("#/") !== -1) {
+            dbClientUrl = dbClientUrl.split("#/")[0];
+        }
+        dbClient.authDriver(new Dropbox.AuthDriver.Popup({
+            receiverUrl: dbClientUrl + "oauth_receiver.html"
+        }));
+        if (navigator.onLine) {
+            $timeout(function() {
+                $rootScope.isLoading = true;
+            });
+            dbClient.authenticate(updateAuthenticationStatus);
+        } else {
+            updateAuthenticationStatus();
+        }
+    }
+    methods.getDbLoginStatus = function getDbLoginStatus() {
+        return dbLoginStatus;
+    };
+    methods.getDbCompaniesList = function getDbCompaniesList() {
+        return dbCompaniesList;
+    };
+    methods.dbLogout = function dropboxLogout() {
+        console.log("now");
+        $timeout(function() {
+            $rootScope.isLoginStateInFlux = true;
+        });
+        if (dbClient.isAuthenticated()) {
+            dbClient.signOut(null, function() {
+                $timeout(function() {
+                    dbLoginStatus = false;
+                    $rootScope.isLoginStateInFlux = false;
+                });
+            });
+        }
+    };
+    methods.dbLogin = function dropboxLogout() {
+        if (dbClient.authError) {
+            dbClient.reset();
+        }
+        $rootScope.isLoginStateInFlux = true;
+        dbClient.authenticate(updateAuthenticationStatus);
+    };
+    init();
+    return methods;
+} ]);
+
+App.controller("AddController", [ "$rootScope", "$scope", "companiesService", function($rootScope, $scope, companiesService) {
+    $rootScope.page = "add";
+    $scope.mode = "new";
+    $scope.isEditing = true;
+    $scope.company = {};
+    $scope.company.contracts = [];
+    $scope.saveCompany = function() {
+        companiesService.addCompany($scope.company);
+    };
+    $scope.addContract = function() {
+        $scope.company.contracts.push({});
+    };
+    $scope.removeContract = function($index) {
+        if (confirm("Are you sure?")) {
+            $scope.company.contracts.splice($index, 1);
+        }
+    };
+} ]);
+
+App.controller("appController", [ "$rootScope", "$scope", function($rootScope, $scope) {} ]);
+
+App.controller("CompanyController", [ "$rootScope", "$scope", "$routeParams", "companiesService", function($rootScope, $scope, $routeParams, companiesService) {
+    $rootScope.page = "company";
+    if ($routeParams.companyId) {
+        $scope.mode = "show";
+    }
+    if ($routeParams.editing) {
+        $scope.isEditing = true;
+    }
+    $scope.company = companiesService.getCompany($routeParams.companyId);
+    $scope.$watch(companiesService.getCompanies, function(newVal, oldVal) {
+        $scope.company = companiesService.getCompany($routeParams.companyId);
+    }, true);
+    $scope.addContract = function() {
+        $scope.company.contracts.push({});
+    };
+    $scope.removeContract = function(contractId) {
+        if (confirm("Are you sure?")) {
+            companiesService.removeContract($scope.company.id, contractId);
+        }
+    };
+    $scope.deleteCompany = function() {
+        if (confirm("Are you sure?")) {
+            companiesService.removeCompany($scope.company);
+        }
+    };
+    $scope.$watch("$scope.company", companiesService.saveCompanyData, true);
+} ]);
+
+App.controller("ContactController", [ "$rootScope", "$scope", "companiesService", function($rootScope, $scope, companiesService) {
+    $rootScope.page = "contacts";
+    $rootScope.$watch(companiesService.getCompanies, setContactData, true);
+    function setContactData() {
+        $scope.companiesWithContact = _.filter($rootScope.companies, function(obj) {
+            return obj.contactName;
+        });
+        $scope.companiesNotDisplayed = $rootScope.companies.length - $scope.companiesWithContact.length;
+        $scope.hasContactsWithoutContact = !!$scope.companiesNotDisplayed;
+        if ($scope.companiesNotDisplayed === 1) {
+            $scope.companiesSuffix = "y";
+            $scope.companiesDescriptor = "is";
+        } else {
+            $scope.companiesSuffix = "ies";
+            $scope.companiesDescriptor = "are";
+        }
+        $scope.contacts = _.uniq(_.pluck($scope.companiesWithContact, "contactName"));
+        $scope.companiesByContact = _.groupBy($scope.companiesWithContact, function(obj) {
+            return obj.contactName;
+        });
+    }
+} ]);
+
+App.controller("HomeController", [ "$rootScope", "$scope", function($rootScope, $scope) {
+    $rootScope.page = "home";
+} ]);
+
+App.directive("dbControls", function() {
+    return {
+        restrict: "E",
+        replace: "true",
+        scope: true,
+        templateUrl: "../partials/db-controls.html"
+    };
+});
+
+App.directive("editBar", function() {
+    return {
+        restrict: "E",
+        replace: "true",
+        scope: true,
+        templateUrl: "../partials/edit-bar.html",
+        link: function(scope, elem, attrs) {
+            scope.pos = attrs.pos;
+        }
+    };
+});
+
+App.config([ "$routeProvider", function($routeProvider) {
+    $routeProvider.when("/home", {
+        templateUrl: "partials/home.html",
+        controller: "HomeController"
+    });
+    $routeProvider.when("/company/add", {
+        templateUrl: "partials/company.html",
+        controller: "AddController"
+    });
+    $routeProvider.when("/company/:companyId", {
+        templateUrl: "partials/company.html",
+        controller: "CompanyController"
+    });
+    $routeProvider.when("/contacts", {
+        templateUrl: "partials/contact.html",
+        controller: "ContactController"
+    });
+    $routeProvider.otherwise({
+        redirectTo: "/home"
+    });
+} ]);
