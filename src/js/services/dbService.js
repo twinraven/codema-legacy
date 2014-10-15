@@ -62,6 +62,7 @@ App.service('dbService', [
 
         function setDbCompaniesRecord() {
             if (!dbCompaniesAry.length) {
+                var list = $rootScope.companiesList || [];
                 dbCompaniesRecord = dbTable.insert({
                     data: JSON.stringify($rootScope.companiesList),
                     created: new Date()
