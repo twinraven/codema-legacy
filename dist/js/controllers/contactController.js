@@ -10,9 +10,8 @@ App.controller('ContactController', [
 
 
         function setContactData() {
-            $scope.companiesWithContact = _.filter($rootScope.companies, function(obj) {
-                return obj.contactName;
-            });
+            $scope.companiesWithContact = companiesService.getCompaniesWithContact();
+            $scope.contacts = companiesService.getContacts();
 
             // will be 0, or less
             $scope.companiesNotDisplayed = $rootScope.companies.length - $scope.companiesWithContact.length;
@@ -28,8 +27,6 @@ App.controller('ContactController', [
                 $scope.companiesSuffix = 'ies';
                 $scope.companiesDescriptor = 'are';
             }
-
-            $scope.contacts = _.uniq(_.pluck($scope.companiesWithContact, 'contactName'));
 
             $scope.companiesByContact = _.groupBy($scope.companiesWithContact, function(obj) {
                 return obj.contactName;

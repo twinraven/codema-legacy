@@ -2,8 +2,9 @@ App.controller('CompanyController', [
     '$rootScope',
     '$scope',
     '$routeParams',
+    '$timeout',
     'companiesService',
-    function($rootScope, $scope, $routeParams, companiesService) {
+    function($rootScope, $scope, $routeParams, $timeout, companiesService) {
         $rootScope.page = 'company';
 
         if ($routeParams.companyId) {
@@ -13,12 +14,12 @@ App.controller('CompanyController', [
             $scope.isEditing = true;
         }
 
-        $scope.company = companiesService.getCompany($routeParams.companyId);
         $scope.$watch(
             companiesService.getCompanies,
 
             function(newVal, oldVal) {
                 $scope.company = companiesService.getCompany($routeParams.companyId);
+                $scope.contacts = companiesService.getContacts();
             }, true);
 
 
@@ -36,6 +37,17 @@ App.controller('CompanyController', [
             if (confirm('Are you sure?')) {
                 companiesService.removeCompany($scope.company);
             }
+        };
+
+        $scope.selectContact = function(contact) {
+            $scope.company.contactName = contact;
+            $scope.showContacts = false;
+        }
+
+        $scope.delayBlur = function() {
+            $timeout(function() {
+                $scope.showContacts = false;
+            }, 250);
         };
 
         $scope.$watch('$scope.company', companiesService.saveCompanyData, true);

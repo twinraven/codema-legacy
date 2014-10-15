@@ -88,6 +88,14 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
     methods.removeContract = function removeContract(companyId, contractId) {
         methods.getCompany(companyId).contracts.splice(contractId, 1);
     };
+    methods.getCompaniesWithContact = function getCompaniesWithContact() {
+        return _.filter(companiesList, function(obj) {
+            return obj.contactName;
+        });
+    };
+    methods.getContacts = function getContacts() {
+        return _.uniq(_.pluck(methods.getCompaniesWithContact(), "contactName"));
+    };
     $rootScope.$on("dbReady", methods.loadCompanyData);
     if (!navigator.onLine) {
         $timeout(function() {
@@ -197,12 +205,15 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
     return methods;
 } ]);
 
-App.controller("AddController", [ "$rootScope", "$scope", "companiesService", function($rootScope, $scope, companiesService) {
+App.controller("AddController", [ "$rootScope", "$scope", "$timeout", "companiesService", function($rootScope, $scope, $timeout, companiesService) {
     $rootScope.page = "add";
     $scope.mode = "new";
     $scope.isEditing = true;
     $scope.company = {};
     $scope.company.contracts = [];
+    $scope.$watch(companiesService.getCompanies, function(newVal, oldVal) {
+        $scope.contacts = companiesService.getContacts();
+    }, true);
     $scope.saveCompany = function() {
         companiesService.addCompany($scope.company);
     };
@@ -214,11 +225,20 @@ App.controller("AddController", [ "$rootScope", "$scope", "companiesService", fu
             $scope.company.contracts.splice($index, 1);
         }
     };
+    $scope.selectContact = function(contact) {
+        $scope.company.contactName = contact;
+        $scope.showContacts = false;
+    };
+    $scope.delayBlur = function() {
+        $timeout(function() {
+            $scope.showContacts = false;
+        }, 250);
+    };
 } ]);
 
 App.controller("appController", [ "$rootScope", "$scope", function($rootScope, $scope) {} ]);
 
-App.controller("CompanyController", [ "$rootScope", "$scope", "$routeParams", "companiesService", function($rootScope, $scope, $routeParams, companiesService) {
+App.controller("CompanyController", [ "$rootScope", "$scope", "$routeParams", "$timeout", "companiesService", function($rootScope, $scope, $routeParams, $timeout, companiesService) {
     $rootScope.page = "company";
     if ($routeParams.companyId) {
         $scope.mode = "show";
@@ -226,9 +246,9 @@ App.controller("CompanyController", [ "$rootScope", "$scope", "$routeParams", "c
     if ($routeParams.editing) {
         $scope.isEditing = true;
     }
-    $scope.company = companiesService.getCompany($routeParams.companyId);
     $scope.$watch(companiesService.getCompanies, function(newVal, oldVal) {
         $scope.company = companiesService.getCompany($routeParams.companyId);
+        $scope.contacts = companiesService.getContacts();
     }, true);
     $scope.addContract = function() {
         $scope.company.contracts.push({});
@@ -243,6 +263,15 @@ App.controller("CompanyController", [ "$rootScope", "$scope", "$routeParams", "c
             companiesService.removeCompany($scope.company);
         }
     };
+    $scope.selectContact = function(contact) {
+        $scope.company.contactName = contact;
+        $scope.showContacts = false;
+    };
+    $scope.delayBlur = function() {
+        $timeout(function() {
+            $scope.showContacts = false;
+        }, 250);
+    };
     $scope.$watch("$scope.company", companiesService.saveCompanyData, true);
 } ]);
 
@@ -250,9 +279,8 @@ App.controller("ContactController", [ "$rootScope", "$scope", "companiesService"
     $rootScope.page = "contacts";
     $rootScope.$watch(companiesService.getCompanies, setContactData, true);
     function setContactData() {
-        $scope.companiesWithContact = _.filter($rootScope.companies, function(obj) {
-            return obj.contactName;
-        });
+        $scope.companiesWithContact = companiesService.getCompaniesWithContact();
+        $scope.contacts = companiesService.getContacts();
         $scope.companiesNotDisplayed = $rootScope.companies.length - $scope.companiesWithContact.length;
         $scope.hasContactsWithoutContact = !!$scope.companiesNotDisplayed;
         if ($scope.companiesNotDisplayed === 1) {
@@ -262,7 +290,6 @@ App.controller("ContactController", [ "$rootScope", "$scope", "companiesService"
             $scope.companiesSuffix = "ies";
             $scope.companiesDescriptor = "are";
         }
-        $scope.contacts = _.uniq(_.pluck($scope.companiesWithContact, "contactName"));
         $scope.companiesByContact = _.groupBy($scope.companiesWithContact, function(obj) {
             return obj.contactName;
         });

@@ -103,6 +103,16 @@ App.service('companiesService', [
             methods.getCompany(companyId).contracts.splice(contractId,1);
         };
 
+        methods.getCompaniesWithContact = function getCompaniesWithContact() {
+            return _.filter(companiesList, function(obj) {
+                return obj.contactName;
+            });
+        };
+
+        methods.getContacts = function getContacts() {
+            return _.uniq(_.pluck(methods.getCompaniesWithContact(), 'contactName'));
+        };
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         $rootScope.$on('dbReady', methods.loadCompanyData);

@@ -23,7 +23,10 @@
         <div class="company-row">
             <p class="field-label">Contact name</p>
             <p class="field-output">{{company.contactName}}</p>
-            <input type="text" ng-model="company.contactName" class="field-edit" id="co-contactName" name="co-contactName">
+            <input type="text" ng-model="company.contactName" class="field-edit" id="co-contactName" name="co-contactName" ng-focus="showContacts = true" ng-blur="delayBlur()">
+            <ul class="company-contacts-list" ng-show="showContacts && company.contactName.length && filteredContacts.length">
+                <li ng-repeat="contact in filteredContacts = (contacts | filter:company.contactName)"><a href="javascript:;" ng-href="" ng-click="selectContact(contact)">{{contact}}</a></li>
+            </ul>
         </div>
 
         <div class="company-row company-row--last">
@@ -34,7 +37,7 @@
 
         <div class="company-contracts">
             <div ng-repeat="contract in company.contracts" class="contract-details" ng-include="'partials/contract.html'" ng-init="unique=$index"></div>
-            <a href="javascript:;" ng-click="addContract()" ng-show="editing" class="add-contract"><span class="icon-add"></span> Add contract</a>
+            <a href="javascript:;" ng-click="addContract()" ng-show="isEditing" class="add-contract"><span class="icon-add"></span> Add contract</a>
         </div>
 
         <edit-bar data-pos="bottom"></edit-bar>
