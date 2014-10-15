@@ -22,12 +22,12 @@
       <h1><span>Codema</span></h1>
     </div>
 
-    <nav>
+    <nav ng-class="'page-' + page">
       <div class="nav-inner">
         <ul class="menu">
-          <li><a href="#/home"><span class="icon-home"></span> <span class="desktop-only">home</span></a></li>
-          <li><a href="#/contacts"><span class="icon-contacts"></span> <span class="desktop-only">contacts</span></a></li>
-          <li><a href="#/add"><span class="icon-add"></span> <span class="desktop-only">add</span></a></li>
+          <li><a href="#/home" class="item-home"><span class="icon-home"></span> <span class="desktop-only">home</span></a></li>
+          <li><a href="#/contacts" class="item-contacts"><span class="icon-contacts"></span> <span class="desktop-only">contacts</span></a></li>
+          <li><a href="#/company/add" class="item-add"><span class="icon-add"></span> <span class="desktop-only">add</span></a></li>
         </ul>
       </div>
     </nav>
@@ -38,10 +38,11 @@
   </div>
 
   <script src="js/libs/dropbox-datastores-1.0.js"></script>
+  <!--<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js"></script>-->
   <script src="js/libs/bower/angular/angular.min.js"></script>
   <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
   <script src="js/libs/underscore-min.js"></script>
-  <script src="js/libs/dropstore-ng.js"></script>
+  <!--<script src="js/libs/dropstore-ng.js"></script>-->
 
   <script src="js/app.js"></script>
 </body>

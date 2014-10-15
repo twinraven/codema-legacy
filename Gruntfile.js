@@ -198,7 +198,10 @@ module.exports = function ( grunt ) {
 		// SCRIPT MINIFICATION
 		uglify: {
 			options: {
-				banner: '<%= banner.ecma %>'
+				banner: '<%= banner.ecma %>',
+				beautify: true,
+				compress: false,
+				mangle: false
 			},
 			js: {
 				files: {

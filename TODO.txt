@@ -1,15 +1,17 @@
 TODO:
 
-- error on leaving new company page, before saving
-- save to dropbox/google drive (maybe Dropbox first, add G drive support later?)
-- map
-- map lat/long lookup
-- auto-height for notes field
+- autocomplete for contact details fields on add/edit form
+- refactor companiesService (split? Dropbox)
+
 
 
 FUTURE:
 
+- Split dropbox data into table rows (not a JSON dump into 1 row)
+- refactor CSS to BEM
+- auto-height for notes field
+- map
+- map lat/long lookup
 - infinite scroll on company/contact list
-- link contact from home page? (add #url-friendly uid to contacts in list on contacts page, add this fragment identifier to text for each company on homepage)
-- type-ahead on 'contact' field
 - add contacts section - allow central management of contacts, or creation of new one (from add/edit form -- should be implemented at the same time as autocomplete on the 'contact' field)
+- link contact from home page? (add #url-friendly uid to contacts in list on contacts page, add this fragment identifier to text for each company on homepage)

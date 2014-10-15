@@ -1,11 +1,26 @@
 App.controller('CompanyController', [
+    '$rootScope',
     '$scope',
     '$routeParams',
     'companiesService',
-    function($scope, $routeParams, companiesService) {
-        $scope.company = companiesService.getCompany($routeParams.companyId);
+    function($rootScope, $scope, $routeParams, companiesService) {
+        $rootScope.page = 'company';
 
-        $scope.editing = $routeParams.editing;
+        if ($routeParams.companyId) {
+            $scope.mode = 'show';
+        }
+        if ($routeParams.editing) {
+            $scope.isEditing = true;
+        }
+
+        $scope.company = companiesService.getCompany($routeParams.companyId);
+        $scope.$watch(
+            companiesService.getCompanies,
+
+            function(newVal, oldVal) {
+                $scope.company = companiesService.getCompany($routeParams.companyId);
+            }, true);
+
 
         $scope.addContract = function() {
             $scope.company.contracts.push({});

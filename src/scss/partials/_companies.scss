@@ -11,7 +11,7 @@
 
 .container a {
   border-bottom: thin dotted #aaa;
-  color: #333;
+  color: #555;
   font-family: "Arvo Bold", sans-serif;
   font-weight: normal;
   text-decoration: none;
@@ -50,6 +50,10 @@
     text-decoration: none;
     text-transform: uppercase;
     transition: box-shadow 0.25s;
+
+    .item-list--contacts & {
+      @include font-size(13);
+    }
 
     @include respond-min($cols-3) {
       @include font-size(18);
@@ -135,8 +139,9 @@
 }
 
 .item-hidden-message {
-  @include font-size(12);
   color: #aaa;
+  @include font-size(12);
+  text-align: center;
 }
 
 .contract-details {
@@ -191,6 +196,12 @@ a.company-edit {
 
   &.company-edit--cancel {
     color: #aaa;
+  }
+}
+
+.company-details__inner {
+  .is-loading & {
+    display: none;
   }
 }
 

@@ -36,7 +36,10 @@ nav {
     text-decoration: none;
 
     &:hover,
-    &:focus {
+    &:focus,
+    .page-home &.item-home,
+    .page-contacts &.item-contacts,
+    .page-add &.item-add {
       color: #888;
     }
   }
