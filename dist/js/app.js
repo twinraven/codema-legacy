@@ -256,7 +256,7 @@ App.directive("dbControls", function() {
         restrict: "E",
         replace: "true",
         scope: true,
-        templateUrl: "../partials/db-controls.html"
+        templateUrl: "partials/db-controls.html"
     };
 });
 
@@ -265,7 +265,7 @@ App.directive("editBar", function() {
         restrict: "E",
         replace: "true",
         scope: true,
-        templateUrl: "../partials/edit-bar.html",
+        templateUrl: "partials/edit-bar.html",
         link: function(scope, elem, attrs) {
             scope.pos = attrs.pos;
         }
