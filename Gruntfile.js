@@ -110,16 +110,10 @@ module.exports = function ( grunt ) {
 		},
 
 		connect: {
-			dev: {
+			go: {
 				options: {
 					port: 9001,
-					base: 'src/'
-				}
-			},
-			dist: {
-				options: {
-					port: 9001,
-					base: 'dist/'
+					base: './'
 				}
 			}
 		},
@@ -231,7 +225,7 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'dist', ['clean', 'build-dist'] );
 	grunt.registerTask( 'build-dist', ['sass:dist', 'autoprefixer:dist', 'copy', 'uglify'] );
 
-	grunt.registerTask( 'server', ['connect:dist', 'watch'] );
+	grunt.registerTask( 'server', ['connect:go', 'watch'] );
 
 	// default task - Production to prevent development code going live
 	grunt.registerTask( 'default', 'dev' );

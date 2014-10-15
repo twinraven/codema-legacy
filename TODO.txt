@@ -1,15 +1,15 @@
 TODO:
 
+- handle offline better (switch to/from localstorage)
 - autocomplete for contact details fields on add/edit form
-- refactor companiesService (split? Dropbox)
 
 
 
 FUTURE:
 
+- auto-height for notes field
 - Split dropbox data into table rows (not a JSON dump into 1 row)
 - refactor CSS to BEM
-- auto-height for notes field
 - map
 - map lat/long lookup
 - infinite scroll on company/contact list
