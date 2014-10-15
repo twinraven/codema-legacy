@@ -10,6 +10,7 @@ App.run([
         $rootScope.companies = companiesService.getCompanies();
         $rootScope.isLoading = false;
         $rootScope.isLoginStateInFlux = false;
+        $rootScope.offline = false;
 
         $rootScope.logout = dbService.dbLogout;
         $rootScope.login = dbService.dbLogin;
