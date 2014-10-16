@@ -31,10 +31,14 @@
                 <span class="icon icon-arrow-up" ng-show="showContactList"></span>
                 <span class="icon icon-arrow-down" ng-hide="showContactList"></span>
             </a>
-            <ul id="co-contact" name="co-contact" class="contacts-list" ng-show="showContactList">
-                <li class="field-select__item" ng-repeat="contact in contacts"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
-                <li class="field-select__item field-select__item--add"><a href="#/contacts/add">Add new...</a></li>
-            </ul>
+
+            <div class="contact-list-wrapper" ng-show="showContactList">
+                <ul id="co-contact" name="co-contact" class="contacts-list">
+                    <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
+                </ul>
+
+                <p class="field-select__item field-select__item--add"><a ng-click="setDialogShown(true)">Add new...</a><p>
+            </div>
         </div>
 
         <div class="co-contracts">
@@ -47,3 +51,8 @@
 </div>
 
 <db-controls></db-controls>
+
+<modal-dialog show="isDialogShown()">
+  <div class="modal-view" ng-include="'partials/contact-form.html'" ng-controller="ContactAddCtrl" ng-init="inModal=true"></div>
+</modal-dialog>
+
