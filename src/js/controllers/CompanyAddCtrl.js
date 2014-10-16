@@ -1,25 +1,23 @@
-App.controller('AddController', [
+App.controller('CompanyAddCtrl', [
     '$rootScope',
     '$scope',
     '$timeout',
+    'contactsService',
     'companiesService',
-    function($rootScope, $scope, $timeout, companiesService) {
-        $rootScope.page = 'add';
-        $scope.mode = 'new';
-        $scope.isEditing = true;
+    'appStateService',
+    function($rootScope, $scope, $timeout, contactsService, companiesService, appStateService) {
+         appStateService.setCurrentPage('add');
 
+        $scope.type = 'companies';
+        $scope.isEditing = true;
+        $scope.getContact = contactsService.getContact;
+        $scope.mode = 'new';
         $scope.company = {};
         $scope.company.contracts = [];
 
-        $scope.$watch(
-            companiesService.getCompanies,
-
-            function(newVal, oldVal) {
-                $scope.contacts = companiesService.getContacts();
-            }, true);
-
-        $scope.saveCompany = function() {
+        $scope.saveCo = function() {
             companiesService.addCompany($scope.company);
+            $location.path('/' + $scope.type);
         };
 
         $scope.addContract = function() {
@@ -32,10 +30,9 @@ App.controller('AddController', [
             }
         };
 
-        $scope.selectContact = function(contact) {
-            $scope.company.contactName = contact;
-            $scope.showContacts = false;
-        }
+        $scope.selectContact = function(id) {
+            $scope.company.contactId = id;
+        };
 
         $scope.delayBlur = function() {
             $timeout(function() {

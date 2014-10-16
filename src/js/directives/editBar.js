@@ -1,14 +1,3 @@
-/* Directives */
-
-App.directive('dbControls', function () {
-    return {
-        restrict: 'E',
-        replace: 'true',
-        scope: true,
-        templateUrl: 'partials/db-controls.html'
-    };
-});
-
 App.directive('editBar', function () {
     return {
         restrict: 'E',

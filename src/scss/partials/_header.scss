@@ -1,10 +1,10 @@
 header {
-  background: #e2da5c;
+  background: $color-primary;
   text-align: center;
 }
 
 nav {
-  background: #ece8a6;
+  background: $color-primary-light1;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   padding: 0;
 }
@@ -29,7 +29,7 @@ nav {
   }
 
   a {
-    color: #a7a47b;
+    color: $color-secondary-light;
     display: block;
     padding: 15px 0 13px;
     text-transform: uppercase;
@@ -37,10 +37,10 @@ nav {
 
     &:hover,
     &:focus,
-    .page-home &.item-home,
+    .page-companies &.item-companies,
     .page-contacts &.item-contacts,
     .page-add &.item-add {
-      color: #888;
+      color: $color-secondary;
     }
   }
 
@@ -61,12 +61,27 @@ nav {
 
   h1 {
     background: url(../images/logo.png) no-repeat center center;
-    background-size: 100% auto;
+    background-size: 70% auto;
     display: block;
-    height: 200px;
+    height: 120px;
     margin: 0 auto;
     max-width: 550px;
     width: 80%;
+
+    @include respond-min($cols-3) {
+      background-size: 60% auto;
+      height: 150px;
+    }
+
+    @include respond-min($cols-4) {
+      background-size: 80% auto;
+      height: 180px;
+    }
+
+    @include respond-min($cols-5) {
+      background-size: 100% auto;
+      height: 220px;
+    }
   }
 
   span {
@@ -76,10 +91,5 @@ nav {
     overflow: hidden;
     top: -100px;
     width: 0;
-  }
-
-  @include respond-min($cols-3) {
-    background-size: 260px 55px;
-    padding: 40px 0;
   }
 }

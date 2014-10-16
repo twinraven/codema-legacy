@@ -19,6 +19,9 @@ module.exports = function ( grunt ) {
 		// directives
 		'src/js/directives/*.js',
 
+		// filters
+		'src/js/filters/*.js',
+
 		// router - goes last
 		'src/js/router/*.js'
 	];
