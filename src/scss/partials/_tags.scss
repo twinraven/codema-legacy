@@ -21,3 +21,18 @@ a {
         display: none;
     }
 }
+
+::-webkit-input-placeholder {
+    color:    #ccc;
+}
+:-moz-placeholder {
+   color:    #ccc;
+   opacity:  1;
+}
+::-moz-placeholder {
+   color:    #ccc;
+   opacity:  1;
+}
+:-ms-input-placeholder {
+   color:    #ccc;
+}

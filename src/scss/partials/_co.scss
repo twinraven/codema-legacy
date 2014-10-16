@@ -31,7 +31,7 @@
   padding: 0;
   overflow: hidden;
   position: relative;
-  margin: 0 0 26px;
+  margin: 0 0 10px;
 
   &.has-sublist .item-name {
     cursor: s-resize;
@@ -185,8 +185,8 @@ a.co-edit {
 
   .add {
     background: #fff;
+    border: 1px solid #ccc;
     box-shadow: 0 1px 1px rgba(0,0,0,0.2);
-    border-bottom: none;
     box-sizing: border-box;
     color: $color-secondary;
     display: inline-block;

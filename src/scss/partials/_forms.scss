@@ -119,11 +119,12 @@ input.field--hidden {
   transition: all 0.2s;
 
   .icon {
-    color: $color-bodytext;
-    line-height: 2.6rem;
+    color: $color-secondary;
+    @include font-size(18);
+    line-height: 2rem;
     position: absolute;
-    right: 10px;
-    top: 0;
+    right: 9px;
+    top: 6px;
     z-index: 10;
   }
 

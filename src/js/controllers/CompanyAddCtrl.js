@@ -32,6 +32,7 @@ App.controller('CompanyAddCtrl', [
 
         $scope.selectContact = function(id) {
             $scope.company.contactId = id;
+            $scope.showContactList = false;
         };
 
         $scope.delayBlur = function() {
