@@ -1,12 +1,12 @@
 <div class="edit-bar" ng-class="'edit-bar--' + pos">
     <span ng-show="mode == 'new'">
-        <p class="f-right"><a href="#/home" class="company-edit company-edit--cancel">Cancel <span class="icon-cancel"></span></a></p>
-        <p class="f-left"><a href="#" ng-click="saveCompany()" class="company-edit company-edit--done"><span class="icon-check"></span> Save</a></p>
+        <p class="f-right"><a ng-href="#/{{type}}" class="co-edit co-edit--cancel">Cancel <span class="icon-cancel"></span></a></p>
+        <p class="f-left"><a ng-href="" ng-click="saveCo()" class="co-edit co-edit--done"><span class="icon-check"></span> Save</a></p>
     </span>
 
     <span ng-hide="mode == 'new'">
-        <p class="f-right"><a href="javascript:;" ng-click="deleteCompany()" ng-show="isEditing" class="delete-item delete-company">Delete Company <span class="icon-cancel"></span></a></p>
-        <p class="f-left" ng-show="isEditing"><a class="company-edit company-edit--done" href="#/company/{{company.id}}"><span class="icon-check"></span> Finish</a></p>
-        <p class="f-left" ng-hide="isEditing"><a class="company-edit company-edit--edit" href="#/company/{{company.id}}?editing=true"><span class="icon-edit"></span> Edit</a></p>
+        <p class="f-right"><a ng-href="#/{{type}}/" ng-click="deleteCo()" ng-show="isEditing" class="delete-item delete-co">Delete <span class="icon-cancel"></span></a></p>
+        <p class="f-left" ng-show="isEditing"><a class="co-edit co-edit--done" ng-href="#/{{type}}/{{id}}"><span class="icon-check"></span> Finish</a></p>
+        <p class="f-left" ng-hide="isEditing"><a class="co-edit co-edit--edit" ng-href="#/{{type}}/{{id}}?editing=true"><span class="icon-edit"></span> Edit</a></p>
     </span>
 </div>

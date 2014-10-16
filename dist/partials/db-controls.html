@@ -1,6 +1,6 @@
 <div class="db">
-    <p class="db__login" ng-show="!dbActive && !isLoginStateInFlux && !offline"><a href="#" ng-click="login()">Log in <span class="db__status icon icon-dropbox"></span></a></p>
-    <p class="db__logout" ng-show="dbActive && !isLoginStateInFlux"><a href="#" ng-click="logout()">Log out <span class="db__status db__status--active icon icon-dropbox"></span></a></p>
-    <p class="db__state" ng-show="isLoginStateInFlux">Working.... <icon class="db__status icon icon-dropbox pulse"></icon></p>
-    <p class="db__state" ng-show="offline">Offline <icon class="db__status icon icon-alert"></icon></p>
+    <p class="db__login" ng-show="!dbActive && !isLoginStatusInFlux() && isOnline()"><a href="#" ng-click="login()">Log in <span class="db__status icon icon-dropbox"></span></a></p>
+    <p class="db__logout" ng-show="dbActive && !isLoginStatusInFlux()"><a href="#" ng-click="logout()">Log out <span class="db__status db__status--active icon icon-dropbox"></span></a></p>
+    <p class="db__state" ng-show="isLoginStatusInFlux()">Working.... <icon class="db__status icon icon-dropbox pulse"></icon></p>
+    <p class="db__state" ng-hide="isOnline()">Offline <icon class="db__status icon icon-alert"></icon></p>
 </div>

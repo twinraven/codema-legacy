@@ -1,0 +1,19 @@
+<div class="add-contact" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading()}">
+    <div class="co-details__inner">
+        <edit-bar data-pos="top"></edit-bar>
+
+        <div class="co-row">
+            <p class="field-label">Name</p>
+            <p class="field-output">{{contact.name | useDashIfEmpty}}</p>
+            <input type="text" ng-model="contact.name" class="field-edit" id="con-name" name="con-name">
+        </div>
+
+        <div class="co-row">
+            <p class="field-label">Email address</p>
+            <p class="field-output">{{contact.email | useDashIfEmpty}}</p>
+            <input type="email" ng-model="contact.email" class="field-edit" id="con-email" name="con-email">
+        </div>
+    </div>
+</div>
+
+<db-controls></db-controls>

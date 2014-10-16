@@ -1,0 +1,12 @@
+<input type="text" ng-model="filterText" placeholder="Search by contact..." class="search">
+
+<ul class="item-list item-list--contacts" ng-class="{'is-loading': isDbLoading()}">
+    <li ng-repeat="contact in contacts track by $index | filter:filterText" class="item" ng-class="{'is-open': hover, 'has-sublist': companiesByContact[contact].length > 2}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+        <a href="#" ng-href="#/contacts/{{contact.id}}" class="item-name">{{contact.name}}</a>
+        <p class="item-count">{{companiesByContact[contact].length}}</p>
+    </li>
+</ul>
+
+<p class="item-hidden-message" ng-show="!contacts.length && !isDbLoading()">No contacts yet! Click 'add' above to start adding companies.</p>
+
+<db-controls></db-controls>
