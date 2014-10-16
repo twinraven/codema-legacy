@@ -1,5 +1,11 @@
 TODO:
 
+- add style difference between companies and contacts (so it's easy to tell them apart)
+- set search field text colour (lighter) when inactive
+- required fields
+- form validation
+- COMBINE COMPANY & CONTACT 'you've made changes' MESSAGES/UPLOADS?
+
 - allow non-dropbox users to use the app (first visit: modal window: 'use dropbox', 'use local storage', 'ask me next time')
 - handle dropbox error better (when the user refuses; etc)
 - do better job of auto-populating contacts

@@ -10,12 +10,15 @@ App.service('dbService', [
             dbSettings = {
                 key: 'peo2jcopy5i7qtq'
             },
-            dbClient = new Dropbox.Client(dbSettings),
+            online = navigator.onLine,
+            dbClient = (online ? new Dropbox.Client(dbSettings) : null),
             dbClientUrl = window.location.href,
             dbTable = null,
             dbCompaniesRecord = null,
             dbCompaniesAry = null,
-            dbLoginStatus = false;
+            dbLoading = true,
+            dbLoggedIn = false,
+            loginStatusInFlux = true;
 
         // private methods ~~~~~~~~~~~~~~~~~~~
 
@@ -23,17 +26,17 @@ App.service('dbService', [
             if (dbClient && dbClient.isAuthenticated()) {
                 console.log('auth');
                 $timeout(function() {
-                    dbLoginStatus = true;
-                    $rootScope.isLoginStateInFlux = false;
+                    dbLoggedIn = true;
+                    loginStatusInFlux = false;
                 });
                 dbIsLoggedIn();
 
             } else {
                 console.log('not auth');
                 $timeout(function() {
-                    dbLoginStatus = false;
-                    $rootScope.isLoading = false;
-                    $rootScope.isLoginStateInFlux = false;
+                    dbLoggedIn = false;
+                    dbLoading = false;
+                    loginStatusInFlux = false;
                 });
 
                 $rootScope.$broadcast('dbReady');
@@ -52,7 +55,7 @@ App.service('dbService', [
                 setDbCompaniesRecord();
 
                 $rootScope.$broadcast('dbReady');
-                $rootScope.isLoading = false;
+                dbLoading = false;
 
                 //dbCompaniesRecord.get('data');
                 //dbCompaniesRecord.set('data', JSON.stringify(companiesList));
@@ -72,25 +75,25 @@ App.service('dbService', [
             }
         }
 
-        function init() {
+        function initDb() {
             $timeout(function() {
-                $rootScope.isLoginStateInFlux = true;
+                loginStatusInFlux = true;
             });
 
-            // get a clean url
+            // get a clean url, for passing to the authDriver below
             if (dbClientUrl.indexOf('index.html') !== -1) { dbClientUrl = dbClientUrl.split('index.html')[0]; }
             if (dbClientUrl.indexOf('#/') !== -1) { dbClientUrl = dbClientUrl.split('#/')[0]; }
 
-            dbClient.authDriver(new Dropbox.AuthDriver.Popup({
-                receiverUrl: dbClientUrl + 'oauth_receiver.html'
-            }));
+            if (online) {
+                dbClient.authDriver(new Dropbox.AuthDriver.Popup({
+                    receiverUrl: dbClientUrl + 'oauth_receiver.html'
+                }));
 
-            // Check to see if we're authenticated already.
-            if (navigator.onLine) {
                 $timeout(function() {
-                    $rootScope.isLoading = true;
+                    dbLoading = true;
                 });
 
+                // Check to see if we're authenticated already.
                 dbClient.authenticate(updateAuthenticationStatus);
 
             } else {
@@ -100,43 +103,55 @@ App.service('dbService', [
 
         // public methods ~~~~~~~~~~~~~~~~~~~
 
-        methods.getDbLoginStatus = function getDbLoginStatus() {
-            return dbLoginStatus;
+        methods.isDbLoggedIn = function getDbLoggedIn() {
+            return dbLoggedIn;
         };
 
         methods.getDbCompaniesRecord = function getDbCompaniesRecord() {
             return dbCompaniesRecord;
         };
 
-        methods.dbLogout = function dropboxLogout() {
+        methods.isLoginStatusInFlux = function getDbState() {
+            return loginStatusInFlux;
+        };
+
+        methods.isDbLoading = function isDbLoading() {
+            return dbLoading;
+        };
+
+        methods.isOnline = function isOnline() {
+            return online;
+        }
+
+        methods.dbLogOut = function dropboxLogout() {
             console.log('now');
             $timeout(function() {
-                $rootScope.isLoginStateInFlux = true;
+                loginStatusInFlux = true;
             });
 
             if (dbClient.isAuthenticated()) {
                 dbClient.signOut(null, function() {
                     $timeout(function() {
-                        dbLoginStatus = false;
-                        $rootScope.isLoginStateInFlux = false;
+                        dbLoggedIn = false;
+                        loginStatusInFlux = false;
                     });
                 });
             }
         };
 
-        methods.dbLogin = function dropboxLogout() {
+        methods.dbLogIn = function dropboxLogout() {
             if (dbClient.authError) {
                 dbClient.reset();
             }
 
-            $rootScope.isLoginStateInFlux = true;
+            loginStatusInFlux = true;
 
             dbClient.authenticate(updateAuthenticationStatus);
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        init();
+        initDb();
 
         return methods;
     }
