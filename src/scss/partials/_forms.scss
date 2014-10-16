@@ -141,7 +141,7 @@ input.field--hidden {
   }
 
   &.is-active {
-    background: #f1f1f1;
+    background: #ddd;
   }
 }
 
@@ -153,53 +153,67 @@ input.field--hidden {
   margin: 15px 0 7px;
 }
 
+.contact-list-wrapper {
+  left: 0;
+  position: absolute;
+  top: 4rem;
+  width: 100%;
+}
+
 .contacts-list {
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
+  border-width: 1px 1px 0;
+  box-shadow: inset 0 -8px 21px rgba(0,0,0,0.07), 0 3px 2px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   list-style: none;
-  margin-top: 0;
+  margin: 0;
+  max-height: 6rem;
+  overflow: hidden;
+  overflow-y: scroll;
   padding: 0;
-  position: absolute;
-  top: 4rem;
   width: 100%;
   z-index: 10;
 
   li {
     border-bottom: 1px dotted #aaa;
-
-    &:last-child {
-      border-bottom: 0;
-    }
   }
+}
+
+.field-select__item a {
+  border: none !important;
+  color: $color-secondary;
+  display: block;
+  font-family: 'Arvo', sans-serif;
+  cursor: pointer;
+  display: block;
+  @include font-size(14);
+  padding: 7px 15px;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  strong {
+    color: #aaa;
+    font-family: 'Arvo', sans-serif;
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  &:hover,
+  &:focus,
+  &.is-focussed {
+    background: $color-primary-light3;
+  }
+}
+
+.field-select__item--add {
+  border: 1px solid #ddd;
+  border-width: 0 1px 1px;
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin: 0;
 
   a {
-    border: none !important;
-    color: $color-secondary;
-    font-family: 'Arvo', sans-serif;
-    cursor: pointer;
-    display: block;
-    @include font-size(14);
-    padding: 7px 15px;
-    text-decoration: none;
-    transition: all 0.2s;
-
-    strong {
-      color: #aaa;
-      font-family: 'Arvo', sans-serif;
-      display: inline-block;
-      margin-left: 10px;
-    }
-
-    &:hover,
-    &:focus,
-    &.is-focussed {
-      background: $color-primary-light3;
-    }
-  }
-
-  .field-select__item--add a {
     background: $color-primary-light1;
     color: $color-bodytext;
 
@@ -210,7 +224,6 @@ input.field--hidden {
     }
   }
 }
-
 
 input.search {
   box-sizing: border-box;

@@ -165,10 +165,6 @@ a.co-edit {
 .edit-bar {
   overflow: hidden;
 
-  .is-editing & {
-    background: #eee;
-  }
-
   &.edit-bar--top {
     border-bottom: thin dotted #bbb;
     margin-bottom: 30px;
