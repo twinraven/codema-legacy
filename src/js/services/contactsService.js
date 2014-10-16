@@ -99,7 +99,7 @@ App.service('contactsService', [
             if (contact) {
                 contactsList = _.without(contactsList, contact);
                 // redirect to homepage
-                $location.path('/home');
+                $location.path('/companies');
             }
 
             methods.saveContactData();
