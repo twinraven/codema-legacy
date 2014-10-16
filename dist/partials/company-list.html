@@ -1,7 +1,7 @@
 <input type="text" ng-model="filterText" placeholder="Search by company..." class="search">
 
 <ul class="item-list" ng-class="{'is-loading': isDbLoading()}">
-    <li class="item" ng-repeat="company in companies track by $index | filter:filterText | orderBy:'name'">
+    <li class="item" ng-repeat="company in companies | filter:filterText | orderBy:'name' track by $index">
         <a href="#/companies/{{company.id}}" class="item-name">{{company.name}}</a>
         <span class="item-contact" ng-show="company.contactName">{{company.contactName}}</span>
         <span class="item-contracts" ng-show="company.contracts.length">{{company.contracts.length}} contracts</span>

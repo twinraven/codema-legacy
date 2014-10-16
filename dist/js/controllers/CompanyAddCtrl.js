@@ -2,10 +2,11 @@ App.controller('CompanyAddCtrl', [
     '$rootScope',
     '$scope',
     '$timeout',
+    '$location',
     'contactsService',
     'companiesService',
     'appStateService',
-    function($rootScope, $scope, $timeout, contactsService, companiesService, appStateService) {
+    function($rootScope, $scope, $timeout, $location, contactsService, companiesService, appStateService) {
          appStateService.setCurrentPage('add');
 
         $scope.type = 'companies';
@@ -17,6 +18,10 @@ App.controller('CompanyAddCtrl', [
 
         $scope.saveCo = function() {
             companiesService.addCompany($scope.company);
+            $location.path('/' + $scope.type);
+        };
+
+        $scope.cancelCo = function() {
             $location.path('/' + $scope.type);
         };
 
@@ -32,6 +37,7 @@ App.controller('CompanyAddCtrl', [
 
         $scope.selectContact = function(id) {
             $scope.company.contactId = id;
+            $scope.showContactList = false;
         };
 
         $scope.delayBlur = function() {

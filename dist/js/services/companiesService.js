@@ -98,7 +98,7 @@ App.service('companiesService', [
             if (company) {
                 companiesList = _.without(companiesList, company);
                 // redirect to homepage
-                $location.path('/home');
+                $location.path('/companies');
             }
 
             methods.saveCompanyData();
