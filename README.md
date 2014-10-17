@@ -23,7 +23,7 @@ All data is saved in local storage, on the user's machine. If the user authentic
 3. run `bower install`
 4. run `grunt dist`
 5. run `grunt server`
-6. visit `http://0.0.0.0:9001`
+6. visit `http://localhost:9001/`
 7. (Or visit the [demo](https://twinraven.github.io/codema/dist/))
 
 -----
