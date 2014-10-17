@@ -18,6 +18,11 @@ App.service("appStateService", [ "$rootScope", function($rootScope) {
 
 App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
     var companiesList = [], methods = {}, dbCompaniesRecord = null, lsCompaniesList = JSON.parse(window.localStorage.getItem("companiesList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified"), online = navigator.onLine;
+    function getHighestId() {
+        return _.max(companiesList, function(o) {
+            return o.id;
+        }).id;
+    }
     methods.loadCompanyData = function loadCompanyData() {
         dbCompaniesRecord = dbService.getDbCompaniesRecord();
         if (dbCompaniesRecord && online) {
@@ -57,17 +62,12 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
     };
     methods.addCompany = function addCompany(newCompany) {
         if (companiesList && companiesList.length) {
-            newCompany.id = methods.getHighestId() + 1;
+            newCompany.id = getHighestId() + 1;
         } else {
             newCompany.id = 1;
         }
         companiesList.push(newCompany);
         methods.saveCompanyData();
-    };
-    methods.getHighestId = function getHighestId() {
-        return _.max(companiesList, function(o) {
-            return o.id;
-        }).id;
     };
     methods.getCompanies = function getCompanies() {
         return companiesList;
@@ -83,6 +83,11 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
             return obj.contactId === id;
         });
     };
+    methods.getCompaniesWithContact = function getCompaniesWithContact() {
+        return _.filter(companiesList, function(obj) {
+            return obj.contactName;
+        });
+    };
     methods.removeCompany = function removeCompany(company) {
         if (company) {
             companiesList = _.without(companiesList, company);
@@ -92,11 +97,6 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
     };
     methods.removeContract = function removeContract(companyId, contractId) {
         methods.getCompany(companyId).contracts.splice(contractId, 1);
-    };
-    methods.getCompaniesWithContact = function getCompaniesWithContact() {
-        return _.filter(companiesList, function(obj) {
-            return obj.contactName;
-        });
     };
     methods.removeEmptyContracts = function removeEmptyContracts(contracts) {
         if (contracts.length === 0) {
@@ -124,6 +124,11 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
 
 App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
     var contactsList = [], methods = {}, dbCompaniesRecord = null, lsContactsList = JSON.parse(window.localStorage.getItem("contactsList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified"), online = navigator.onLine;
+    function getHighestId() {
+        return _.max(contactsList, function(o) {
+            return o.id;
+        }).id;
+    }
     methods.loadContactData = function loadContactData() {
         dbCompaniesRecord = dbService.getDbCompaniesRecord();
         if (dbCompaniesRecord && online) {
@@ -163,17 +168,12 @@ App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbServi
     };
     methods.addContact = function addContact(newContact) {
         if (contactsList && contactsList.length) {
-            newContact.id = methods.getHighestId() + 1;
+            newContact.id = getHighestId() + 1;
         } else {
             newContact.id = 1;
         }
         contactsList.push(newContact);
         methods.saveContactData();
-    };
-    methods.getHighestId = function getHighestId() {
-        return _.max(contactsList, function(o) {
-            return o.id;
-        }).id;
     };
     methods.getContacts = function getContacts() {
         return contactsList;
@@ -357,6 +357,7 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
     };
     $scope.selectContact = function(id) {
         $scope.company.contactId = id;
+        $scope.company.contactName = $scope.getContact(id).name;
         $scope.showContactList = false;
     };
     $scope.delayBlur = function() {
@@ -399,6 +400,7 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     $scope.selectContact = function(id) {
         $timeout(function() {
             $scope.company.contactId = id;
+            $scope.company.contactName = $scope.getContact(id).name;
         });
         $scope.showContactList = false;
     };
@@ -435,11 +437,9 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
         });
     }
     $rootScope.$on("modalClosed", function() {
-        console.log("modal is open");
         $scope.contact = {};
     });
     $scope.saveCo = function() {
-        debugger;
         var contacts = contactsService.getContacts();
         if (isDuplicateName(contacts, $scope.contact.name)) {
             if (confirm("You already have a contact by this name.\n\nClick 'OK' to continue anyway;\nClick 'Cancel' to edit this contact.")) {

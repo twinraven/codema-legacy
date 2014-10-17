@@ -21,12 +21,10 @@ App.controller('ContactAddCtrl', [
         }
 
         $rootScope.$on('modalClosed', function() {
-            console.log('modal is open');
             $scope.contact = {};
         });
 
         $scope.saveCo = function() {
-            debugger;
             var contacts = contactsService.getContacts();
 
             if (isDuplicateName(contacts, $scope.contact.name)) {
