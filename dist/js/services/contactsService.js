@@ -1,5 +1,3 @@
-/* Companies Service */
-
 App.service('contactsService', [
     '$rootScope',
     '$location',

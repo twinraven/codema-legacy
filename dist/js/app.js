@@ -115,6 +115,16 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
         }
         return contracts;
     };
+    methods.removeContactFromCompanies = function removeContactFromCompanies(id) {
+        companiesList = _.map(companiesList, function(obj) {
+            if (obj.contactId === id) {
+                obj.contactId = null;
+                obj.contactName = null;
+            }
+            return obj;
+        });
+        methods.saveCompanyData();
+    };
     $rootScope.$on("dbReady", methods.loadCompanyData);
     if (!online) {
         methods.loadCompanyData();
@@ -338,11 +348,15 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
     $scope.company = {};
     $scope.company.contracts = [];
     $scope.saveCo = function() {
-        if ($scope.company.contracts) {
-            $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+        if ($scope.coForm.$invalid) {
+            alert("Please fix the errors in the form before continuing");
+        } else {
+            if ($scope.company.contracts) {
+                $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+            }
+            companiesService.addCompany($scope.company);
+            $location.path("/" + $scope.type);
         }
-        companiesService.addCompany($scope.company);
-        $location.path("/" + $scope.type);
     };
     $scope.cancelCo = function() {
         $location.path("/" + $scope.type);
@@ -370,8 +384,8 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
     };
 } ]);
 
-App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$timeout", "dbService", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $routeParams, $timeout, dbService, contactsService, companiesService, appStateService) {
-    appStateService.setCurrentPage("company");
+App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$timeout", "$location", "dbService", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
+    appStateService.setCurrentPage("companies");
     $scope.isEditing = $routeParams.editing;
     $scope.getContact = contactsService.getContact;
     $scope.id = $routeParams.companyId;
@@ -395,6 +409,7 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     $scope.deleteCo = function() {
         if (confirm("Are you sure?")) {
             companiesService.removeCompany($scope.company);
+            $location.path("/" + $scope.type);
         }
     };
     $scope.selectContact = function(id) {
@@ -408,6 +423,13 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
         $timeout(function() {
             $scope.showContacts = false;
         }, 250);
+    };
+    $scope.finishEditing = function() {
+        if ($scope.coForm.$valid) {
+            $location.search("editing", null);
+        } else {
+            alert("Please fix the errors in the form before continuing");
+        }
     };
     $scope.$watch("$scope.company", function() {
         if ($scope.company) {
@@ -426,7 +448,11 @@ App.controller("CompanyListCtrl", [ "$scope", "$routeParams", "appStateService",
 } ]);
 
 App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeout", "$routeParams", "contactsService", "appStateService", function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService) {
-    appStateService.setCurrentPage("add");
+    $timeout(function() {
+        if (!$scope.inModal) {
+            appStateService.setCurrentPage("add");
+        }
+    });
     $scope.type = "contacts";
     $scope.isEditing = true;
     $scope.mode = "new";
@@ -440,22 +466,26 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
         $scope.contact = {};
     });
     $scope.saveCo = function() {
-        var contacts = contactsService.getContacts();
-        if (isDuplicateName(contacts, $scope.contact.name)) {
-            if (confirm("You already have a contact by this name.\n\nClick 'OK' to continue anyway;\nClick 'Cancel' to edit this contact.")) {
-                contactsService.addContact($scope.contact);
-                $location.path("/" + $scope.type);
-            } else {
-                return false;
-            }
+        if ($scope.coForm.$invalid) {
+            alert("Please fix the errors in the form before continuing");
         } else {
-            contactsService.addContact($scope.contact);
-            if ($scope.inModal) {
-                $timeout(function() {
-                    $rootScope.hideModal();
-                });
+            var contacts = contactsService.getContacts();
+            if (isDuplicateName(contacts, $scope.contact.name)) {
+                if (confirm("You already have a contact by this name.\n\nClick 'OK' to continue anyway;\nClick 'Cancel' to edit this contact.")) {
+                    contactsService.addContact($scope.contact);
+                    $location.path("/" + $scope.type);
+                } else {
+                    return false;
+                }
             } else {
-                $location.path("/" + $scope.type);
+                contactsService.addContact($scope.contact);
+                if ($scope.inModal) {
+                    $timeout(function() {
+                        $rootScope.hideModal();
+                    });
+                } else {
+                    $location.path("/" + $scope.type);
+                }
             }
         }
     };
@@ -464,10 +494,10 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
     };
 } ]);
 
-App.controller("ContactEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$timeout", "dbService", "contactsService", "appStateService", function($rootScope, $scope, $routeParams, $timeout, dbService, contactsService, appStateService) {
+App.controller("ContactEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$timeout", "$location", "dbService", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
     appStateService.setCurrentPage("contacts");
     $scope.isEditing = $routeParams.editing;
-    $scope.id = $routeParams.contactId;
+    $scope.id = parseInt($routeParams.contactId);
     $scope.type = "contacts";
     $scope.mode = "show";
     $scope.$on("dbContactsUpdated", setContactData);
@@ -479,7 +509,16 @@ App.controller("ContactEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     }
     $scope.deleteCo = function() {
         if (confirm("Are you sure?")) {
+            companiesService.removeContactFromCompanies($scope.id);
             contactsService.removeContact($scope.contact);
+            $location.path("/" + $scope.type);
+        }
+    };
+    $scope.finishEditing = function() {
+        if ($scope.coForm.$valid) {
+            $location.search("editing", null);
+        } else {
+            alert("Please fix the errors in the form before continuing");
         }
     };
     $scope.$watch("$scope.contact", contactsService.saveContactData, true);
@@ -530,7 +569,21 @@ App.controller("ModalDialogCtrl", [ "$rootScope", "$scope", "$timeout", function
         });
         $rootScope.$broadcast("modalClosed");
     };
+    $rootScope.getModalState = function() {
+        return $scope.modalShown;
+    };
 } ]);
+
+App.directive("autoFocus", function($timeout) {
+    return {
+        restrict: "AC",
+        link: function(_scope, _element) {
+            $timeout(function() {
+                _element[0].focus();
+            }, 0);
+        }
+    };
+});
 
 App.directive("dbControls", function() {
     return {

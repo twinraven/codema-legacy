@@ -7,7 +7,11 @@ App.controller('ContactAddCtrl', [
     'contactsService',
     'appStateService',
     function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService) {
-        appStateService.setCurrentPage('add');
+        $timeout(function() {
+            if (!$scope.inModal) {
+                appStateService.setCurrentPage('add');
+            }
+        });
 
         $scope.type = 'contacts';
         $scope.isEditing = true;
@@ -25,24 +29,29 @@ App.controller('ContactAddCtrl', [
         });
 
         $scope.saveCo = function() {
-            var contacts = contactsService.getContacts();
+            if ($scope.coForm.$invalid) {
+                alert('Please fix the errors in the form before continuing');
 
-            if (isDuplicateName(contacts, $scope.contact.name)) {
-                if (confirm('You already have a contact by this name.\n\nClick \'OK\' to continue anyway;\nClick \'Cancel\' to edit this contact.')) {
-                    contactsService.addContact($scope.contact);
-                    $location.path('/' + $scope.type);
-
-                } else {
-                    return false;
-                }
             } else {
-                contactsService.addContact($scope.contact);
+                var contacts = contactsService.getContacts();
 
-                if ($scope.inModal) {
-                    $timeout(function() { $rootScope.hideModal(); });
+                if (isDuplicateName(contacts, $scope.contact.name)) {
+                    if (confirm('You already have a contact by this name.\n\nClick \'OK\' to continue anyway;\nClick \'Cancel\' to edit this contact.')) {
+                        contactsService.addContact($scope.contact);
+                        $location.path('/' + $scope.type);
 
+                    } else {
+                        return false;
+                    }
                 } else {
-                    $location.path('/' + $scope.type);
+                    contactsService.addContact($scope.contact);
+
+                    if ($scope.inModal) {
+                        $timeout(function() { $rootScope.hideModal(); });
+
+                    } else {
+                        $location.path('/' + $scope.type);
+                    }
                 }
             }
         };

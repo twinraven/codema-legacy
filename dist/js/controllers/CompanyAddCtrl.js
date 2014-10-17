@@ -7,7 +7,7 @@ App.controller('CompanyAddCtrl', [
     'companiesService',
     'appStateService',
     function($rootScope, $scope, $timeout, $location, contactsService, companiesService, appStateService) {
-         appStateService.setCurrentPage('add');
+        appStateService.setCurrentPage('add');
 
         $scope.type = 'companies';
         $scope.isEditing = true;
@@ -17,11 +17,16 @@ App.controller('CompanyAddCtrl', [
         $scope.company.contracts = [];
 
         $scope.saveCo = function() {
-            if ($scope.company.contracts) {
-                $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+            if ($scope.coForm.$invalid) {
+                alert('Please fix the errors in the form before continuing');
+
+            } else {
+                if ($scope.company.contracts) {
+                    $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+                }
+                companiesService.addCompany($scope.company);
+                $location.path('/' + $scope.type);
             }
-            companiesService.addCompany($scope.company);
-            $location.path('/' + $scope.type);
         };
 
         $scope.cancelCo = function() {
