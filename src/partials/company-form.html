@@ -4,7 +4,7 @@
 
         <form novalidate name="coForm">
             <div class="co-row">
-                <p class="field-label">Name</p>
+                <p class="field-label">Name *</p>
                 <p class="field-output">{{company.name | useDashIfEmpty}}</p>
                 <input type="text" ng-model="company.name" class="field-edit" id="name" name="name" required auto-focus>
                 <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field-message field-message--error">A name is required.</p>
@@ -37,7 +37,10 @@
 
                 <div class="contact-list-wrapper" ng-show="showContactList">
                     <ul id="contact" name="contact" class="contacts-list">
-                        <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
+                        <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">
+                            <span>{{contact.name}}</span>
+                            <strong>({{contact.email | fallbackText:'No email specified'}})</strong></a>
+                        </li>
                     </ul>
 
                     <p class="field-select__item field-select__item--add"><a ng-click="showModal()">Add new...</a><p>

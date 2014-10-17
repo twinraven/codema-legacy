@@ -186,7 +186,7 @@ input.ng-invalid.ng-dirty,
   box-sizing: border-box;
   list-style: none;
   margin: 0;
-  max-height: 5.5rem;
+  max-height: 7.5rem;
   overflow: hidden;
   overflow-y: scroll;
   padding: 0;
@@ -209,11 +209,19 @@ input.ng-invalid.ng-dirty,
   text-decoration: none;
   transition: all 0.2s;
 
+  span {
+    margin-right: 10px;
+  }
+
   strong {
     color: #aaa;
+    display: block;
     font-family: 'Arvo', sans-serif;
-    display: inline-block;
-    margin-left: 10px;
+
+    @include respond-min($cols-3) {
+      display: inline-block;
+    }
+
   }
 
   &:hover,

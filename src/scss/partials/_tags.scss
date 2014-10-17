@@ -24,15 +24,19 @@ a {
 
 ::-webkit-input-placeholder {
     color:    #ccc;
+    text-transform: uppercase;
 }
 :-moz-placeholder {
    color:    #ccc;
    opacity:  1;
+   text-transform: uppercase;
 }
 ::-moz-placeholder {
    color:    #ccc;
    opacity:  1;
+   text-transform: uppercase;
 }
 :-ms-input-placeholder {
    color:    #ccc;
+   text-transform: uppercase;
 }
