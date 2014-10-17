@@ -18,11 +18,13 @@
 }
 .ng-modal-dialog {
   background-color: #eee;
+  box-sizing: border-box;
   z-index: 10000;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 50%;
+  max-width: 300px;
+  width: 90%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);

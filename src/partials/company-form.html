@@ -1,4 +1,4 @@
-<div class="co-details" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading()}">
+<div class="co-details" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading(), 'is-new': mode === 'new'}">
     <div class="co-details__inner">
         <edit-bar data-pos="top"></edit-bar>
 
@@ -37,7 +37,7 @@
                     <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
                 </ul>
 
-                <p class="field-select__item field-select__item--add"><a ng-click="setDialogShown(true)">Add new...</a><p>
+                <p class="field-select__item field-select__item--add"><a ng-click="showModal()">Add new...</a><p>
             </div>
         </div>
 
@@ -52,7 +52,7 @@
 
 <db-controls></db-controls>
 
-<modal-dialog show="isDialogShown()">
-  <div class="modal-view" ng-include="'partials/contact-form.html'" ng-controller="ContactAddCtrl" ng-init="inModal=true"></div>
+<modal-dialog>
+    <div class="modal-view" ng-include="'partials/contact-form.html'" ng-controller="ContactAddCtrl" ng-init="inModal=true"></div>
 </modal-dialog>
 

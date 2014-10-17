@@ -56,7 +56,15 @@ App.controller('CompanyEditCtrl', [
         };
 
         // auto-save data
-        $scope.$watch('$scope.company', companiesService.saveCompanyData, true);
+        $scope.$watch('$scope.company', function() {
+            if ($scope.company) {
+                companiesService.saveCompanyData();
+
+                if ($scope.company.contracts) {
+                    $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+                }
+            }
+        }, true);
 
     }
 ]);

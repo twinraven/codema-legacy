@@ -94,6 +94,12 @@ App.service('companiesService', [
             });
         };
 
+        methods.getCompaniesByContact = function getCompaniesByContact(id) {
+            return _.filter(companiesList, function(obj) {
+                return obj.contactId === id;
+            })
+        };
+
         methods.removeCompany = function removeCompany(company) {
             if (company) {
                 companiesList = _.without(companiesList, company);
@@ -112,6 +118,28 @@ App.service('companiesService', [
             return _.filter(companiesList, function(obj) {
                 return obj.contactName;
             });
+        };
+
+        methods.removeEmptyContracts = function removeEmptyContracts(contracts) {
+            if (contracts.length === 0) { return contracts; }
+
+            var c, x = 0, y;
+
+            for (y = contracts.length; x < y; x++) {
+                c = contracts[x];
+
+                // startDate, endDate, renewals, rate
+                if (!c.startDate && !c.endDate && !c.renewals && !c.rate) {
+                    contracts.splice(x, 1);
+
+                    x--;
+                    if (contracts.length === 0) {
+                        break;
+                    }
+                }
+            }
+
+            return contracts;
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
