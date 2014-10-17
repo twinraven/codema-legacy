@@ -16,6 +16,18 @@
                 <input type="email" ng-model="contact.email" class="field-edit" id="email" name="email">
                 <p ng-show="coForm.email.$invalid && (coForm.email.$dirty || coForm.$dirty)" class="field-message field-message--error">Please enter a valid email address.</p>
             </div>
+
+            <div class="co-row">
+                <p class="field-label">Phone number</p>
+                <p class="field-output">{{contact.phone | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.phone" class="field-edit" id="phone" name="phone">
+            </div>
+
+            <div class="co-row co-row--textarea">
+                <p class="field-label">Notes</p>
+                <p class="field-output">{{contact.notes | useDashIfEmpty}}</p>
+                <textarea ng-model="contact.notes" class="field-edit" id="notes" name="notes"></textarea>
+            </div>
     </form>
     </div>
 </div>
