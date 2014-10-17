@@ -20,7 +20,13 @@ App.controller('ContactAddCtrl', [
             });
         }
 
+        $rootScope.$on('modalClosed', function() {
+            console.log('modal is open');
+            $scope.contact = {};
+        });
+
         $scope.saveCo = function() {
+            debugger;
             var contacts = contactsService.getContacts();
 
             if (isDuplicateName(contacts, $scope.contact.name)) {
@@ -35,7 +41,7 @@ App.controller('ContactAddCtrl', [
                 contactsService.addContact($scope.contact);
 
                 if ($scope.inModal) {
-                    $timeout(function() { $scope.setDialogShown(false); });
+                    $timeout(function() { $rootScope.hideModal(); });
 
                 } else {
                     $location.path('/' + $scope.type);

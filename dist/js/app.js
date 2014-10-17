@@ -1,9 +1,9 @@
 /**
- *   - v1.1.0 - 2014-10-16
+ *   - v1.1.0 - 2014-10-17
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
-var App = angular.module("Codema", [ "ngRoute", "ngModal" ]);
+var App = angular.module("Codema", [ "ngRoute" ]);
 
 App.service("appStateService", [ "$rootScope", function($rootScope) {
     var methods = {}, currentPage = null;
@@ -78,6 +78,11 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
             return _.isEqual(co.id, id);
         });
     };
+    methods.getCompaniesByContact = function getCompaniesByContact(id) {
+        return _.filter(companiesList, function(obj) {
+            return obj.contactId === id;
+        });
+    };
     methods.removeCompany = function removeCompany(company) {
         if (company) {
             companiesList = _.without(companiesList, company);
@@ -92,6 +97,23 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
         return _.filter(companiesList, function(obj) {
             return obj.contactName;
         });
+    };
+    methods.removeEmptyContracts = function removeEmptyContracts(contracts) {
+        if (contracts.length === 0) {
+            return contracts;
+        }
+        var c, x = 0, y;
+        for (y = contracts.length; x < y; x++) {
+            c = contracts[x];
+            if (!c.startDate && !c.endDate && !c.renewals && !c.rate) {
+                contracts.splice(x, 1);
+                x--;
+                if (contracts.length === 0) {
+                    break;
+                }
+            }
+        }
+        return contracts;
     };
     $rootScope.$on("dbReady", methods.loadCompanyData);
     if (!online) {
@@ -291,7 +313,6 @@ App.controller("AddCtrl", [ "appStateService", function(appStateService) {
 
 App.controller("AppCtrl", [ "$rootScope", "$scope", "dbService", "contactsService", "companiesService", function($rootScope, $scope, dbService, contactsService, companiesService) {
     $scope.isDbLoading = dbService.isDbLoading;
-    var dialogShown = false;
     $scope.companies = companiesService.getCompanies();
     $scope.contacts = contactsService.getContacts();
     $scope.$watch(companiesService.getCompanies, function(newVal, oldVal) {
@@ -306,12 +327,6 @@ App.controller("AppCtrl", [ "$rootScope", "$scope", "dbService", "contactsServic
             $scope.$broadcast("dbContactsUpdated");
         }
     }, true);
-    $scope.isDialogShown = function() {
-        return dialogShown;
-    };
-    $scope.setDialogShown = function(bool) {
-        dialogShown = bool;
-    };
 } ]);
 
 App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$location", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $timeout, $location, contactsService, companiesService, appStateService) {
@@ -323,6 +338,9 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
     $scope.company = {};
     $scope.company.contracts = [];
     $scope.saveCo = function() {
+        if ($scope.company.contracts) {
+            $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+        }
         companiesService.addCompany($scope.company);
         $location.path("/" + $scope.type);
     };
@@ -345,6 +363,9 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
         $timeout(function() {
             $scope.showContacts = false;
         }, 250);
+    };
+    $scope.hideModal = function() {
+        $scope.setDialogShown(false);
     };
 } ]);
 
@@ -386,11 +407,20 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
             $scope.showContacts = false;
         }, 250);
     };
-    $scope.$watch("$scope.company", companiesService.saveCompanyData, true);
+    $scope.$watch("$scope.company", function() {
+        if ($scope.company) {
+            companiesService.saveCompanyData();
+            if ($scope.company.contracts) {
+                $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+            }
+        }
+    }, true);
 } ]);
 
-App.controller("CompanyListCtrl", [ "$rootScope", "$scope", "appStateService", function($rootScope, $scope, appStateService) {
+App.controller("CompanyListCtrl", [ "$scope", "$routeParams", "appStateService", "contactsService", function($scope, $routeParams, appStateService, contactsService) {
     appStateService.setCurrentPage("companies");
+    $scope.getContact = contactsService.getContact;
+    $scope.filterText = $routeParams.search;
 } ]);
 
 App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeout", "$routeParams", "contactsService", "appStateService", function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService) {
@@ -404,7 +434,12 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
             return _.isEqual(co.name, name);
         });
     }
+    $rootScope.$on("modalClosed", function() {
+        console.log("modal is open");
+        $scope.contact = {};
+    });
     $scope.saveCo = function() {
+        debugger;
         var contacts = contactsService.getContacts();
         if (isDuplicateName(contacts, $scope.contact.name)) {
             if (confirm("You already have a contact by this name.\n\nClick 'OK' to continue anyway;\nClick 'Cancel' to edit this contact.")) {
@@ -417,7 +452,7 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
             contactsService.addContact($scope.contact);
             if ($scope.inModal) {
                 $timeout(function() {
-                    $scope.setDialogShown(false);
+                    $rootScope.hideModal();
                 });
             } else {
                 $location.path("/" + $scope.type);
@@ -453,6 +488,7 @@ App.controller("ContactEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
 App.controller("ContactListCtrl", [ "$rootScope", "$scope", "$routeParams", "dbService", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $routeParams, dbService, contactsService, companiesService, appStateService) {
     appStateService.setCurrentPage("contacts");
     $scope.contactId = $routeParams.contactId;
+    $scope.getCompaniesByContact = companiesService.getCompaniesByContact;
     $scope.$on("dbCompaniesUpdated", setContactData);
     if (!dbService.isDbLoading()) {
         setContactData();
@@ -460,18 +496,14 @@ App.controller("ContactListCtrl", [ "$rootScope", "$scope", "$routeParams", "dbS
     function setContactData() {
         $scope.companiesWithContact = companiesService.getCompaniesWithContact();
         $scope.contacts = contactsService.getContacts();
-        $scope.companiesNotDisplayed = $scope.companies.length - $scope.companiesWithContact.length;
-        if ($scope.companiesNotDisplayed === 1) {
-            $scope.companiesSuffix = "y";
-            $scope.companiesDescriptor = "is";
-        } else {
-            $scope.companiesSuffix = "ies";
-            $scope.companiesDescriptor = "are";
-        }
-        $scope.companiesByContact = _.groupBy($scope.companiesWithContact, function(obj) {
-            return obj.contactName;
-        });
     }
+    $scope.getSuffix = function(num) {
+        if (num === 1) {
+            return "y";
+        } else {
+            return "ies";
+        }
+    };
 } ]);
 
 App.controller("DbControlsCtrl", [ "$rootScope", "$scope", "dbService", function($rootScope, $scope, dbService) {
@@ -482,6 +514,22 @@ App.controller("DbControlsCtrl", [ "$rootScope", "$scope", "dbService", function
     $scope.$watch(dbService.isDbLoggedIn, function(newVal, oldVal) {
         $scope.dbActive = newVal;
     });
+} ]);
+
+App.controller("ModalDialogCtrl", [ "$rootScope", "$scope", "$timeout", function($rootScope, $scope, $timeout) {
+    $scope.modalShown = false;
+    $rootScope.showModal = function() {
+        $timeout(function() {
+            $scope.modalShown = true;
+        });
+        $rootScope.$broadcast("modalOpened");
+    };
+    $rootScope.hideModal = function() {
+        $timeout(function() {
+            $scope.modalShown = false;
+        });
+        $rootScope.$broadcast("modalClosed");
+    };
 } ]);
 
 App.directive("dbControls", function() {
@@ -517,6 +565,18 @@ App.directive("headerBar", [ "appStateService", function(appStateService) {
         }
     };
 } ]);
+
+App.directive("modalDialog", function() {
+    return {
+        restrict: "E",
+        scope: true,
+        replace: true,
+        transclude: true,
+        controller: "ModalDialogCtrl",
+        templateUrl: "partials/modal-dialog.html",
+        link: function(scope, element, attrs) {}
+    };
+});
 
 App.filter("fallbackText", function() {
     return function(str, fallbackStr) {

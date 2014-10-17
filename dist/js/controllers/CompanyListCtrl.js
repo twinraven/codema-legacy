@@ -1,8 +1,13 @@
 App.controller('CompanyListCtrl', [
-    '$rootScope',
     '$scope',
+    '$routeParams',
     'appStateService',
-    function($rootScope, $scope, appStateService) {
+    'contactsService',
+    function($scope, $routeParams, appStateService, contactsService) {
         appStateService.setCurrentPage('companies');
+
+        $scope.getContact = contactsService.getContact;
+
+        $scope.filterText = $routeParams.search;
     }
 ]);
