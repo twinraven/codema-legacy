@@ -6,11 +6,11 @@ A quick & easy way for contractors to keep track of companies, contact and contr
 
 ## Features
 
-* *Manage Companies*: Name, Address, Phone number, Contact, Notes & Contracts
-* *Manage Contacts*: Name, Email, Phone number & Notes
-* *Manage Contracts*: add full contract details per company
-* *Data saved in Dropbox*: All data is saved using Dropbox Datastore, so access the same data everywhere
-* *Responsive layout*: Access your data on any device, just as easily.
+* **Manage Companies**: Name, Address, Phone number, Contact, Notes & Contracts
+* **Manage Contacts**: Name, Email, Phone number & Notes
+* **Manage Contracts**: add full contract details per company
+* **Data saved in Dropbox**: All data is saved using Dropbox Datastore, so access the same data everywhere
+* **Responsive layout**: Access your data on any device, just as easily.
 
 #### Data saved in Dropbox Datastore
 
