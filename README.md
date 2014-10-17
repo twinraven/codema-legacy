@@ -16,6 +16,16 @@ A quick & easy way for contractors to keep track of companies, contact and contr
 
 All data is saved in local storage, on the user's machine. If the user authenticates with Dropbox, then their data is also synced with a [Dropbox Datastore](https://www.dropbox.com/developers/datastore) - meaning they can use the app anywhere & control the same data.
 
+## To get going:
+
+1. Clone the repo
+2. run `npm install`
+3. run `bower install`
+4. run `grunt dist`
+5. run `grunt server`
+6. visit `http://0.0.0.0:9001`
+7. (Or visit the [demo](https://twinraven.github.io/codema/dist/))
+
 -----
 
 ### To do list:
