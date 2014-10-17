@@ -16,10 +16,10 @@
                 <input type="text" ng-model="company.address" class="field-edit" id="address" name="address">
             </div>
 
-            <div class="co-row co-row--textarea">
-                <p class="field-label">Notes</p>
-                <p class="field-output">{{company.notes | useDashIfEmpty}}</p>
-                <textarea ng-model="company.notes" class="field-edit" id="notes" name="notes"></textarea>
+            <div class="co-row">
+                <p class="field-label">Phone number</p>
+                <p class="field-output">{{company.phone | useDashIfEmpty}}</p>
+                <input type="text" ng-model="company.phone" class="field-edit" id="phone" name="phone">
             </div>
 
             <div class="co-row">
@@ -42,6 +42,12 @@
 
                     <p class="field-select__item field-select__item--add"><a ng-click="showModal()">Add new...</a><p>
                 </div>
+            </div>
+
+            <div class="co-row co-row--textarea">
+                <p class="field-label">Notes</p>
+                <p class="field-output">{{company.notes | useDashIfEmpty}}</p>
+                <textarea ng-model="company.notes" class="field-edit" id="notes" name="notes"></textarea>
             </div>
 
             <div class="co-contracts">
