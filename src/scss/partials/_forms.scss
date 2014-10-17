@@ -175,6 +175,7 @@ input.ng-invalid.ng-dirty,
   position: absolute;
   top: 4rem;
   width: 100%;
+  z-index: 10;
 }
 
 .contacts-list {
@@ -190,7 +191,6 @@ input.ng-invalid.ng-dirty,
   overflow-y: scroll;
   padding: 0;
   width: 100%;
-  z-index: 10;
 
   li {
     border-bottom: 1px dotted #aaa;
