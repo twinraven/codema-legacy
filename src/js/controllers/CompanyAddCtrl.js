@@ -40,6 +40,7 @@ App.controller('CompanyAddCtrl', [
 
         $scope.selectContact = function(id) {
             $scope.company.contactId = id;
+            $scope.company.contactName = $scope.getContact(id).name;
             $scope.showContactList = false;
         };
 

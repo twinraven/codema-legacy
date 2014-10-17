@@ -14,7 +14,13 @@ App.service('companiesService', [
             lsLastModified = window.localStorage.getItem('lastModified'),
             online = navigator.onLine;
 
-        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Private Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        function getHighestId() {
+            return _.max(companiesList, function(o){return o.id;}).id;
+        }
+
+        // Public Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         methods.loadCompanyData = function loadCompanyData() {
             dbCompaniesRecord = dbService.getDbCompaniesRecord();
@@ -69,7 +75,7 @@ App.service('companiesService', [
 
         methods.addCompany = function addCompany(newCompany) {
             if (companiesList && companiesList.length) {
-                newCompany.id = methods.getHighestId() + 1;
+                newCompany.id = getHighestId() + 1;
             } else {
                 newCompany.id = 1;
             }
@@ -78,9 +84,6 @@ App.service('companiesService', [
             methods.saveCompanyData();
         };
 
-        methods.getHighestId = function getHighestId() {
-            return _.max(companiesList, function(o){return o.id;}).id;
-        };
 
         methods.getCompanies = function getCompanies(){
             return companiesList;
@@ -97,7 +100,13 @@ App.service('companiesService', [
         methods.getCompaniesByContact = function getCompaniesByContact(id) {
             return _.filter(companiesList, function(obj) {
                 return obj.contactId === id;
-            })
+            });
+        };
+
+        methods.getCompaniesWithContact = function getCompaniesWithContact() {
+            return _.filter(companiesList, function(obj) {
+                return obj.contactName;
+            });
         };
 
         methods.removeCompany = function removeCompany(company) {
@@ -112,12 +121,6 @@ App.service('companiesService', [
 
         methods.removeContract = function removeContract(companyId, contractId) {
             methods.getCompany(companyId).contracts.splice(contractId,1);
-        };
-
-        methods.getCompaniesWithContact = function getCompaniesWithContact() {
-            return _.filter(companiesList, function(obj) {
-                return obj.contactName;
-            });
         };
 
         methods.removeEmptyContracts = function removeEmptyContracts(contracts) {

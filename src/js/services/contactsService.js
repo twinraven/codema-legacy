@@ -14,7 +14,13 @@ App.service('contactsService', [
             lsLastModified = window.localStorage.getItem('lastModified'),
             online = navigator.onLine;
 
-        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Private Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        function getHighestId() {
+            return _.max(contactsList, function(o){return o.id;}).id;
+        }
+
+        // Public Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         methods.loadContactData = function loadContactData() {
             dbCompaniesRecord = dbService.getDbCompaniesRecord();
@@ -69,17 +75,13 @@ App.service('contactsService', [
 
         methods.addContact = function addContact(newContact) {
             if (contactsList && contactsList.length) {
-                newContact.id = methods.getHighestId() + 1;
+                newContact.id = getHighestId() + 1;
             } else {
                 newContact.id = 1;
             }
             contactsList.push(newContact);
 
             methods.saveContactData();
-        };
-
-        methods.getHighestId = function getHighestId() {
-            return _.max(contactsList, function(o){return o.id;}).id;
         };
 
         methods.getContacts = function getContacts(){

@@ -45,7 +45,10 @@ App.controller('CompanyEditCtrl', [
         };
 
         $scope.selectContact = function(id) {
-            $timeout(function() { $scope.company.contactId = id; });
+            $timeout(function() {
+                $scope.company.contactId = id;
+                $scope.company.contactName = $scope.getContact(id).name;
+            });
             $scope.showContactList = false;
         };
 

@@ -54,9 +54,9 @@
     text-transform: uppercase;
     transition: box-shadow 0.25s;
 
-    /* .item-list--contacts & {
-      @include font-size(13);
-    } */
+    .item-list--contacts & {
+      background: #999;
+    }
 
     @include respond-min($cols-4) {
       @include font-size(18);
