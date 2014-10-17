@@ -1,12 +1,9 @@
 TODO:
 
-- on company form, in modal, clear fields on opening
-- form validation
-- add style difference between companies and contacts (so it's easy to tell them apart)
-- required fields
+- form validation & required fields
 - COMBINE COMPANY & CONTACT 'you've made changes' MESSAGES/UPLOADS?
 
-- fix search: allow search by contact name in companies list
+- clear button (cross symbol) in search fields
 
 
 

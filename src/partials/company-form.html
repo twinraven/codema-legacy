@@ -25,6 +25,7 @@
             <p class="field-output"><a href="#" ng-href="#/contacts/{{company.contactId}}">{{getContact(company.contactId).name | useDashIfEmpty}} <strong>{{getContact(company.contactId).email}}</strong></a></p>
 
             <input type="hidden" name="co-contactId" id="co-contactId" ng-model="company.contactId">
+            <input type="hidden" name="co-contactName" id="co-contactName" ng-model="company.contactName">
 
             <a class="field-edit field-select" ng-href="" ng-click="showContactList = !showContactList" ng-class="{'is-active': showContactList}">
                 <span>{{getContact(company.contactId).name | fallbackText:'Select contact...'}}</span>
