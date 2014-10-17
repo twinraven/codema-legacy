@@ -54,9 +54,5 @@ App.controller('CompanyAddCtrl', [
                 $scope.showContacts = false;
             }, 250);
         };
-
-        $scope.hideModal = function() {
-            $scope.setDialogShown(false);
-        };
     }
 ]);

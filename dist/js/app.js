@@ -379,9 +379,6 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
             $scope.showContacts = false;
         }, 250);
     };
-    $scope.hideModal = function() {
-        $scope.setDialogShown(false);
-    };
 } ]);
 
 App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$timeout", "$location", "dbService", "contactsService", "companiesService", "appStateService", function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
