@@ -4,10 +4,16 @@
 
         <form novalidate name="coForm">
             <div class="co-row">
-                <p class="field-label">Name</p>
+                <p class="field-label">Name *</p>
                 <p class="field-output">{{contact.name | useDashIfEmpty}}</p>
                 <input type="text" ng-model="contact.name" class="field-edit" id="name" name="name" required auto-focus>
                 <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field-message field-message--error">A name is required.</p>
+            </div>
+
+            <div class="co-row">
+                <p class="field-label">Company</p>
+                <p class="field-output">{{contact.company | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.company" class="field-edit" id="company" name="company">
             </div>
 
             <div class="co-row">
@@ -28,7 +34,10 @@
                 <p class="field-output">{{contact.notes | useDashIfEmpty}}</p>
                 <textarea ng-model="contact.notes" class="field-edit" id="notes" name="notes"></textarea>
             </div>
-    </form>
+        </form>
+
+        <edit-bar data-pos="bottom"></edit-bar>
+
     </div>
 </div>
 

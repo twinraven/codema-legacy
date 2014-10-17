@@ -27,7 +27,6 @@
 .item {
   background: #fff;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-  cursor: pointer;
   padding: 0;
   overflow: hidden;
   position: relative;
@@ -51,11 +50,31 @@
     margin: 0;
     padding: 10px 40px 10px 15px;
     text-decoration: none;
-    text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
     transition: box-shadow 0.25s;
+
+    strong {
+      margin-right: 10px;
+    }
+
+    em {
+      color: #b7b7b7;
+      display: block;
+      font-style: normal;
+      text-shadow: none;
+
+      @include respond-min($cols-3) {
+        display: inline-block;
+      }
+    }
 
     .item-list--contacts & {
       background: #999;
+
+      &:hover,
+      &:focus {
+        background: #888;
+      }
     }
 
     @include respond-min($cols-4) {
@@ -77,9 +96,11 @@
     display: block;
     @include font-size(14);
     margin: 1em 0;
+    min-width: 30px;
     opacity: 0.4;
     position: absolute;
-    right: 15px;
+    right: 5px;
+    text-align: center;
     top: 0;
     z-index: 10;
   }
@@ -92,6 +113,13 @@
     font-family: 'Arvo', sans-serif;
     color: #b2b2b2;
     padding: 4px 15px;
+  }
+
+  .item-contact {
+    &:hover,
+    &:focus {
+      color: #888;
+    }
   }
 
   .item-contracts {
@@ -179,6 +207,7 @@ a.co-edit {
 
 .edit-bar {
   overflow: hidden;
+  text-transform: uppercase;
 
   &.edit-bar--top {
     border-bottom: thin dotted #bbb;
@@ -201,12 +230,22 @@ a.co-edit {
     box-sizing: border-box;
     color: $color-secondary;
     display: inline-block;
-    @include font-size(18);
+    @include font-size(17);
+    font-family: 'Arvo', sans-serif;
+    line-height: 1.4;
     margin: 0 0 15px;
-    padding: 40px;
+    padding: 26px 30px;
     text-align: center;
+    text-transform: uppercase;
     transition: all 0.2s;
     width: 100%;
+
+    .icon {
+      color: #aaa;
+      display: block;
+      @include font-size(25);
+      opacity: 0.8;
+    }
 
     &:hover,
     &:focus {
@@ -214,6 +253,8 @@ a.co-edit {
     }
 
     @include respond-min($cols-3) {
+      line-height: 1.7;
+      padding: 32px 40px;
       margin: 0 2% 15px;
       width: 46%;
     }

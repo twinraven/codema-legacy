@@ -2,7 +2,7 @@
 
 <ul class="item-list item-list--contacts" ng-class="{'is-loading': isDbLoading()}">
     <li ng-repeat="contact in contacts | filter:filterText track by $index" class="item">
-        <a ng-href="#/contacts/{{contact.id}}" class="item-name">{{contact.name}}</a>
+        <a ng-href="#/contacts/{{contact.id}}" class="item-name"><strong>{{contact.name}}</strong> <em>{{contact.company}}</em></a>
         <a ng-href="#/companies?search={{contact.name}}" class="item-count" title="{{getCompaniesByContact(contact.id).length}} compan{{getSuffix(getCompaniesByContact(contact.id).length)}}">{{getCompaniesByContact(contact.id).length}}</a>
     </li>
 </ul>
