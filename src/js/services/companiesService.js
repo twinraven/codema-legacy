@@ -1,5 +1,3 @@
-/* Companies Service */
-
 App.service('companiesService', [
     '$rootScope',
     '$location',
@@ -144,6 +142,18 @@ App.service('companiesService', [
 
             return contracts;
         };
+
+        methods.removeContactFromCompanies = function removeContactFromCompanies(id) {
+            companiesList = _.map(companiesList, function(obj) {
+                if (obj.contactId === id) {
+                    obj.contactId = null;
+                    obj.contactName = null;
+                }
+                return obj;
+            });
+
+            methods.saveCompanyData();
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

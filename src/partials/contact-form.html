@@ -1,18 +1,22 @@
-<div class="add-contact" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading()}">
+<div class="add-contact" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading(), 'is-new': mode === 'new'}">
     <div class="co-details__inner">
         <edit-bar data-pos="top"></edit-bar>
 
-        <div class="co-row">
-            <p class="field-label">Name</p>
-            <p class="field-output">{{contact.name | useDashIfEmpty}}</p>
-            <input type="text" ng-model="contact.name" class="field-edit" id="con-name" name="con-name">
-        </div>
+        <form novalidate name="coForm">
+            <div class="co-row">
+                <p class="field-label">Name</p>
+                <p class="field-output">{{contact.name | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.name" class="field-edit" id="name" name="name" required auto-focus>
+                <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field-message field-message--error">A name is required.</p>
+            </div>
 
-        <div class="co-row">
-            <p class="field-label">Email address</p>
-            <p class="field-output">{{contact.email | useDashIfEmpty}}</p>
-            <input type="email" ng-model="contact.email" class="field-edit" id="con-email" name="con-email">
-        </div>
+            <div class="co-row">
+                <p class="field-label">Email address</p>
+                <p class="field-output">{{contact.email | useDashIfEmpty}}</p>
+                <input type="email" ng-model="contact.email" class="field-edit" id="email" name="email">
+                <p ng-show="coForm.email.$invalid && (coForm.email.$dirty || coForm.$dirty)" class="field-message field-message--error">Please enter a valid email address.</p>
+            </div>
+    </form>
     </div>
 </div>
 

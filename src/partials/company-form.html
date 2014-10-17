@@ -2,50 +2,53 @@
     <div class="co-details__inner">
         <edit-bar data-pos="top"></edit-bar>
 
-        <div class="co-row">
-            <p class="field-label">Name</p>
-            <p class="field-output">{{company.name | useDashIfEmpty}}</p>
-            <input type="text" ng-model="company.name" class="field-edit" id="co-name" name="co-name">
-        </div>
-
-        <div class="co-row">
-            <p class="field-label">Address</p>
-            <p class="field-output">{{company.address | useDashIfEmpty}}</p>
-            <input type="text" ng-model="company.address" class="field-edit" id="co-address" name="co-address">
-        </div>
-
-        <div class="co-row co-row--textarea">
-            <p class="field-label">Notes</p>
-            <p class="field-output">{{company.notes | useDashIfEmpty}}</p>
-            <textarea ng-model="company.notes" class="field-edit" id="co-notes" name="co-notes"></textarea>
-        </div>
-
-        <div class="co-row">
-            <p class="field-label">Contact</p>
-            <p class="field-output"><a href="#" ng-href="#/contacts/{{company.contactId}}">{{getContact(company.contactId).name | useDashIfEmpty}} <strong>{{getContact(company.contactId).email}}</strong></a></p>
-
-            <input type="hidden" name="co-contactId" id="co-contactId" ng-model="company.contactId">
-            <input type="hidden" name="co-contactName" id="co-contactName" ng-model="company.contactName">
-
-            <a class="field-edit field-select" ng-href="" ng-click="showContactList = !showContactList" ng-class="{'is-active': showContactList}">
-                <span>{{getContact(company.contactId).name | fallbackText:'Select contact...'}}</span>
-                <span class="icon icon-arrow-up" ng-show="showContactList"></span>
-                <span class="icon icon-arrow-down" ng-hide="showContactList"></span>
-            </a>
-
-            <div class="contact-list-wrapper" ng-show="showContactList">
-                <ul id="co-contact" name="co-contact" class="contacts-list">
-                    <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
-                </ul>
-
-                <p class="field-select__item field-select__item--add"><a ng-click="showModal()">Add new...</a><p>
+        <form novalidate name="coForm">
+            <div class="co-row">
+                <p class="field-label">Name</p>
+                <p class="field-output">{{company.name | useDashIfEmpty}}</p>
+                <input type="text" ng-model="company.name" class="field-edit" id="name" name="name" required auto-focus>
+                <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field-message field-message--error">A name is required.</p>
             </div>
-        </div>
 
-        <div class="co-contracts">
-            <div ng-repeat="contract in company.contracts" class="contract-details" ng-include="'partials/contract-form.html'" ng-init="unique=$index"></div>
-            <a href="javascript:;" ng-click="addContract()" ng-show="isEditing" class="add-contract"><span class="icon-add"></span> Add contract</a>
-        </div>
+            <div class="co-row">
+                <p class="field-label">Address</p>
+                <p class="field-output">{{company.address | useDashIfEmpty}}</p>
+                <input type="text" ng-model="company.address" class="field-edit" id="address" name="address">
+            </div>
+
+            <div class="co-row co-row--textarea">
+                <p class="field-label">Notes</p>
+                <p class="field-output">{{company.notes | useDashIfEmpty}}</p>
+                <textarea ng-model="company.notes" class="field-edit" id="notes" name="notes"></textarea>
+            </div>
+
+            <div class="co-row">
+                <p class="field-label">Contact</p>
+                <p class="field-output"><a href="#" ng-href="#/contacts/{{company.contactId}}">{{getContact(company.contactId).name | useDashIfEmpty}} <strong>{{getContact(company.contactId).email}}</strong></a></p>
+
+                <input type="hidden" name="contactId" id="contactId" ng-model="company.contactId">
+                <input type="hidden" name="contactName" id="contactName" ng-model="company.contactName">
+
+                <a class="field-edit field-select" ng-href="" ng-click="showContactList = !showContactList" ng-class="{'is-active': showContactList}">
+                    <span>{{getContact(company.contactId).name | fallbackText:'Select contact...'}}</span>
+                    <span class="icon icon-arrow-up" ng-show="showContactList"></span>
+                    <span class="icon icon-arrow-down" ng-hide="showContactList"></span>
+                </a>
+
+                <div class="contact-list-wrapper" ng-show="showContactList">
+                    <ul id="contact" name="contact" class="contacts-list">
+                        <li class="field-select__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">{{contact.name}}<strong>({{contact.email | fallbackText:'No email specified'}})</strong></a></li>
+                    </ul>
+
+                    <p class="field-select__item field-select__item--add"><a ng-click="showModal()">Add new...</a><p>
+                </div>
+            </div>
+
+            <div class="co-contracts">
+                <div ng-repeat="contract in company.contracts" class="contract-details" ng-include="'partials/contract-form.html'" ng-init="unique=$index"></div>
+                <a href="javascript:;" ng-click="addContract()" ng-show="isEditing" class="add-contract"><span class="icon-add"></span> Add contract</a>
+            </div>
+        </form>
 
         <edit-bar data-pos="bottom"></edit-bar>
     </div>

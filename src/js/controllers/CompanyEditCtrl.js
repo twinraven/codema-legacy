@@ -3,12 +3,13 @@ App.controller('CompanyEditCtrl', [
     '$scope',
     '$routeParams',
     '$timeout',
+    '$location',
     'dbService',
     'contactsService',
     'companiesService',
     'appStateService',
-    function($rootScope, $scope, $routeParams, $timeout, dbService, contactsService, companiesService, appStateService) {
-        appStateService.setCurrentPage('company');
+    function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
+        appStateService.setCurrentPage('companies');
 
         $scope.isEditing = $routeParams.editing;
         $scope.getContact = contactsService.getContact;
@@ -41,6 +42,7 @@ App.controller('CompanyEditCtrl', [
         $scope.deleteCo = function() {
             if (confirm('Are you sure?')) {
                 companiesService.removeCompany($scope.company);
+                $location.path('/' + $scope.type);
             }
         };
 
@@ -56,6 +58,14 @@ App.controller('CompanyEditCtrl', [
             $timeout(function() {
                 $scope.showContacts = false;
             }, 250);
+        };
+
+        $scope.finishEditing = function() {
+            if ($scope.coForm.$valid) {
+                $location.search('editing', null);
+            } else {
+                alert('Please fix the errors in the form before continuing');
+            }
         };
 
         // auto-save data
