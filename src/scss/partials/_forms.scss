@@ -168,7 +168,7 @@ input.field--hidden {
   box-sizing: border-box;
   list-style: none;
   margin: 0;
-  max-height: 6rem;
+  max-height: 5.5rem;
   overflow: hidden;
   overflow-y: scroll;
   padding: 0;
@@ -208,10 +208,11 @@ input.field--hidden {
 
 .field-select__item--add {
   border: 1px solid #ddd;
-  border-width: 0 1px 1px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin: 0;
+  position: relative;
+  z-index: 10;
 
   a {
     background: $color-primary-light1;

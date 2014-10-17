@@ -74,7 +74,10 @@
 
   .item-count {
     color: #fff;
+    display: block;
     @include font-size(14);
+    margin: 1em 0;
+    opacity: 0.4;
     position: absolute;
     right: 15px;
     top: 0;
@@ -84,7 +87,9 @@
   .item-contact,
   .item-contracts {
     @include font-size(12);
+    border: none;
     float: left;
+    font-family: 'Arvo', sans-serif;
     color: #b2b2b2;
     padding: 4px 15px;
   }
@@ -124,6 +129,12 @@ a.add-contract {
   display: block;
   margin: 20px 0;
   padding: 20px;
+  transition: all 0.2s;
+
+  &:hover,
+  &:focus {
+    background: $color-primary;
+  }
 }
 
 a.delete-item {
@@ -159,6 +170,10 @@ a.co-edit {
 .co-details__inner {
   .is-loading & {
     display: none;
+  }
+
+  .is-new & {
+    display: block;
   }
 }
 

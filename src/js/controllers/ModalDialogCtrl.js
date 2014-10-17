@@ -1,0 +1,18 @@
+App.controller('ModalDialogCtrl', [
+    '$rootScope',
+    '$scope',
+    '$timeout',
+    function($rootScope, $scope, $timeout) {
+        $scope.modalShown = false;
+
+        $rootScope.showModal = function() {
+            $timeout(function() { $scope.modalShown = true; });
+            $rootScope.$broadcast('modalOpened');
+        };
+
+        $rootScope.hideModal = function() {
+            $timeout(function() { $scope.modalShown = false; });
+            $rootScope.$broadcast('modalClosed');
+        };
+    }
+]);

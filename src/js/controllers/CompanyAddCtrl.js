@@ -17,6 +17,9 @@ App.controller('CompanyAddCtrl', [
         $scope.company.contracts = [];
 
         $scope.saveCo = function() {
+            if ($scope.company.contracts) {
+                $scope.company.contracts = companiesService.removeEmptyContracts($scope.company.contracts);
+            }
             companiesService.addCompany($scope.company);
             $location.path('/' + $scope.type);
         };
@@ -44,6 +47,10 @@ App.controller('CompanyAddCtrl', [
             $timeout(function() {
                 $scope.showContacts = false;
             }, 250);
+        };
+
+        $scope.hideModal = function() {
+            $scope.setDialogShown(false);
         };
     }
 ]);

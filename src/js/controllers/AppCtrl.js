@@ -7,7 +7,6 @@ App.controller('AppCtrl', [
     'companiesService',
     function ($rootScope, $scope, dbService, contactsService, companiesService) {
         $scope.isDbLoading = dbService.isDbLoading;
-        var dialogShown = false;
 
         $scope.companies = companiesService.getCompanies();
         $scope.contacts = contactsService.getContacts();
@@ -33,13 +32,5 @@ App.controller('AppCtrl', [
                     $scope.$broadcast('dbContactsUpdated');
                 }
             }, true);
-
-        $scope.isDialogShown = function() {
-            return dialogShown;
-        };
-
-        $scope.setDialogShown = function(bool) {
-            dialogShown = bool;
-        };
     }
 ]);
