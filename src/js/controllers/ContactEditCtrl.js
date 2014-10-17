@@ -3,16 +3,17 @@ App.controller('ContactEditCtrl', [
     '$scope',
     '$routeParams',
     '$timeout',
+    '$location',
     'dbService',
     'contactsService',
+    'companiesService',
     'appStateService',
-    function($rootScope, $scope, $routeParams, $timeout, dbService, contactsService, appStateService) {
+    function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
          appStateService.setCurrentPage('contacts');
 
         $scope.isEditing = $routeParams.editing;
-        $scope.id = $routeParams.contactId;
+        $scope.id = parseInt($routeParams.contactId);
         $scope.type = 'contacts';
-
         $scope.mode = 'show';
 
         // when the contacts data updates, reset our scope variables accordingly. This is for when we load this page directly.
@@ -28,7 +29,9 @@ App.controller('ContactEditCtrl', [
 
         $scope.deleteCo = function() {
             if (confirm('Are you sure?')) {
+                companiesService.removeContactFromCompanies($scope.id);
                 contactsService.removeContact($scope.contact);
+                $location.path('/' + $scope.type);
             }
         };
 

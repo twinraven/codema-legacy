@@ -3,11 +3,12 @@ App.controller('CompanyEditCtrl', [
     '$scope',
     '$routeParams',
     '$timeout',
+    '$location',
     'dbService',
     'contactsService',
     'companiesService',
     'appStateService',
-    function($rootScope, $scope, $routeParams, $timeout, dbService, contactsService, companiesService, appStateService) {
+    function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
         appStateService.setCurrentPage('company');
 
         $scope.isEditing = $routeParams.editing;
@@ -41,6 +42,7 @@ App.controller('CompanyEditCtrl', [
         $scope.deleteCo = function() {
             if (confirm('Are you sure?')) {
                 companiesService.removeCompany($scope.company);
+                $location.path('/' + $scope.type);
             }
         };
 

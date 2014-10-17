@@ -21,6 +21,10 @@
 .is-loading {
   background: url(../images/loading.gif) no-repeat center center;
   padding: 0 0 30px !important;
+
+  &.is-new {
+    background: none;
+  }
 }
 
 .pulse {
