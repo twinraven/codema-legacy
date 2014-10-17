@@ -27,6 +27,10 @@
   }
 }
 
+.is-disabled {
+  opacity: 0.3 !important;
+}
+
 .pulse {
   animation-duration: 0.5s;
   animation-name: pulse;

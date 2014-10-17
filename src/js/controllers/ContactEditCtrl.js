@@ -35,6 +35,14 @@ App.controller('ContactEditCtrl', [
             }
         };
 
+        $scope.finishEditing = function() {
+            if ($scope.coForm.$valid) {
+                $location.search('editing', null);
+            } else {
+                alert('Please fix the errors in the form before continuing');
+            }
+        };
+
         // auto-save data
         $scope.$watch('$scope.contact', contactsService.saveContactData, true);
 

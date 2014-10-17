@@ -50,6 +50,23 @@ input.field--hidden {
   }
 }
 
+// show in error state either when form field has been 'dirtied',
+// or when the form itself has been (even if this one has not)
+input.ng-invalid.ng-dirty,
+.ng-dirty input.ng-invalid {
+  background: #fee;
+  border: 1px solid #d00 !important;
+}
+
+.field-message {
+  margin: 7px 0 0;
+  @include font-size(12);
+
+  &.field-message--error {
+    color: #d00;
+  }
+}
+
 .co-row {
   border-bottom: thin dotted #bbb;
   clear: both;

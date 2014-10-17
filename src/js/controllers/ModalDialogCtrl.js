@@ -14,5 +14,9 @@ App.controller('ModalDialogCtrl', [
             $timeout(function() { $scope.modalShown = false; });
             $rootScope.$broadcast('modalClosed');
         };
+
+        $rootScope.getModalState = function() {
+            return $scope.modalShown;
+        };
     }
 ]);

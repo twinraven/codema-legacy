@@ -1,19 +1,17 @@
 TODO:
 
-- form validation & required fields
 - COMBINE COMPANY & CONTACT 'you've made changes' MESSAGES/UPLOADS?
-
-- clear button (cross symbol) in search fields
 
 
 
 FUTURE:
 
+- clear button (cross symbol) in search fields
 - handle dropbox error better (when the user refuses; etc)
 - allow non-dropbox users to use the app (first visit: modal window: 'use dropbox', 'use local storage', 'ask me next time')
 - auto-height for notes field
-- Split dropbox data into table rows (not a JSON dump into 1 row)
 - refactor CSS to BEM
-- map
-- map lat/long lookup
 - infinite scroll on company/contact list
+- Split dropbox data into table rows (not a JSON dump into 1 row)?
+- map
+- map lat/long lookup (google service)

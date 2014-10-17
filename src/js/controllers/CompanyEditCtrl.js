@@ -9,7 +9,7 @@ App.controller('CompanyEditCtrl', [
     'companiesService',
     'appStateService',
     function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
-        appStateService.setCurrentPage('company');
+        appStateService.setCurrentPage('companies');
 
         $scope.isEditing = $routeParams.editing;
         $scope.getContact = contactsService.getContact;
@@ -58,6 +58,14 @@ App.controller('CompanyEditCtrl', [
             $timeout(function() {
                 $scope.showContacts = false;
             }, 250);
+        };
+
+        $scope.finishEditing = function() {
+            if ($scope.coForm.$valid) {
+                $location.search('editing', null);
+            } else {
+                alert('Please fix the errors in the form before continuing');
+            }
         };
 
         // auto-save data
