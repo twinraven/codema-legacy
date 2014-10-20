@@ -11,6 +11,14 @@
             </div>
 
             <div class="co-row">
+                <p class="field-label">Website</p>
+                <p class="field-output" ng-hide="company.url">{{company.url | useDashIfEmpty}}</p>
+                <p class="field-output field-output__link" ng-show="company.url" target="_blank"><a href="{{company.url}}">{{company.url}}</a></p>
+
+                <input type="text" ng-model="company.url" class="field-edit" id="url" name="url">
+            </div>
+
+            <div class="co-row">
                 <p class="field-label">Address</p>
                 <p class="field-output">{{company.address | useDashIfEmpty}}</p>
                 <input type="text" ng-model="company.address" class="field-edit" id="address" name="address">
