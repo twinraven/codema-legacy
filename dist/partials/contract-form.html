@@ -2,28 +2,28 @@
     <a ng-href="" ng-click="removeContract($index)" class="editor-only delete-item f-right">Delete <span class="icon-cancel"></span></a>
 
     <legend class="f-left">Contract #{{$index + 1}}</legend>
-    <div class="co-row">
-        <p class="field-label">Start date</p>
-        <p class="field-output">{{contract.startDate}}</p>
-        <input type="date" ng-model="contract.startDate" class="field-edit field-new" id="co-startDate-{{$index}}" name="co-startDate-{{$index}}">
+    <div class="field">
+        <p class="field__label">Start date</p>
+        <p class="field__output">{{contract.startDate | prettyDate | useDashIfEmpty}}</p>
+        <input type="date" ng-model="contract.startDate" class="field__value field__edit field__date" id="co-startDate-{{$index}}" name="co-startDate-{{$index}}">
     </div>
 
-    <div class="co-row">
-        <p class="field-label">Contract end date</p>
-        <p class="field-output">{{contract.endDate}}</p>
-        <input type="date" ng-model="contract.endDate" class="field-edit field-new" id="co-endDate-{{$index}}" name="co-endDate-{{$index}}">
+    <div class="field">
+        <p class="field__label">Contract end date</p>
+        <p class="field__output">{{contract.endDate | prettyDate | useDashIfEmpty}}</p>
+        <input type="date" ng-model="contract.endDate" class="field__value field__edit field__date" id="co-endDate-{{$index}}" name="co-endDate-{{$index}}">
     </div>
 
-    <div class="co-row">
-        <p class="field-label">No. of renewals</p>
-        <p class="field-output">{{contract.renewals}}</p>
-        <input type="number" ng-model="contract.renewals" class="field-edit field-new" id="co-renewals-{{$index}}" name="co-renewals-{{$index}}">
+    <div class="field">
+        <p class="field__label">No. of renewals</p>
+        <p class="field__output">{{contract.renewals | useDashIfEmpty}}</p>
+        <input type="number" ng-model="contract.renewals" class="field__value field__edit" id="co-renewals-{{$index}}" name="co-renewals-{{$index}}">
     </div>
 
-    <div class="co-row">
-        <p class="field-label">Day rate (GBP) (Hover to view)</p>
-        <p class="field-output field--hidden">&pound;{{contract.rate}}</p>
-        <input type="number" ng-model="contract.rate" step="5" class="field-edit field-new field--hidden" id="co-rate-{{$index}}" name="co-rate-{{$index}}">
+    <div class="field">
+        <p class="field__label">Day rate (GBP) (Hover to view)</p>
+        <p class="field__output" ng-class="{'field--hidden': contract.rate}"><span ng-show="contract.rate">&pound;</span>{{contract.rate | useDashIfEmpty}}</p>
+        <input type="number" ng-model="contract.rate" step="5" class="field__value field__edit field__hidden" id="co-rate-{{$index}}" name="co-rate-{{$index}}">
     </div>
 
 </fieldset>

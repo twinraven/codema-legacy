@@ -1,5 +1,5 @@
 /**
- *   - v1.1.0 - 2014-10-17
+ *   - v1.1.0 - 2014-10-21
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
@@ -293,7 +293,6 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
         return online;
     };
     methods.dbLogOut = function dropboxLogout() {
-        console.log("now");
         $timeout(function() {
             loginStatusInFlux = true;
         });
@@ -634,6 +633,29 @@ App.filter("fallbackText", function() {
             return fallbackStr;
         } else {
             return str;
+        }
+    };
+});
+
+App.filter("hideProtocol", function() {
+    return function(str) {
+        if (str && str.indexOf("http://") !== -1) {
+            return str.replace("http://", "");
+        } else if (str && str.indexOf("https://") !== -1) {
+            return str.replace("https://", "");
+        } else {
+            return str;
+        }
+    };
+});
+
+App.filter("prettyDate", function() {
+    return function(str) {
+        if (str === undefined || str.length === 0) {
+            return str;
+        } else {
+            var d = new Date(str);
+            return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
         }
     };
 });

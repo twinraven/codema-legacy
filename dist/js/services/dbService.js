@@ -124,7 +124,6 @@ App.service('dbService', [
         }
 
         methods.dbLogOut = function dropboxLogout() {
-            console.log('now');
             $timeout(function() {
                 loginStatusInFlux = true;
             });
