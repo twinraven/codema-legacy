@@ -5,9 +5,8 @@ fieldset {
   padding: 0;
 }
 
-.field-output,
-.field-edit,
-.field-new {
+.field__output,
+.field__value {
   border: thin solid transparent;
   box-sizing: border-box;
   @include font-size(14);
@@ -15,15 +14,24 @@ fieldset {
   margin: 0;
   padding: 10px 15px;
 
-  strong {
-    color: #aaa;
+  strong,
+  em {
     font-family: 'Arvo', sans-serif;
+    font-style: normal;
     display: inline-block;
     margin-left: 10px;
   }
+
+  em {
+    color: #aaa;
+  }
+
+  strong {
+    font-family: 'Arvo Bold', sans-serif;
+  }
 }
 
-.field-output {
+.field__output {
   padding-left: 0;
 }
 
@@ -36,7 +44,7 @@ input.field--hidden {
   }
 }
 
-.field-output.field--hidden {
+.field__output.field--hidden {
   opacity: 0;
   transition: opacity 0.2s;
 
@@ -46,85 +54,47 @@ input.field--hidden {
   }
 }
 
-// show in error state either when form field has been 'dirtied',
-// or when the form itself has been (even if this one has not)
-input.ng-invalid.ng-dirty,
-.ng-dirty input.ng-invalid {
-  background: #fee;
-  border: 1px solid #d00 !important;
-}
-
-.field-message {
-  margin: 7px 0 0;
-  @include font-size(12);
-
-  &.field-message--error {
-    color: #d00;
-  }
-}
-
-.co-row {
-  border-bottom: thin dotted #bbb;
-  clear: both;
-  padding: 0 0 3px;
-  position: relative;
-  margin: 0 0 3px;
-
-  &.co-row--last {
-    border-bottom: none;
-  }
-
-  .is-editing & {
-    border-bottom: thin solid transparent;
-  }
-
-  @include respond-min($cols-3) {
-    padding: 0 0 7px;
-    margin: 0 0 7px;
-  }
-}
-
-.co-row--textarea .field-output,
-.co-row--textarea .field-edit,
-.co-row--textarea .field-new {
+.field__textarea .field__output,
+.field__textarea .field__value {
   min-height: 120px;
 }
 
-.field-edit,
-.field-new {
+.field__value {
   background: #fff;
   border: thin solid #ccc;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   width: 100%;
 }
 
-.field-edit,
+.field__edit,
 .editor-only {
   display: none;
-}
 
-.co-new {
-  .field-new {
-    display: block;
-  }
-
-  .field-output {
-    display: none;
-  }
-}
-
-.is-editing {
-  .field-output {
-    display: none;
-  }
-
-  .field-edit,
-  .editor-only {
+  .is-editing & {
     display: block;
   }
 }
 
-.field-edit.field-select {
+.field__output {
+  display: block;
+
+  .is-editing & {
+    display: none;
+  }
+}
+
+.field__checkbox {
+  span {
+    @include font-size(14);
+    margin: 0 0 0 8px;
+  }
+}
+
+.field__date {
+  width: 50%;
+}
+
+.field__edit.field__select {
   border-bottom: 1px solid #ccc;
   cursor: pointer;
   font-family: 'Arvo', sans-serif;
@@ -158,12 +128,58 @@ input.ng-invalid.ng-dirty,
   }
 }
 
-.field-label {
+.field__label {
   color: rgba(0,0,0,0.3);
   clear: both;
   font-weight: normal;
   @include font-size(11);
   margin: 15px 0 7px;
+}
+
+// show in error state either when form field has been 'dirtied',
+// or when the form itself has been (even if this one has not)
+input.ng-invalid.ng-dirty,
+.ng-dirty input.ng-invalid {
+  background: #fee;
+  border: 1px solid #d00 !important;
+}
+
+.field__message {
+  margin: 7px 0 0;
+  @include font-size(12);
+
+  &.field__message--error {
+    color: #d00;
+  }
+}
+
+.field {
+  border-bottom: thin dotted #bbb;
+  clear: both;
+  padding: 0 0 3px;
+  position: relative;
+  margin: 0 0 3px;
+
+  &.field--last {
+    border-bottom: none;
+  }
+
+  .is-editing & {
+    border-bottom: thin solid transparent;
+  }
+
+  .is-editing &.field__no-label {
+    margin-top: 25px;
+  }
+
+  @include respond-min($cols-3) {
+    padding: 0 0 7px;
+    margin: 0 0 7px;
+
+    .is-editing &.field__no-label {
+      margin-top: 25px;
+    }
+  }
 }
 
 .contact-list-wrapper {
@@ -174,7 +190,7 @@ input.ng-invalid.ng-dirty,
   z-index: 10;
 }
 
-.contacts-list {
+.contact-list {
   background: #fff;
   border: 1px solid #ddd;
   border-width: 1px 1px 0;
@@ -193,7 +209,7 @@ input.ng-invalid.ng-dirty,
   }
 }
 
-.field-select__item a {
+.contact-list__item a {
   border: none !important;
   color: $color-secondary;
   display: block;
@@ -209,7 +225,7 @@ input.ng-invalid.ng-dirty,
     margin-right: 10px;
   }
 
-  strong {
+  em {
     color: #aaa;
     display: block;
     font-family: 'Arvo', sans-serif;
@@ -227,7 +243,7 @@ input.ng-invalid.ng-dirty,
   }
 }
 
-.field-select__item--add {
+.contact-list__item--add {
   border: 1px solid #ddd;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
