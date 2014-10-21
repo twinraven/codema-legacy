@@ -3,36 +3,36 @@
         <edit-bar data-pos="top"></edit-bar>
 
         <form novalidate name="coForm">
-            <div class="co-row">
-                <p class="field-label">Name *</p>
-                <p class="field-output">{{contact.name | useDashIfEmpty}}</p>
-                <input type="text" ng-model="contact.name" class="field-edit" id="name" name="name" required auto-focus>
-                <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field-message field-message--error">A name is required.</p>
+            <div class="field">
+                <p class="field__label">Name *</p>
+                <p class="field__output">{{contact.name | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.name" class="field__value field__edit" id="name" name="name" required auto-focus>
+                <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field__message field__message--error">A name is required.</p>
             </div>
 
-            <div class="co-row">
-                <p class="field-label">Company</p>
-                <p class="field-output">{{contact.company | useDashIfEmpty}}</p>
-                <input type="text" ng-model="contact.company" class="field-edit" id="company" name="company">
+            <div class="field">
+                <p class="field__label">Company</p>
+                <p class="field__output">{{contact.company | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.company" class="field__value field__edit" id="company" name="company">
             </div>
 
-            <div class="co-row">
-                <p class="field-label">Email address</p>
-                <p class="field-output">{{contact.email | useDashIfEmpty}}</p>
-                <input type="email" ng-model="contact.email" class="field-edit" id="email" name="email">
-                <p ng-show="coForm.email.$invalid && (coForm.email.$dirty || coForm.$dirty)" class="field-message field-message--error">Please enter a valid email address.</p>
+            <div class="field">
+                <p class="field__label">Email address</p>
+                <p class="field__output">{{contact.email | useDashIfEmpty}}</p>
+                <input type="email" ng-model="contact.email" class="field__value field__edit" id="email" name="email">
+                <p ng-show="coForm.email.$invalid && (coForm.email.$dirty || coForm.$dirty)" class="field__message field__message--error">Please enter a valid email address.</p>
             </div>
 
-            <div class="co-row">
-                <p class="field-label">Phone number</p>
-                <p class="field-output">{{contact.phone | useDashIfEmpty}}</p>
-                <input type="text" ng-model="contact.phone" class="field-edit" id="phone" name="phone">
+            <div class="field">
+                <p class="field__label">Phone number</p>
+                <p class="field__output">{{contact.phone | useDashIfEmpty}}</p>
+                <input type="text" ng-model="contact.phone" class="field__value field__edit" id="phone" name="phone">
             </div>
 
-            <div class="co-row co-row--textarea">
-                <p class="field-label">Notes</p>
-                <p class="field-output">{{contact.notes | useDashIfEmpty}}</p>
-                <textarea ng-model="contact.notes" class="field-edit" id="notes" name="notes"></textarea>
+            <div class="field field__textarea">
+                <p class="field__label">Notes</p>
+                <p class="field__output">{{contact.notes | useDashIfEmpty}}</p>
+                <textarea ng-model="contact.notes" class="field__value field__edit" id="notes" name="notes"></textarea>
             </div>
         </form>
 

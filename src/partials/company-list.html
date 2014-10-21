@@ -1,10 +1,11 @@
 <input type="text" ng-model="filterText" placeholder="Search by company..." class="search">
 
 <ul class="item-list" ng-class="{'is-loading': isDbLoading()}">
-    <li class="item" ng-repeat="company in companies | filter:filterText track by $index | orderBy:'name'">
+    <li class="item" ng-repeat="company in companies | filter:filterText | orderBy:'name' track by $index">
         <a href="#/companies/{{company.id}}" class="item-name">{{company.name}}</a>
         <a ng-href="#/contacts/{{company.contactId}}" class="item-contact" ng-show="company.contactId">{{getContact(company.contactId).name}}</a>
-        <span class="item-contracts" ng-show="company.contracts.length">{{company.contracts.length}} contract<span ng-hide="company.contracts.length===1">s</span></span>
+        <a ng-href="#/companies/{{company.id}}" class="item-contracts" ng-show="company.contracts.length" title="Contracts: {{company.contracts.length}}">{{company.contracts.length}} <span class="icon icon-file"></span></a>
+        <a ng-href="#/companies/{{company.id}}" class="item-interviewed" ng-show="company.interviewed" title="Interviewed: {{company.interviewDate | prettyDate | useDashIfEmpty}}"><span class="icon icon-user"></span></a>
     </li>
 </ul>
 <p class="item-hidden-message" ng-show="!companies.length && !isDbLoading()">No companies yet! Click 'add' above to start adding companies.</p>

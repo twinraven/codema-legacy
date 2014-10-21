@@ -106,23 +106,26 @@
   }
 
   .item-contact,
-  .item-contracts {
+  .item-contracts,
+  .item-interviewed {
     @include font-size(12);
     border: none;
     float: left;
     font-family: 'Arvo', sans-serif;
     color: #b2b2b2;
-    padding: 4px 15px;
+    padding: 5px 15px 3px 0;
   }
 
   .item-contact {
+    padding-left: 15px;
     &:hover,
     &:focus {
       color: #888;
     }
   }
 
-  .item-contracts {
+  .item-contracts,
+  .item-interviewed {
     float: right;
   }
 }
@@ -155,7 +158,6 @@ a.add-contract {
   border: thin dotted #bbb;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   display: block;
-  margin: 20px 0;
   padding: 20px;
   transition: all 0.2s;
 
@@ -206,16 +208,19 @@ a.co-edit {
 }
 
 .edit-bar {
+  background: rgba(255,255,255,0.4);
+  box-shadow: 0 0px 1px rgba(0,0,0,0.2);
   overflow: hidden;
+  margin-left: -9px;
+  margin-right: -9px;
+  padding: 0px 9px;
   text-transform: uppercase;
 
   &.edit-bar--top {
-    border-bottom: thin dotted #bbb;
     margin-bottom: 30px;
   }
 
   &.edit-bar--bottom {
-    border-top: thin dotted #bbb;
     margin-top: 30px;
   }
 }

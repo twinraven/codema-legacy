@@ -3,11 +3,12 @@
     border-radius: 2px 0 0 0;
     bottom: 0;
     color: $color-secondary;
-    @include font-size(14);
+    @include font-size(13);
     font-family: 'Arvo Bold', sans-serif;
     padding: 10px 16px 10px 20px;
     position: fixed;
     right: 0;
+    text-transform: uppercase;
 
     a {
         border-bottom: none;
