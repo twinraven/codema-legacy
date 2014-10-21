@@ -229,6 +229,7 @@ input.ng-invalid.ng-dirty,
     color: #aaa;
     display: block;
     font-family: 'Arvo', sans-serif;
+    font-style: normal;
 
     @include respond-min($cols-3) {
       display: inline-block;
