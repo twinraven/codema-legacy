@@ -7,6 +7,7 @@ App.controller('DbControlsCtrl', [
         $scope.logout = dbService.dbLogOut;
         $scope.login = dbService.dbLogIn;
         $scope.isOnline = dbService.isOnline;
+        $scope.isLoginStatusInFlux = dbService.isLoginStatusInFlux;
 
         $scope.dbActive = false;
 

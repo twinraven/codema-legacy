@@ -9,8 +9,7 @@ App.service('contactsService', [
             dbCompaniesRecord = null,
             lsContactsList = JSON.parse(window.localStorage.getItem('contactsList')),
             offlineAmends = JSON.parse(window.localStorage.getItem('offlineAmends')),
-            lsLastModified = window.localStorage.getItem('lastModified'),
-            online = navigator.onLine;
+            lsLastModified = window.localStorage.getItem('lastModified');
 
         // Private Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -23,7 +22,7 @@ App.service('contactsService', [
         methods.loadContactData = function loadContactData() {
             dbCompaniesRecord = dbService.getDbCompaniesRecord();
 
-            if (dbCompaniesRecord && online) {
+            if (dbCompaniesRecord && dbService.isOnline()) {
                 $timeout(function() {
                     var dbContactsList = JSON.parse(dbCompaniesRecord.get('contacts')),
                         dbLastModified = dbCompaniesRecord.get('lastModified');
@@ -58,7 +57,7 @@ App.service('contactsService', [
             var now = (new Date().toUTCString());
 
             // save to web-based resource first
-            if (dbCompaniesRecord && online) {
+            if (dbCompaniesRecord && dbService.isOnline()) {
                 dbCompaniesRecord.set('contacts', JSON.stringify(contactsList));
                 dbCompaniesRecord.set('lastModified', now);
             }
@@ -66,7 +65,7 @@ App.service('contactsService', [
             window.localStorage.setItem('contactsList', JSON.stringify(contactsList));
             window.localStorage.setItem('lastModified', now);
 
-            if (!online) {
+            if (!dbService.isOnline()) {
                 window.localStorage.setItem('offlineAmends', true);
             }
         };
@@ -109,7 +108,7 @@ App.service('contactsService', [
 
         $rootScope.$on('dbReady', methods.loadContactData);
 
-        if (!online) { methods.loadContactData(); }
+        if (!dbService.isOnline()) { methods.loadContactData(); }
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
