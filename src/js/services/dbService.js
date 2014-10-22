@@ -3,7 +3,8 @@
 App.service('dbService', [
     '$rootScope',
     '$timeout',
-    function($rootScope, $timeout){
+    '$cookies',
+    function($rootScope, $timeout, $cookies){
         var methods = {},
             dbCompaniesTable,
             dbCompanies = [],
@@ -18,32 +19,43 @@ App.service('dbService', [
             dbCompaniesAry = null,
             dbLoading = true,
             dbLoggedIn = false,
-            loginStatusInFlux = true;
+            loginStatusInFlux = false,
+            noModal = false,
+
+            preferenceIsOffline = $cookies.preferenceIsOffline ? JSON.parse($cookies.preferenceIsOffline) : false,
+            preferenceExpires = $cookies.preferenceExpires ? parseInt($cookies.preferenceExpires, 10) : null;
+
 
         // private methods ~~~~~~~~~~~~~~~~~~~
 
-        function updateAuthenticationStatus(err, dbClient) {
+        function authenticateCallback(err, dbClient) {
             if (dbClient && dbClient.isAuthenticated()) {
-                console.log('auth');
-                $timeout(function() {
-                    dbLoggedIn = true;
-                    loginStatusInFlux = false;
-                });
-                dbIsLoggedIn();
+                resolveLoginStatus(true);
+                resetPreferences();
+                openDatastore();
 
             } else {
-                console.log('not auth');
-                $timeout(function() {
-                    dbLoggedIn = false;
-                    dbLoading = false;
-                    loginStatusInFlux = false;
-                });
-
-                $rootScope.$broadcast('dbReady');
+                if (!noModal) {
+                    $rootScope.$broadcast('showAuthModal');
+                }
+                noModal = false;
             }
         }
 
-        function dbIsLoggedIn() {
+        function resolveLoginStatus(bool) {
+            $timeout(function() {
+                dbLoggedIn = bool;
+                loginStatusInFlux = false;
+            });
+        }
+
+        function dataIsReady() {
+            $timeout(function() { dbLoading = false; });
+
+            $rootScope.$broadcast('dbReady');
+        }
+
+        function openDatastore() {
             var datastoreManager = new Dropbox.Datastore.DatastoreManager(dbClient);
 
             datastoreManager.openDefaultDatastore(function(error, dbDatastore) {
@@ -54,12 +66,7 @@ App.service('dbService', [
 
                 setDbCompaniesRecord();
 
-                $rootScope.$broadcast('dbReady');
-                dbLoading = false;
-
-                //dbCompaniesRecord.get('data');
-                //dbCompaniesRecord.set('data', JSON.stringify(companiesList));
-                //dbCompaniesRecord.deleteRecord();
+                dataIsReady();
             });
         }
 
@@ -75,33 +82,59 @@ App.service('dbService', [
             }
         }
 
-        function initDb() {
-            $timeout(function() {
-                loginStatusInFlux = true;
-            });
+        function setupDbAuthDriver() {
+            if (!dbClient) { return; }
 
             // get a clean url, for passing to the authDriver below
             if (dbClientUrl.indexOf('index.html') !== -1) { dbClientUrl = dbClientUrl.split('index.html')[0]; }
             if (dbClientUrl.indexOf('#/') !== -1) { dbClientUrl = dbClientUrl.split('#/')[0]; }
 
-            if (online) {
-                dbClient.authDriver(new Dropbox.AuthDriver.Popup({
-                    receiverUrl: dbClientUrl + 'oauth_receiver.html'
-                }));
+            dbClient.authDriver(new Dropbox.AuthDriver.Popup({
+                receiverUrl: dbClientUrl + 'oauth_receiver.html'
+            }));
+        }
 
-                $timeout(function() {
-                    dbLoading = true;
-                });
+        function checkCookiePreferenceExpiry() {
+            var now = new Date().getTime();
 
-                // Check to see if we're authenticated already.
-                dbClient.authenticate(updateAuthenticationStatus);
-
-            } else {
-                updateAuthenticationStatus();
+            if (preferenceExpires === null || preferenceExpires < now) {
+                resetPreferences();
             }
         }
 
+        function resetPreferences() {
+            $cookies.preferenceIsOffline = false;
+            preferenceIsOffline = false;
+        }
+
         // public methods ~~~~~~~~~~~~~~~~~~~
+
+        methods.dbAuth = function authenticate(userInitiated) {
+            $timeout(function() {
+                loginStatusInFlux = true;
+                dbLoading = true;
+            });
+
+            if (!online || preferenceIsOffline) {
+                resolveLoginStatus(false);
+                dataIsReady();
+                return;
+            }
+
+            if (dbClient.authError) { dbClient.reset(); }
+
+            if (userInitiated) {
+                // if the user has clicked to auth, run the auth now
+                // (with potential popup -- has to happen after user click,
+                // otherwise we get popup-blocked)
+                dbClient.authenticate(authenticateCallback);
+
+            } else {
+                // if we're requesting this programmatically (i.e. at startup),
+                // then set interactive=false, so it won't open the popup
+                dbClient.authenticate({ interactive: false }, authenticateCallback);
+            }
+        };
 
         methods.isDbLoggedIn = function getDbLoggedIn() {
             return dbLoggedIn;
@@ -111,7 +144,7 @@ App.service('dbService', [
             return dbCompaniesRecord;
         };
 
-        methods.isLoginStatusInFlux = function getDbState() {
+        methods.isLoginStatusInFlux = function isLoginStatusInFlux() {
             return loginStatusInFlux;
         };
 
@@ -121,9 +154,13 @@ App.service('dbService', [
 
         methods.isOnline = function isOnline() {
             return online;
-        }
+        };
 
-        methods.dbLogOut = function dropboxLogout() {
+        methods.setOfflinePreference = function setOfflinePreference(bool) {
+            preferenceIsOffline = bool;
+        };
+
+        methods.dbLogOut = function dbLogOut() {
             $timeout(function() {
                 loginStatusInFlux = true;
             });
@@ -138,20 +175,20 @@ App.service('dbService', [
             }
         };
 
-        methods.dbLogIn = function dropboxLogout() {
-            if (dbClient.authError) {
-                dbClient.reset();
-            }
+        methods.dbLogIn = function dbLogIn() {
+            if (dbClient.authError) { dbClient.reset(); }
 
-            loginStatusInFlux = true;
+            $timeout(function() { loginStatusInFlux = true; });
 
-            dbClient.authenticate(updateAuthenticationStatus);
+            noModal = true;
+            dbClient.authenticate(authenticateCallback);
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        initDb();
+        checkCookiePreferenceExpiry();
+        setupDbAuthDriver();
 
         return methods;
     }
-])
+]);

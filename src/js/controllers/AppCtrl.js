@@ -5,7 +5,8 @@ App.controller('AppCtrl', [
     'dbService',
     'contactsService',
     'companiesService',
-    function ($rootScope, $scope, dbService, contactsService, companiesService) {
+    '$location',
+    function ($rootScope, $scope, dbService, contactsService, companiesService, $location) {
         $scope.isDbLoading = dbService.isDbLoading;
 
         $scope.companies = companiesService.getCompanies();

@@ -1,0 +1,33 @@
+.prompt {
+    text-align: center;
+}
+
+.prompt__image {
+    margin: 20px auto 0;
+}
+
+.prompt__title {
+    @include font-size(25);
+}
+
+.prompt__button {
+    background: $color-secondary;
+    border: 1px solid #888;
+    border-radius: 2px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    color: #fff;
+    margin: 0 0 10px;
+    padding: 10px;
+    transition: all 0.2s;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+        background: #555;
+    }
+}
+
+.prompt__button--later {
+    margin-top: 20px;
+}
