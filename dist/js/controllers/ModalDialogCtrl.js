@@ -10,9 +10,11 @@ App.controller('ModalDialogCtrl', [
             $rootScope.$broadcast('modalOpened');
         };
 
-        $rootScope.hideModal = function() {
-            $timeout(function() { $scope.modalShown = false; });
-            $rootScope.$broadcast('modalClosed');
+        $rootScope.hideModal = function(force) {
+            if (force || !$scope.hideModalCloseBtn) {
+                $timeout(function() { $scope.modalShown = false; });
+                $rootScope.$broadcast('modalClosed');
+            }
         };
 
         $rootScope.getModalState = function() {

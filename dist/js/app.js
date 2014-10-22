@@ -1,9 +1,9 @@
 /**
- *   - v1.1.0 - 2014-10-21
+ *   - v1.1.0 - 2014-10-22
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
-var App = angular.module("Codema", [ "ngRoute" ]);
+var App = angular.module("Codema", [ "ngRoute", "ngCookies" ]);
 
 App.service("appStateService", [ "$rootScope", function($rootScope) {
     var methods = {}, currentPage = null;
@@ -17,7 +17,7 @@ App.service("appStateService", [ "$rootScope", function($rootScope) {
 } ]);
 
 App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
-    var companiesList = [], methods = {}, dbCompaniesRecord = null, lsCompaniesList = JSON.parse(window.localStorage.getItem("companiesList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified"), online = navigator.onLine;
+    var companiesList = [], methods = {}, dbCompaniesRecord = null, lsCompaniesList = JSON.parse(window.localStorage.getItem("companiesList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified");
     function getHighestId() {
         return _.max(companiesList, function(o) {
             return o.id;
@@ -25,7 +25,7 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
     }
     methods.loadCompanyData = function loadCompanyData() {
         dbCompaniesRecord = dbService.getDbCompaniesRecord();
-        if (dbCompaniesRecord && online) {
+        if (dbCompaniesRecord && dbService.isOnline()) {
             $timeout(function() {
                 var dbCompaniesList = JSON.parse(dbCompaniesRecord.get("data")), dbLastModified = dbCompaniesRecord.get("lastModified");
                 if (offlineAmends && dbLastModified !== lsLastModified) {
@@ -50,13 +50,13 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
     };
     methods.saveCompanyData = function saveCompanyData() {
         var now = new Date().toUTCString();
-        if (dbCompaniesRecord && online) {
+        if (dbCompaniesRecord && dbService.isOnline()) {
             dbCompaniesRecord.set("data", JSON.stringify(companiesList));
             dbCompaniesRecord.set("lastModified", now);
         }
         window.localStorage.setItem("companiesList", JSON.stringify(companiesList));
         window.localStorage.setItem("lastModified", now);
-        if (!online) {
+        if (!dbService.isOnline()) {
             window.localStorage.setItem("offlineAmends", true);
         }
     };
@@ -126,14 +126,14 @@ App.service("companiesService", [ "$rootScope", "$location", "$timeout", "dbServ
         methods.saveCompanyData();
     };
     $rootScope.$on("dbReady", methods.loadCompanyData);
-    if (!online) {
+    if (!dbService.isOnline()) {
         methods.loadCompanyData();
     }
     return methods;
 } ]);
 
 App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbService", function($rootScope, $location, $timeout, dbService) {
-    var contactsList = [], methods = {}, dbCompaniesRecord = null, lsContactsList = JSON.parse(window.localStorage.getItem("contactsList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified"), online = navigator.onLine;
+    var contactsList = [], methods = {}, dbCompaniesRecord = null, lsContactsList = JSON.parse(window.localStorage.getItem("contactsList")), offlineAmends = JSON.parse(window.localStorage.getItem("offlineAmends")), lsLastModified = window.localStorage.getItem("lastModified");
     function getHighestId() {
         return _.max(contactsList, function(o) {
             return o.id;
@@ -141,7 +141,7 @@ App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbServi
     }
     methods.loadContactData = function loadContactData() {
         dbCompaniesRecord = dbService.getDbCompaniesRecord();
-        if (dbCompaniesRecord && online) {
+        if (dbCompaniesRecord && dbService.isOnline()) {
             $timeout(function() {
                 var dbContactsList = JSON.parse(dbCompaniesRecord.get("contacts")), dbLastModified = dbCompaniesRecord.get("lastModified");
                 if (offlineAmends && dbLastModified !== lsLastModified) {
@@ -166,13 +166,13 @@ App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbServi
     };
     methods.saveContactData = function saveContactData() {
         var now = new Date().toUTCString();
-        if (dbCompaniesRecord && online) {
+        if (dbCompaniesRecord && dbService.isOnline()) {
             dbCompaniesRecord.set("contacts", JSON.stringify(contactsList));
             dbCompaniesRecord.set("lastModified", now);
         }
         window.localStorage.setItem("contactsList", JSON.stringify(contactsList));
         window.localStorage.setItem("lastModified", now);
-        if (!online) {
+        if (!dbService.isOnline()) {
             window.localStorage.setItem("offlineAmends", true);
         }
     };
@@ -202,35 +202,41 @@ App.service("contactsService", [ "$rootScope", "$location", "$timeout", "dbServi
         methods.saveContactData();
     };
     $rootScope.$on("dbReady", methods.loadContactData);
-    if (!online) {
+    if (!dbService.isOnline()) {
         methods.loadContactData();
     }
     return methods;
 } ]);
 
-App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeout) {
+App.service("dbService", [ "$rootScope", "$timeout", "$cookies", function($rootScope, $timeout, $cookies) {
     var methods = {}, dbCompaniesTable, dbCompanies = [], dbSettings = {
         key: "peo2jcopy5i7qtq"
-    }, online = navigator.onLine, dbClient = online ? new Dropbox.Client(dbSettings) : null, dbClientUrl = window.location.href, dbTable = null, dbCompaniesRecord = null, dbCompaniesAry = null, dbLoading = true, dbLoggedIn = false, loginStatusInFlux = true;
-    function updateAuthenticationStatus(err, dbClient) {
+    }, online = navigator.onLine, dbClient = online ? new Dropbox.Client(dbSettings) : null, dbClientUrl = window.location.href, dbTable = null, dbCompaniesRecord = null, dbCompaniesAry = null, dbLoading = true, dbLoggedIn = false, loginStatusInFlux = false, noModal = false, preferenceIsOffline = $cookies.preferenceIsOffline ? JSON.parse($cookies.preferenceIsOffline) : false, preferenceExpires = $cookies.preferenceExpires ? parseInt($cookies.preferenceExpires, 10) : null;
+    function authenticateCallback(err, dbClient) {
         if (dbClient && dbClient.isAuthenticated()) {
-            console.log("auth");
-            $timeout(function() {
-                dbLoggedIn = true;
-                loginStatusInFlux = false;
-            });
-            dbIsLoggedIn();
+            resolveLoginStatus(true);
+            resetPreferences();
+            openDatastore();
         } else {
-            console.log("not auth");
-            $timeout(function() {
-                dbLoggedIn = false;
-                dbLoading = false;
-                loginStatusInFlux = false;
-            });
-            $rootScope.$broadcast("dbReady");
+            if (!noModal) {
+                $rootScope.$broadcast("showAuthModal");
+            }
+            noModal = false;
         }
     }
-    function dbIsLoggedIn() {
+    function resolveLoginStatus(bool) {
+        $timeout(function() {
+            dbLoggedIn = bool;
+            loginStatusInFlux = false;
+        });
+    }
+    function dataIsReady() {
+        $timeout(function() {
+            dbLoading = false;
+        });
+        $rootScope.$broadcast("dbReady");
+    }
+    function openDatastore() {
         var datastoreManager = new Dropbox.Datastore.DatastoreManager(dbClient);
         datastoreManager.openDefaultDatastore(function(error, dbDatastore) {
             if (error) {
@@ -240,8 +246,7 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
             dbTable = dbDatastore.getTable("allData");
             dbCompaniesAry = dbTable.query();
             setDbCompaniesRecord();
-            $rootScope.$broadcast("dbReady");
-            dbLoading = false;
+            dataIsReady();
         });
     }
     function setDbCompaniesRecord() {
@@ -255,35 +260,58 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
             dbCompaniesRecord = dbCompaniesAry[0];
         }
     }
-    function initDb() {
-        $timeout(function() {
-            loginStatusInFlux = true;
-        });
+    function setupDbAuthDriver() {
+        if (!dbClient) {
+            return;
+        }
         if (dbClientUrl.indexOf("index.html") !== -1) {
             dbClientUrl = dbClientUrl.split("index.html")[0];
         }
         if (dbClientUrl.indexOf("#/") !== -1) {
             dbClientUrl = dbClientUrl.split("#/")[0];
         }
-        if (online) {
-            dbClient.authDriver(new Dropbox.AuthDriver.Popup({
-                receiverUrl: dbClientUrl + "oauth_receiver.html"
-            }));
-            $timeout(function() {
-                dbLoading = true;
-            });
-            dbClient.authenticate(updateAuthenticationStatus);
-        } else {
-            updateAuthenticationStatus();
+        dbClient.authDriver(new Dropbox.AuthDriver.Popup({
+            receiverUrl: dbClientUrl + "oauth_receiver.html"
+        }));
+    }
+    function checkCookiePreferenceExpiry() {
+        var now = new Date().getTime();
+        if (preferenceExpires === null || preferenceExpires < now) {
+            resetPreferences();
         }
     }
+    function resetPreferences() {
+        $cookies.preferenceIsOffline = false;
+        preferenceIsOffline = false;
+    }
+    methods.dbAuth = function authenticate(userInitiated) {
+        $timeout(function() {
+            loginStatusInFlux = true;
+            dbLoading = true;
+        });
+        if (!online || preferenceIsOffline) {
+            resolveLoginStatus(false);
+            dataIsReady();
+            return;
+        }
+        if (dbClient.authError) {
+            dbClient.reset();
+        }
+        if (userInitiated) {
+            dbClient.authenticate(authenticateCallback);
+        } else {
+            dbClient.authenticate({
+                interactive: false
+            }, authenticateCallback);
+        }
+    };
     methods.isDbLoggedIn = function getDbLoggedIn() {
         return dbLoggedIn;
     };
     methods.getDbCompaniesRecord = function getDbCompaniesRecord() {
         return dbCompaniesRecord;
     };
-    methods.isLoginStatusInFlux = function getDbState() {
+    methods.isLoginStatusInFlux = function isLoginStatusInFlux() {
         return loginStatusInFlux;
     };
     methods.isDbLoading = function isDbLoading() {
@@ -292,7 +320,10 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
     methods.isOnline = function isOnline() {
         return online;
     };
-    methods.dbLogOut = function dropboxLogout() {
+    methods.setOfflinePreference = function setOfflinePreference(bool) {
+        preferenceIsOffline = bool;
+    };
+    methods.dbLogOut = function dbLogOut() {
         $timeout(function() {
             loginStatusInFlux = true;
         });
@@ -305,14 +336,18 @@ App.service("dbService", [ "$rootScope", "$timeout", function($rootScope, $timeo
             });
         }
     };
-    methods.dbLogIn = function dropboxLogout() {
+    methods.dbLogIn = function dbLogIn() {
         if (dbClient.authError) {
             dbClient.reset();
         }
-        loginStatusInFlux = true;
-        dbClient.authenticate(updateAuthenticationStatus);
+        $timeout(function() {
+            loginStatusInFlux = true;
+        });
+        noModal = true;
+        dbClient.authenticate(authenticateCallback);
     };
-    initDb();
+    checkCookiePreferenceExpiry();
+    setupDbAuthDriver();
     return methods;
 } ]);
 
@@ -320,7 +355,7 @@ App.controller("AddCtrl", [ "appStateService", function(appStateService) {
     appStateService.setCurrentPage("add");
 } ]);
 
-App.controller("AppCtrl", [ "$rootScope", "$scope", "dbService", "contactsService", "companiesService", function($rootScope, $scope, dbService, contactsService, companiesService) {
+App.controller("AppCtrl", [ "$rootScope", "$scope", "dbService", "contactsService", "companiesService", "$location", function($rootScope, $scope, dbService, contactsService, companiesService, $location) {
     $scope.isDbLoading = dbService.isDbLoading;
     $scope.companies = companiesService.getCompanies();
     $scope.contacts = contactsService.getContacts();
@@ -437,8 +472,14 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     }, true);
 } ]);
 
-App.controller("CompanyListCtrl", [ "$scope", "$routeParams", "appStateService", "contactsService", function($scope, $routeParams, appStateService, contactsService) {
+App.controller("CompanyListCtrl", [ "$rootScope", "$scope", "$timeout", "$routeParams", "appStateService", "dbService", "contactsService", function($rootScope, $scope, $timeout, $routeParams, appStateService, dbService, contactsService) {
     appStateService.setCurrentPage("companies");
+    $rootScope.$on("showAuthModal", function() {
+        $timeout(function() {
+            $rootScope.showModal();
+        }, 1e3);
+    });
+    dbService.dbAuth(false);
     $scope.getContact = contactsService.getContact;
     $scope.filterText = $routeParams.search;
 } ]);
@@ -545,6 +586,7 @@ App.controller("DbControlsCtrl", [ "$rootScope", "$scope", "dbService", function
     $scope.logout = dbService.dbLogOut;
     $scope.login = dbService.dbLogIn;
     $scope.isOnline = dbService.isOnline;
+    $scope.isLoginStatusInFlux = dbService.isLoginStatusInFlux;
     $scope.dbActive = false;
     $scope.$watch(dbService.isDbLoggedIn, function(newVal, oldVal) {
         $scope.dbActive = newVal;
@@ -559,14 +601,37 @@ App.controller("ModalDialogCtrl", [ "$rootScope", "$scope", "$timeout", function
         });
         $rootScope.$broadcast("modalOpened");
     };
-    $rootScope.hideModal = function() {
-        $timeout(function() {
-            $scope.modalShown = false;
-        });
-        $rootScope.$broadcast("modalClosed");
+    $rootScope.hideModal = function(force) {
+        if (force || !$scope.hideModalCloseBtn) {
+            $timeout(function() {
+                $scope.modalShown = false;
+            });
+            $rootScope.$broadcast("modalClosed");
+        }
     };
     $rootScope.getModalState = function() {
         return $scope.modalShown;
+    };
+} ]);
+
+App.controller("PromptCtrl", [ "$rootScope", "$scope", "$cookies", "dbService", function($rootScope, $scope, $cookies, dbService) {
+    $scope.yesDb = function() {
+        dbService.dbAuth(true);
+        $rootScope.hideModal(true);
+    };
+    $scope.noDb = function() {
+        $cookies.preferenceIsOffline = true;
+        dbService.setOfflinePreference(true);
+        $cookies.preferenceExpires = new Date().getTime() + 14 * 24 * 60 * 60 * 1e3;
+        dbService.dbAuth(true);
+        $rootScope.hideModal(true);
+    };
+    $scope.maybeLater = function() {
+        $cookies.preferenceIsOffline = true;
+        dbService.setOfflinePreference(true);
+        $cookies.preferenceExpires = new Date().getTime();
+        dbService.dbAuth(true);
+        $rootScope.hideModal(true);
     };
 } ]);
 
