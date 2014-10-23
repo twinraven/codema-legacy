@@ -22,12 +22,16 @@ App.controller('ContactListCtrl', [
             $scope.contacts = contactsService.getContacts();
         }
 
-        $scope.getSuffix = function(num) {
+        $scope.getSuffix = function getSuffix(num) {
             if (num === 1) {
                 return 'y';
             } else {
                 return 'ies';
             }
         };
+
+        $scope.clearFilter = function clearFilter() {
+            $scope.filterText = "";
+        }
     }
 ]);

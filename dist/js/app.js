@@ -519,6 +519,9 @@ App.controller("CompanyListCtrl", [ "$scope", "$routeParams", "appStateService",
     appStateService.setCurrentPage("companies");
     $scope.getContact = contactsService.getContact;
     $scope.filterText = $routeParams.search;
+    $scope.clearFilter = function clearFilter() {
+        $scope.filterText = "";
+    };
 } ]);
 
 App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeout", "$routeParams", "contactsService", "appStateService", "modalService", function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService, modalService) {
@@ -610,12 +613,15 @@ App.controller("ContactListCtrl", [ "$rootScope", "$scope", "$routeParams", "dbS
         $scope.companiesWithContact = companiesService.getCompaniesWithContact();
         $scope.contacts = contactsService.getContacts();
     }
-    $scope.getSuffix = function(num) {
+    $scope.getSuffix = function getSuffix(num) {
         if (num === 1) {
             return "y";
         } else {
             return "ies";
         }
+    };
+    $scope.clearFilter = function clearFilter() {
+        $scope.filterText = "";
     };
 } ]);
 

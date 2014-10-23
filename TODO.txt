@@ -3,7 +3,6 @@ TODO:
 - Starring companies?
 - fixed pos nav?
 - refactor CSS to BEM -- 1/2 done (forms)
-- clear button (cross symbol) in search fields
 
 
 

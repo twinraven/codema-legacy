@@ -264,17 +264,35 @@ input.ng-invalid.ng-dirty,
   }
 }
 
-input.search {
-  box-sizing: border-box;
-  border: thin solid #ccc;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-  @include font-size(17);
-  margin: 0 0 30px;
-  padding: 12px 16px;
-  width: 100%;
+.filter {
+  position: relative;
 
-  @include respond-min($cols-3) {
-    @include font-size(20);
-    margin: 0 0 40px;
+  .filter__input {
+    box-sizing: border-box;
+    border: thin solid #ccc;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    @include font-size(17);
+    margin: 0 0 30px;
+    padding: 12px 46px 12px 16px;
+    width: 100%;
+
+    @include respond-min($cols-3) {
+      @include font-size(20);
+      margin: 0 0 40px;
+    }
+  }
+
+  .filter__clear {
+    border: none;
+    color: #aaa;
+    @include font-size(16);
+    position: absolute;
+    right: 12px;
+    top: 13px;
+
+    @include respond-min($cols-3) {
+      @include font-size(18);
+      top: 14px;
+    }
   }
 }

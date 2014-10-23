@@ -1,4 +1,7 @@
-<input type="text" ng-model="filterText" placeholder="Search by contact..." class="search">
+<div class="filter">
+    <input type="text" ng-model="filterText" placeholder="Search by contact..." class="filter__input">
+    <a class="filter__clear" ng-href="" ng-click="clearFilter()" ng-show="filterText.length"><span class="icon icon-cancel"></span></a>
+</div>
 
 <ul class="item-list item-list--contacts" ng-class="{'is-loading': isDbLoading()}">
     <li ng-repeat="contact in contacts | filter:filterText track by $index" class="item">

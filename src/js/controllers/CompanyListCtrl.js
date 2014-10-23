@@ -9,5 +9,9 @@ App.controller('CompanyListCtrl', [
         $scope.getContact = contactsService.getContact;
 
         $scope.filterText = $routeParams.search;
+
+        $scope.clearFilter = function clearFilter() {
+            $scope.filterText = "";
+        }
     }
 ]);
