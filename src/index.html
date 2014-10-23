@@ -16,11 +16,17 @@
 
   <script src="js/libs/bower/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
-<body>
-  <header-bar></header-bar>
+<body ng-class="{'is-nav-fixed': fixedNav}">
+  <header>
+    <div class="logo" id="js-logo">
+      <h1><span>Codema</span></h1>
+    </div>
+
+    <nav-bar></nav-bar>
+  </header>
 
   <div class="container">
-    <div ng-view></div>
+    <div ng-view autoscroll="true"></div>
 
     <modal-dialog ng-init="hideModalCloseBtn=true; modalId='promptModal'">
         <div class="modal-view" ng-include="'partials/prompt.html'" ng-controller="PromptCtrl" ng-init="inModal=true"></div>
