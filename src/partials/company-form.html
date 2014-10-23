@@ -51,7 +51,7 @@
                         </li>
                     </ul>
 
-                    <p class="contact-list__item contact-list__item--add"><a ng-click="showModal()">Add new...</a><p>
+                    <p class="contact-list__item contact-list__item--add"><a ng-click="showModal('contactModal')">Add new...</a><p>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
 
 <db-controls></db-controls>
 
-<modal-dialog>
+<modal-dialog ng-init="modalId='contactModal'">
     <div class="modal-view" ng-include="'partials/contact-form.html'" ng-controller="ContactAddCtrl" ng-init="inModal=true"></div>
 </modal-dialog>
 

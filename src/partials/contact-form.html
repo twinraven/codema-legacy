@@ -1,4 +1,4 @@
-    <div class="add-co" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading(), 'is-new': mode === 'new'}">
+<div class="co-details" ng-class="{'is-editing': isEditing, 'is-loading': isDbLoading(), 'is-new': mode === 'new', 'is-modal': inModal}">
     <div class="co-details__inner">
         <edit-bar data-pos="top"></edit-bar>
 
@@ -36,7 +36,7 @@
             </div>
         </form>
 
-        <edit-bar data-pos="bottom"></edit-bar>
+        <edit-bar data-pos="bottom" ng-hide="inModal"></edit-bar>
 
     </div>
 </div>

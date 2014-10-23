@@ -223,12 +223,16 @@ a.co-edit {
   &.edit-bar--bottom {
     margin-top: 30px;
   }
+
+  .is-modal & {
+    background: none;
+  }
 }
 
 .add-co {
   font-size: 0;
 
-  .add {
+  .add-co__block {
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 1px 1px rgba(0,0,0,0.2);
@@ -265,3 +269,4 @@ a.co-edit {
     }
   }
 }
+
