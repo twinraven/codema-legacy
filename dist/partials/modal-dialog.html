@@ -1,8 +1,8 @@
-<div class="ng-modal" ng-show="modalShown">
+<div class="ng-modal" ng-show="isModalShown() && getActiveModalId() === modalId">
     <div class="ng-modal-overlay" ng-click="hideModal()"></div>
 
     <div class="ng-modal-dialog">
-        <div class="ng-modal-close" ng-click="hideModal()" ng-hide="hideModalCloseBtn">
+        <div class="ng-modal-close" ng-click="hideModal()" ng-hide="isCloseBtnHidden()">
             <span class="icon icon-cancel"></span>
         </div>
         <div class="ng-modal-dialog-content" ng-transclude></div>

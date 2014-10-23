@@ -21,10 +21,14 @@
 
   <div class="container">
     <div ng-view></div>
+
+    <modal-dialog ng-init="hideModalCloseBtn=true; modalId='promptModal'">
+        <div class="modal-view" ng-include="'partials/prompt.html'" ng-controller="PromptCtrl" ng-init="inModal=true"></div>
+    </modal-dialog>
   </div>
 
   <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
-  <!--<script src="js/libs/dropbox-datastores-1.0.js"></script>-->
+  <!-- <script src="js/libs/dropbox-datastores-1.0.js"></script>-->
   <script src="js/libs/bower/angular/angular.min.js"></script>
   <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
   <script src="js/libs/bower/angular-cookies/angular-cookies.min.js"></script>

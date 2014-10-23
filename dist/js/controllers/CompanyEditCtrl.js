@@ -8,11 +8,13 @@ App.controller('CompanyEditCtrl', [
     'contactsService',
     'companiesService',
     'appStateService',
-    function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService) {
+    'modalService',
+    function($rootScope, $scope, $routeParams, $timeout, $location, dbService, contactsService, companiesService, appStateService, modalService) {
         appStateService.setCurrentPage('companies');
 
         $scope.isEditing = $routeParams.editing;
         $scope.getContact = contactsService.getContact;
+        $scope.showModal = modalService.showModal;
         $scope.id = $routeParams.companyId;
         $scope.type = 'companies';
 

@@ -8,10 +8,6 @@
         <a ng-href="#/companies/{{company.id}}" class="item-interviewed" ng-show="company.interviewed" title="Interviewed: {{company.interviewDate | prettyDate | useDashIfEmpty}}"><span class="icon icon-user"></span></a>
     </li>
 </ul>
-<p class="item-hidden-message" ng-show="!companies.length && !isDbLoading()">No companies yet! Click 'add' above to start adding companies.</p>
+<p class="item-hidden-message" ng-show="!companies.length && !isDbLoading()">No companies yet! Click 'add' above to start.</p>
 
 <db-controls></db-controls>
-
-<modal-dialog ng-init="hideModalCloseBtn=true">
-    <div class="modal-view" ng-include="'partials/prompt.html'" ng-controller="PromptCtrl" ng-init="inModal=true"></div>
-</modal-dialog>

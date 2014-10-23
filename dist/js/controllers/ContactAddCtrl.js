@@ -6,7 +6,8 @@ App.controller('ContactAddCtrl', [
     '$routeParams',
     'contactsService',
     'appStateService',
-    function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService) {
+    'modalService',
+    function($rootScope, $scope, $location, $timeout, $routeParams, contactsService, appStateService, modalService) {
         $timeout(function() {
             if (!$scope.inModal) {
                 appStateService.setCurrentPage('add');
@@ -47,7 +48,7 @@ App.controller('ContactAddCtrl', [
                     contactsService.addContact($scope.contact);
 
                     if ($scope.inModal) {
-                        $timeout(function() { $rootScope.hideModal(); });
+                        $timeout(function() { modalService.hideModal(); });
 
                     } else {
                         $location.path('/' + $scope.type);

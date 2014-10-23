@@ -6,12 +6,14 @@ App.controller('CompanyAddCtrl', [
     'contactsService',
     'companiesService',
     'appStateService',
-    function($rootScope, $scope, $timeout, $location, contactsService, companiesService, appStateService) {
+    'modalService',
+    function($rootScope, $scope, $timeout, $location, contactsService, companiesService, appStateService, modalService) {
         appStateService.setCurrentPage('add');
 
         $scope.type = 'companies';
         $scope.isEditing = true;
         $scope.getContact = contactsService.getContact;
+        $scope.showModal = modalService.showModal;
         $scope.mode = 'new';
         $scope.company = {};
         $scope.company.contracts = [];
