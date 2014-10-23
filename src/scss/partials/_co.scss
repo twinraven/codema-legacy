@@ -4,8 +4,16 @@
   overflow: hidden;
   padding: 30px 10px;
 
+  .is-nav-fixed & {
+    padding-top: 80px;
+  }
+
   @include respond-min($cols-3) {
     padding: 45px 10px;
+
+    .is-nav-fixed & {
+      padding-top: 95px;
+    }
   }
 }
 

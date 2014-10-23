@@ -1,9 +1,7 @@
 TODO:
 
 - Starring companies?
-- fixed pos nav?
 - refactor CSS to BEM -- 1/2 done (forms)
-- clear button (cross symbol) in search fields
 
 
 
@@ -12,6 +10,11 @@ FUTURE:
 - COMBINE COMPANY & CONTACT 'you've made changes' MESSAGES/UPLOADS
 - Combine companiesService & contactsService...? v. v. similar; could be 'dataService'?
 - auto-height for notes field
+
+
+
+POTENTIAL:
+
 - Split dropbox data into table rows (not a JSON dump into 1 row)?
 - map
 - map lat/long lookup (google service)
