@@ -1,4 +1,7 @@
-<input type="text" ng-model="filterText" placeholder="Search by company..." class="search">
+<div class="filter">
+    <input type="text" ng-model="filterText" placeholder="Search by company..." class="filter__input">
+    <a class="filter__clear" ng-href="" ng-click="clearFilter()" ng-show="filterText.length"><span class="icon icon-cancel"></span></a>
+</div>
 
 <ul class="item-list" ng-class="{'is-loading': isDbLoading()}">
     <li class="item" ng-repeat="company in companies | filter:filterText | orderBy:'name' track by $index">
