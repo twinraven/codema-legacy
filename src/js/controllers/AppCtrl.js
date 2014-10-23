@@ -2,15 +2,25 @@
 App.controller('AppCtrl', [
     '$rootScope',
     '$scope',
+    '$timeout',
+    '$location',
     'dbService',
     'contactsService',
     'companiesService',
-    '$location',
-    function ($rootScope, $scope, dbService, contactsService, companiesService, $location) {
+    'modalService',
+    function ($rootScope, $scope, $timeout, $location, dbService, contactsService, companiesService, modalService) {
         $scope.isDbLoading = dbService.isDbLoading;
 
         $scope.companies = companiesService.getCompanies();
         $scope.contacts = contactsService.getContacts();
+
+        $rootScope.$on('showAuthModal', function() {
+            $timeout(function() {
+                modalService.showModal('promptModal');
+            }, 1000);
+        });
+
+        dbService.dbAuth(false);
 
         // make sure we're always up to date with the companies list, which is request async from Dropbox
         $scope.$watch(
@@ -33,5 +43,6 @@ App.controller('AppCtrl', [
                     $scope.$broadcast('dbContactsUpdated');
                 }
             }, true);
+
     }
 ]);
