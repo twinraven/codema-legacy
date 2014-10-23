@@ -12,6 +12,6 @@ App.controller('CompanyListCtrl', [
 
         $scope.clearFilter = function clearFilter() {
             $scope.filterText = "";
-        }
+        };
     }
 ]);

@@ -32,6 +32,6 @@ App.controller('ContactListCtrl', [
 
         $scope.clearFilter = function clearFilter() {
             $scope.filterText = "";
-        }
+        };
     }
 ]);
