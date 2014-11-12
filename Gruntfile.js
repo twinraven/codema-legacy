@@ -123,6 +123,12 @@ module.exports = function ( grunt ) {
 
 		// COPY
 		copy: {
+			manifest: {
+				cwd: 'src/',
+				dest: 'dist/',
+				src: 'manifest.json',
+				expand: true
+			},
 			html: {
 				cwd: 'src/',
 				dest: 'dist/',
