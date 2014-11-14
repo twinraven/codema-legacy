@@ -5,12 +5,12 @@ App.controller('PromptCtrl', [
     'dbService',
     'modalService',
     function($rootScope, $scope, $cookies, dbService, modalService) {
-        $scope.yesDb = function() {
+        $scope.yesDb = function yesDb() {
             dbService.dbAuth(true);
             modalService.hideModal(true);
         };
 
-        $scope.noDb = function() {
+        $scope.noDb = function noDb() {
             $cookies.preferenceIsOffline = true;
             dbService.setOfflinePreference(true);
             $cookies.preferenceExpires = (new Date()).getTime() + (14 * 24 * 60 * 60 * 1000); // days * hours * minutes * seconds * ms
@@ -19,7 +19,7 @@ App.controller('PromptCtrl', [
             modalService.hideModal(true);
         };
 
-        $scope.maybeLater = function() {
+        $scope.maybeLater = function maybeLater() {
             $cookies.preferenceIsOffline = true;
             dbService.setOfflinePreference(true);
             $cookies.preferenceExpires = (new Date()).getTime();

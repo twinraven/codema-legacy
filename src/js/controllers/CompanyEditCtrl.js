@@ -31,24 +31,24 @@ App.controller('CompanyEditCtrl', [
 
         // scope methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        $scope.addContract = function() {
+        $scope.addContract = function addContract() {
             $scope.company.contracts.push({});
         };
 
-        $scope.removeContract = function(contractId) {
+        $scope.removeContract = function removeContract(contractId) {
             if (confirm('Are you sure?')) {
                 companiesService.removeContract($scope.company.id, contractId);
             }
         };
 
-        $scope.deleteCo = function() {
+        $scope.deleteCo = function deleteCo() {
             if (confirm('Are you sure?')) {
                 companiesService.removeCompany($scope.company);
                 $location.path('/' + $scope.type);
             }
         };
 
-        $scope.selectContact = function(id) {
+        $scope.selectContact = function selectContact(id) {
             $timeout(function() {
                 $scope.company.contactId = id;
                 $scope.company.contactName = $scope.getContact(id).name;
@@ -56,13 +56,13 @@ App.controller('CompanyEditCtrl', [
             $scope.showContactList = false;
         };
 
-        $scope.delayBlur = function() {
+        $scope.delayBlur = function delayBlur() {
             $timeout(function() {
                 $scope.showContacts = false;
             }, 250);
         };
 
-        $scope.finishEditing = function() {
+        $scope.finishEditing = function finishEditing() {
             if ($scope.coForm.$valid) {
                 $location.search('editing', null);
             } else {

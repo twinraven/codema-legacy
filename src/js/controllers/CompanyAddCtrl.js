@@ -18,7 +18,7 @@ App.controller('CompanyAddCtrl', [
         $scope.company = {};
         $scope.company.contracts = [];
 
-        $scope.saveCo = function() {
+        $scope.saveCo = function saveCo() {
             if ($scope.coForm.$invalid) {
                 alert('Please fix the errors in the form before continuing');
 
@@ -31,27 +31,27 @@ App.controller('CompanyAddCtrl', [
             }
         };
 
-        $scope.cancelCo = function() {
+        $scope.cancelCo = function cancelCo() {
             $location.path('/' + $scope.type);
         };
 
-        $scope.addContract = function() {
+        $scope.addContract = function addContract() {
             $scope.company.contracts.push({});
         };
 
-        $scope.removeContract = function($index) {
+        $scope.removeContract = function removeContract($index) {
             if (confirm('Are you sure?')) {
                 $scope.company.contracts.splice($index, 1);
             }
         };
 
-        $scope.selectContact = function(id) {
+        $scope.selectContact = function selectContact(id) {
             $scope.company.contactId = id;
             $scope.company.contactName = $scope.getContact(id).name;
             $scope.showContactList = false;
         };
 
-        $scope.delayBlur = function() {
+        $scope.delayBlur = function delayBlur() {
             $timeout(function() {
                 $scope.showContacts = false;
             }, 250);
