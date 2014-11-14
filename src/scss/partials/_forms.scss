@@ -134,6 +134,10 @@ input.field--hidden {
   font-weight: normal;
   @include font-size(11);
   margin: 15px 0 7px;
+
+  .ng-modal-dialog & {
+    margin-top: 7px;
+  }
 }
 
 // show in error state either when form field has been 'dirtied',

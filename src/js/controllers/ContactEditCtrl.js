@@ -27,7 +27,7 @@ App.controller('ContactEditCtrl', [
 
         // scope methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        $scope.deleteCo = function() {
+        $scope.deleteCo = function deleteCo() {
             if (confirm('Are you sure?')) {
                 companiesService.removeContactFromCompanies($scope.id);
                 contactsService.removeContact($scope.contact);
@@ -35,7 +35,7 @@ App.controller('ContactEditCtrl', [
             }
         };
 
-        $scope.finishEditing = function() {
+        $scope.finishEditing = function finishEditing() {
             if ($scope.coForm.$valid) {
                 $location.search('editing', null);
             } else {
