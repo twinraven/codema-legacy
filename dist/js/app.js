@@ -1,5 +1,5 @@
 /**
- *   - v1.1.0 - 2014-11-13
+ *   - v1.1.0 - 2014-11-14
  *  (c) 2014 Tom Bran All Rights Reserved
  */ 
 
@@ -399,6 +399,16 @@ App.controller("AppCtrl", [ "$rootScope", "$scope", "$timeout", "$location", "db
             modalService.showModal("promptModal");
         }, 1e3);
     });
+    $rootScope.$on("modalOpened", function() {
+        $timeout(function() {
+            $scope.isModalOpen = true;
+        });
+    });
+    $rootScope.$on("modalClosed", function() {
+        $timeout(function() {
+            $scope.isModalOpen = false;
+        });
+    });
     dbService.dbAuth(false);
     $scope.$watch(companiesService.getCompanies, function(newVal, oldVal) {
         if (newVal !== oldVal) {
@@ -423,7 +433,7 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
     $scope.mode = "new";
     $scope.company = {};
     $scope.company.contracts = [];
-    $scope.saveCo = function() {
+    $scope.saveCo = function saveCo() {
         if ($scope.coForm.$invalid) {
             alert("Please fix the errors in the form before continuing");
         } else {
@@ -434,23 +444,23 @@ App.controller("CompanyAddCtrl", [ "$rootScope", "$scope", "$timeout", "$locatio
             $location.path("/" + $scope.type);
         }
     };
-    $scope.cancelCo = function() {
+    $scope.cancelCo = function cancelCo() {
         $location.path("/" + $scope.type);
     };
-    $scope.addContract = function() {
+    $scope.addContract = function addContract() {
         $scope.company.contracts.push({});
     };
-    $scope.removeContract = function($index) {
+    $scope.removeContract = function removeContract($index) {
         if (confirm("Are you sure?")) {
             $scope.company.contracts.splice($index, 1);
         }
     };
-    $scope.selectContact = function(id) {
+    $scope.selectContact = function selectContact(id) {
         $scope.company.contactId = id;
         $scope.company.contactName = $scope.getContact(id).name;
         $scope.showContactList = false;
     };
-    $scope.delayBlur = function() {
+    $scope.delayBlur = function delayBlur() {
         $timeout(function() {
             $scope.showContacts = false;
         }, 250);
@@ -472,33 +482,33 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     function setCompanyData() {
         $scope.company = companiesService.getCompany($routeParams.companyId);
     }
-    $scope.addContract = function() {
+    $scope.addContract = function addContract() {
         $scope.company.contracts.push({});
     };
-    $scope.removeContract = function(contractId) {
+    $scope.removeContract = function removeContract(contractId) {
         if (confirm("Are you sure?")) {
             companiesService.removeContract($scope.company.id, contractId);
         }
     };
-    $scope.deleteCo = function() {
+    $scope.deleteCo = function deleteCo() {
         if (confirm("Are you sure?")) {
             companiesService.removeCompany($scope.company);
             $location.path("/" + $scope.type);
         }
     };
-    $scope.selectContact = function(id) {
+    $scope.selectContact = function selectContact(id) {
         $timeout(function() {
             $scope.company.contactId = id;
             $scope.company.contactName = $scope.getContact(id).name;
         });
         $scope.showContactList = false;
     };
-    $scope.delayBlur = function() {
+    $scope.delayBlur = function delayBlur() {
         $timeout(function() {
             $scope.showContacts = false;
         }, 250);
     };
-    $scope.finishEditing = function() {
+    $scope.finishEditing = function finishEditing() {
         if ($scope.coForm.$valid) {
             $location.search("editing", null);
         } else {
@@ -542,7 +552,7 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
     $rootScope.$on("modalClosed", function() {
         $scope.contact = {};
     });
-    $scope.saveCo = function() {
+    $scope.saveCo = function saveCo() {
         if ($scope.coForm.$invalid) {
             alert("Please fix the errors in the form before continuing");
         } else {
@@ -566,8 +576,14 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
             }
         }
     };
-    $scope.cancelCo = function() {
-        $location.path("/" + $scope.type);
+    $scope.cancelCo = function cancelCo() {
+        if ($scope.inModal) {
+            $timeout(function() {
+                modalService.hideModal(true);
+            });
+        } else {
+            $location.path("/" + $scope.type);
+        }
     };
 } ]);
 
@@ -584,14 +600,14 @@ App.controller("ContactEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     function setContactData() {
         $scope.contact = contactsService.getContact($routeParams.contactId);
     }
-    $scope.deleteCo = function() {
+    $scope.deleteCo = function deleteCo() {
         if (confirm("Are you sure?")) {
             companiesService.removeContactFromCompanies($scope.id);
             contactsService.removeContact($scope.contact);
             $location.path("/" + $scope.type);
         }
     };
-    $scope.finishEditing = function() {
+    $scope.finishEditing = function finishEditing() {
         if ($scope.coForm.$valid) {
             $location.search("editing", null);
         } else {
@@ -637,18 +653,18 @@ App.controller("DbControlsCtrl", [ "$rootScope", "$scope", "dbService", function
 } ]);
 
 App.controller("PromptCtrl", [ "$rootScope", "$scope", "$cookies", "dbService", "modalService", function($rootScope, $scope, $cookies, dbService, modalService) {
-    $scope.yesDb = function() {
+    $scope.yesDb = function yesDb() {
         dbService.dbAuth(true);
         modalService.hideModal(true);
     };
-    $scope.noDb = function() {
+    $scope.noDb = function noDb() {
         $cookies.preferenceIsOffline = true;
         dbService.setOfflinePreference(true);
         $cookies.preferenceExpires = new Date().getTime() + 14 * 24 * 60 * 60 * 1e3;
         dbService.dbAuth(true);
         modalService.hideModal(true);
     };
-    $scope.maybeLater = function() {
+    $scope.maybeLater = function maybeLater() {
         $cookies.preferenceIsOffline = true;
         dbService.setOfflinePreference(true);
         $cookies.preferenceExpires = new Date().getTime();
