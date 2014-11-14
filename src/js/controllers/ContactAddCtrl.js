@@ -29,7 +29,9 @@ App.controller('ContactAddCtrl', [
             $scope.contact = {};
         });
 
-        $scope.saveCo = function() {
+        // Scope methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        $scope.saveCo = function saveCo() {
             if ($scope.coForm.$invalid) {
                 alert('Please fix the errors in the form before continuing');
 
@@ -57,8 +59,14 @@ App.controller('ContactAddCtrl', [
             }
         };
 
-        $scope.cancelCo = function() {
-            $location.path('/' + $scope.type);
+        $scope.cancelCo = function cancelCo() {
+            if ($scope.inModal) {
+                $timeout(function() { modalService.hideModal(true); });
+
+            } else {
+                $location.path('/' + $scope.type);
+            }
+
         };
     }
 ]);

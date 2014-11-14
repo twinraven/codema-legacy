@@ -2,6 +2,10 @@ body {
   background: #eee;
   color: #333;
   font-family: "Arvo", sans-serif;
+
+  &.is-modal {
+    overflow: hidden;
+  }
 }
 
 input, select, textarea {

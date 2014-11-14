@@ -20,6 +20,19 @@ App.controller('AppCtrl', [
             }, 1000);
         });
 
+
+        $rootScope.$on('modalOpened', function() {
+            $timeout(function () {
+                $scope.isModalOpen = true;
+            });
+        });
+
+        $rootScope.$on('modalClosed', function() {
+            $timeout(function () {
+                $scope.isModalOpen = false;
+            });
+        });
+
         dbService.dbAuth(false);
 
         // make sure we're always up to date with the companies list, which is request async from Dropbox
