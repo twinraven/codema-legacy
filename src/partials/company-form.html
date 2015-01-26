@@ -15,7 +15,7 @@
                 <p class="field__output" ng-hide="company.url">{{company.url | useDashIfEmpty}}</p>
                 <p class="field__output field__output__link" ng-show="company.url" target="_blank"><a href="{{company.url}}" target="_blank">{{company.url | hideProtocol}}</a></p>
 
-                <input type="text" ng-model="company.url" class="field__value field__edit" id="url" name="url">
+                <input type="url" ng-model="company.url" class="field__value field__edit" id="url" name="url">
             </div>
 
             <div class="field">
@@ -27,7 +27,7 @@
             <div class="field">
                 <p class="field__label">Phone number</p>
                 <p class="field__output">{{company.phone | useDashIfEmpty}}</p>
-                <input type="text" ng-model="company.phone" class="field__value field__edit" id="phone" name="phone">
+                <input type="tel" ng-model="company.phone" class="field__value field__edit" id="phone" name="phone">
             </div>
 
             <div class="field">
