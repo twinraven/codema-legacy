@@ -50,7 +50,7 @@ App.controller('ContactAddCtrl', [
                     contactsService.addContact($scope.contact);
 
                     if ($scope.inModal) {
-                        $timeout(function() { modalService.hideModal(); });
+                        $timeout(function() { modalService.hideModal(true); });
 
                     } else {
                         $location.path('/' + $scope.type);
