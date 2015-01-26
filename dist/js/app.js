@@ -1,6 +1,6 @@
 /**
- *   - v1.1.0 - 2014-11-14
- *  (c) 2014 Tom Bran All Rights Reserved
+ *   - v1.1.0 - 2015-01-26
+ *  (c) 2015 Tom Bran All Rights Reserved
  */ 
 
 var App = angular.module("Codema", [ "ngRoute", "ngCookies" ]);
@@ -568,7 +568,7 @@ App.controller("ContactAddCtrl", [ "$rootScope", "$scope", "$location", "$timeou
                 contactsService.addContact($scope.contact);
                 if ($scope.inModal) {
                     $timeout(function() {
-                        modalService.hideModal();
+                        modalService.hideModal(true);
                     });
                 } else {
                     $location.path("/" + $scope.type);
