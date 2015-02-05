@@ -10,7 +10,7 @@
                 <p ng-show="coForm.name.$error.required && (coForm.name.$dirty || coForm.$dirty)" class="field__message field__message--error">A name is required.</p>
             </div>
 
-            <div class="field">
+            <div class="field" ng-show="isEditing || company.url">
                 <p class="field__label">Website</p>
                 <p class="field__output" ng-hide="company.url">{{company.url | useDashIfEmpty}}</p>
                 <p class="field__output field__output__link" ng-show="company.url" target="_blank"><a href="{{company.url}}" target="_blank">{{company.url | hideProtocol}}</a></p>
@@ -18,13 +18,13 @@
                 <input type="url" ng-model="company.url" class="field__value field__edit" id="url" name="url">
             </div>
 
-            <div class="field">
+            <div class="field" ng-show="isEditing || company.address">
                 <p class="field__label">Address</p>
                 <p class="field__output">{{company.address | useDashIfEmpty}}</p>
                 <input type="text" ng-model="company.address" class="field__value field__edit" id="address" name="address">
             </div>
 
-            <div class="field">
+            <div class="field" ng-show="isEditing || company.phone">
                 <p class="field__label">Phone number</p>
                 <p class="field__output">{{company.phone | useDashIfEmpty}}</p>
                 <input type="tel" ng-model="company.phone" class="field__value field__edit" id="phone" name="phone">
@@ -56,18 +56,31 @@
             </div>
 
             <div class="field field__checkbox field__no-label" ng-show="isEditing">
-                <p class="field__output">Interviewed? <strong><span ng-show="company.interviewed">Yes</span><span ng-hide="company.interviewed">No</span></strong></p>
                 <label for="interviewed" class="field__checkbox__label field__edit">
                     <input type="checkbox" ng-model="company.interviewed" id="interviewed" name="interviewed">
                     <span>Interviewed?</span>
                 </label>
             </div>
 
-            <div class="field" ng-show="!isEditing || (isEditing && company.interviewed)">
+            <div class="field" ng-show="company.interviewed">
                 <p class="field__label">Interview date</p>
                 <p class="field__output">{{company.interviewDate | prettyDate | useDashIfEmpty}}</p>
                 <input type="date" ng-model="company.interviewDate" class="field__value field__edit field__date" id="interviewDate" name="interviewDate" ng-required='company.interviewed'>
                 <p ng-show="coForm.interviewDate.$error.required && (coForm.interviewDate.$dirty || coForm.$dirty)" class="field__message field__message--error">Please enter the date the interview occurred</p>
+            </div>
+
+            <div class="field field__checkbox field__no-label" ng-show="isEditing">
+                <label for="recruiter" class="field__checkbox__label field__edit">
+                    <input type="checkbox" ng-model="company.recruiter" id="recruiter" name="recruiter">
+                    <span>Via recruiter?</span>
+                </label>
+            </div>
+
+            <div class="field" ng-show="company.recruiter">
+                <p class="field__label">Date CV sent</p>
+                <p class="field__output">{{company.cvDate | prettyDate | useDashIfEmpty}}</p>
+                <input type="date" ng-model="company.cvDate" class="field__value field__edit field__date" id="cvDate" name="cvDate" ng-required='company.recruiter'>
+                <p ng-show="coForm.cvDate.$error.required && (coForm.cvDate.$dirty || coForm.$dirty)" class="field__message field__message--error">Please enter the date CV was sent to the client</p>
             </div>
 
             <div class="field field__textarea">

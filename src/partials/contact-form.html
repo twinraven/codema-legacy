@@ -16,14 +16,25 @@
                 <input type="text" ng-model="contact.company" class="field__value field__edit" id="company" name="company">
             </div>
 
-            <div class="field">
+            <div class="field field__checkbox field__no-label" ng-show="isEditing">
+                <label for="recruiter" class="field__checkbox__label field__edit">
+                    <input type="checkbox" ng-model="contact.recruiter" id="recruiter" name="recruiter">
+                    <span>Recruiter?</span>
+                </label>
+            </div>
+
+            <div class="field" ng-show="contact.recruiter && !isEditing">
+                <p class="field__output"><b>Recruiter</b></p>
+            </div>
+
+            <div class="field" ng-show="isEditing || (!isEditing && contact.email)">
                 <p class="field__label">Email address</p>
                 <p class="field__output">{{contact.email | useDashIfEmpty}}</p>
                 <input type="email" ng-model="contact.email" class="field__value field__edit" id="email" name="email">
                 <p ng-show="coForm.email.$invalid && (coForm.email.$dirty || coForm.$dirty)" class="field__message field__message--error">Please enter a valid email address.</p>
             </div>
 
-            <div class="field">
+            <div class="field" ng-show="isEditing || (!isEditing && contact.phone)">
                 <p class="field__label">Phone number</p>
                 <p class="field__output">{{contact.phone | useDashIfEmpty}}</p>
                 <input type="tel" ng-model="contact.phone" class="field__value field__edit" id="phone" name="phone">

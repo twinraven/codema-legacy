@@ -4,7 +4,7 @@
 </div>
 
 <ul class="item-list" ng-class="{'is-loading': isDbLoading()}">
-    <li class="item" ng-repeat="company in companies | filter:filterText | orderBy:'name' track by $index">
+    <li class="item" ng-repeat="company in companies | filter:filterText | orderBy:'name' track by $index" ng-class="{'is-via-recruiter': company.recruiter}">
         <a href="#/companies/{{company.id}}" class="item-name">{{company.name}}</a>
         <a ng-href="#/contacts/{{company.contactId}}" class="item-contact" ng-show="company.contactId">{{getContact(company.contactId).name}}</a>
         <a ng-href="#/companies/{{company.id}}" class="item-contracts" ng-show="company.contracts.length" title="Contracts: {{company.contracts.length}}">{{company.contracts.length}} <span class="icon icon-file"></span></a>
