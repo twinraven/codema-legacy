@@ -20,7 +20,7 @@
 
             <div class="field" ng-show="isEditing || company.address">
                 <p class="field__label">Address</p>
-                <p class="field__output">{{company.address | useDashIfEmpty}}</p>
+                <p class="field__output"><a href="http://maps.google.com/?q={{company.address | useDashIfEmpty}}" target="_blank">{{company.address | useDashIfEmpty}}</a></p>
                 <input type="text" ng-model="company.address" class="field__value field__edit" id="address" name="address">
             </div>
 
@@ -45,6 +45,9 @@
 
                 <div class="contact-list-wrapper" ng-show="showContactList">
                     <ul id="contact" name="contact" class="contact-list">
+                        <li class="contact-list__item"><a ng-href="" ng-click="selectContact(null)">
+                            <span><em>No contact</em></span></a>
+                        </li>
                         <li class="contact-list__item" ng-repeat="contact in contacts track by $index"><a ng-href="" ng-click="selectContact(contact.id)">
                             <span>{{contact.name}}</span>
                             <em>({{contact.email | fallbackText:'No email specified'}})</em></a>
