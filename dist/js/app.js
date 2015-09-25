@@ -1,5 +1,5 @@
 /**
- *   - v1.1.0 - 2015-02-11
+ *   - v1.1.0 - 2015-09-25
  *  (c) 2015 Tom Bran All Rights Reserved
  */ 
 
@@ -499,7 +499,7 @@ App.controller("CompanyEditCtrl", [ "$rootScope", "$scope", "$routeParams", "$ti
     $scope.selectContact = function selectContact(id) {
         $timeout(function() {
             $scope.company.contactId = id;
-            $scope.company.contactName = $scope.getContact(id).name;
+            $scope.company.contactName = id !== null ? $scope.getContact(id).name : null;
         });
         $scope.showContactList = false;
     };
