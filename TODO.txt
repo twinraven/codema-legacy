@@ -1,7 +1,6 @@
 TODO:
 
-- Starring companies?
-- refactor CSS to BEM -- 1/2 done (forms)
+- Starring companies
 
 
 
