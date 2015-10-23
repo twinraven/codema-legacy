@@ -172,17 +172,11 @@ module.exports = function ( grunt ) {
 			dev: {
 				files: {
 					'src/css/main.css': 'src/scss/main.scss'
-				},
-				options: {
-					outputStyle: 'nested'
 				}
 			},
 			dist: {
 				files: {
 					'dist/css/main.css': 'src/scss/main.scss'
-				},
-				options: {
-					outputStyle: 'compressed'
 				}
 			}
 		},
