@@ -1,2 +1,6 @@
 .sass-cache
+bower_components
+bower
 node_modules
+dist
+src/css

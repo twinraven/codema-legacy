@@ -60,6 +60,7 @@ input.field--hidden {
 .field__textarea .field__output,
 .field__textarea .field__value {
   min-height: 120px;
+  white-space: pre-wrap;
 }
 
 .field__value {
