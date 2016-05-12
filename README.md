@@ -1,5 +1,9 @@
 # Codema - Company Details Manager
 
+_NOTE: as of 29/04/16 the Dropbox Datastore API has been deprecated, so this app is currently non-functional._
+
+------------
+
 A quick & easy way for contractors to keep track of companies, contact and contracts.
 
 #### [Demo](https://twinraven.github.io/codema/dist/)
